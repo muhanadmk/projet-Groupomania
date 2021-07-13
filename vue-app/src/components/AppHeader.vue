@@ -13,6 +13,7 @@
       </ul>
     </nav>
   </div>
+
 </template>
 
 <script>
@@ -33,7 +34,6 @@ export default {
       width: 200px;
       height: 70px;
       object-fit: cover;
-
     }
     .navbar {
       width: 300px;
@@ -47,7 +47,6 @@ export default {
         font-weight: bold;
         color: #fff;
         text-decoration: none;
-
         &.router-link-exact-active {
           color: #42b983;
         }
