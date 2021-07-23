@@ -4,44 +4,31 @@ const path = require('path');
 const cors = require('cors');
 
 // const limiter = require('./middleware/limit');
-// const stuffRoutes = require('./routes/stuff');
-// const userRoutes = require('./routes/user');
-
-const dotenv = require('dotenv')
-dotenv.config();
+const dotenv = require('dotenv').config();
 // ajouter le helmet pour protéger http header
 const helmet = require('helmet');
+const db = require('./db_conextion/db_conextion');
 
-// Create connection à mysql
-const db = mysql.createConnection({
-  host     : process.env.HOST,
-  user     : process.env.USERNAME,
-  password : process.env.PASSWORD,
-  database : process.env.DATABASE,
-  port     : process.env.DB_PORT
-});
 
-// Connect
-db.connect((err) => {
-  if(err){
-      throw err;
-  }
-  console.log('MySql Connected...');
-});
+const UserRouter = require('./routers/user');
+
 
 const app = express();
 
 
 // Create table
-app.get('/createpoststable', (req, res) => {
-  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY(id))';
-  db.query(sql, (err, result) => {
+app.use('/api/signup', UserRouter);
+// app.use('/api/login', UserRouter);
+
+app.get('/getpost/:post_id', (req, res) => {
+  let sql = `SELECT * FROM posts WHERE post_id = ${req.params.post_id}`;
+  let query = db.query(sql, (err, result) => {
       if(err) throw err;
       console.log(result);
-      res.send('Posts table created...');
+      res.send('Post fetched...');
   });
 });
-
+//CREATE TABLE `groupomania`.`posts` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `post_id` INT(11) NOT NULL , `description` VARCHAR(255) NOT NULL , `Comments` VARCHAR(255) NOT NULL , `likes` INT(100) NOT NULL AUTO_INCREMENT , INDEX (`likes`), UNIQUE (`id`)) ENGINE = InnoDB;
 app.post('/adduser', (req, res) => {
   let post = {email:'mouhandada@gmai.com', password:'156488489'};
   let sql = 'INSERT INTO user SET ?';
