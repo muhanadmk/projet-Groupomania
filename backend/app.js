@@ -14,11 +14,13 @@ const UserRouter = require('./routers/user');
 
 
 const app = express();
-
-
+app.use(cors());
+app.use(express.json());
 // Create table
-app.use('/api/signup', UserRouter);
-// app.use('/api/login', UserRouter);
+app.use('/api/', UserRouter);
+app.use('/api/', UserRouter);
+app.use('/api/deleteUser/:id', UserRouter);
+
 
 app.get('/getpost/:post_id', (req, res) => {
   let sql = `SELECT * FROM posts WHERE post_id = ${req.params.post_id}`;
@@ -43,7 +45,7 @@ app.get('/getall', (req, res)=>{
 console.log('muhanad');
 });
 
-app.use(express.json());
-app.use(cors());
+
+
 
 module.exports = app;

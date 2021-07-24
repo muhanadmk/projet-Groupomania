@@ -3,8 +3,9 @@ const router = express.Router();
 userCtlr = require('../controllers/user');
 
 
-router.post('/', userCtlr.signup);
-router.get('/', userCtlr.login);
+router.post('/signup', userCtlr.signup);
+router.post('/login', userCtlr.login);
+router.delete('/', userCtlr.deleteUser);
 
 
 
