@@ -4,7 +4,7 @@ const postCtlr = require('../controllers/post');
 
 router.post('/writePost', postCtlr.writePost);
 router.delete('/deletePost/:id', postCtlr.deletePost);
-router.put('/modifierPost', postCtlr.modifierPost);
+router.put('/modifierPost/:id', postCtlr.modifierPost);
 
 
 

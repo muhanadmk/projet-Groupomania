@@ -43,25 +43,60 @@ exports.deletePost = (req, res, next) => {
   });
 }
 
-exports.modifierPost = (req, res) => {
-  const idPost = 13;
-  console.log(idPost);
+exports.modifierPost = (req, res, next) => {
+  const idPost = req.params.id;
   db.query('SELECT `user_id` FROM `posts` WHERE id = ?', idPost, (err, result) => {
     if (err) {
       throw err;
     }
     const userid = result[0].user_id;
-    userId = req.body.userId;
-    console.log(userid);
-    console.log(userId);
-    if (userId === userid) {
-      db.query(`UPDATE posts SET post='0000000000' WHERE id = ?`, idPost, (err, result) => {
-        if (err) throw err;
-        console.log(result[0]);
+    const userId = req.body.userId;
+    const postModifier = req.body.post;
+    if (userId == userid) {
+      db.query(`UPDATE posts SET post='${postModifier}' WHERE id = ?`, idPost, (err, result) => {
+        if (err) {
+          throw err;
+        }
         res.status(200).json({ message: 'post modifié !' });
       })
     }
+    else {
+       res.status(401).json({ message: 'Invalid user ID !' });
+    };
   });
 }
+
+
+// exports.modifyTopic = (req, res, next) => {
+
+//   connection.query('SELECT user_id FROM topic WHERE id = ?', req.params.id, function(err, result, field) {
+//       if (err) throw err;
+//       if (userId === topic.user_id) {
+//           ('UPDATE topic SET = ? WHERE = ?', topicObject , req.params.id, function(err, result, field) {
+//               if (err) throw err
+//               result.status(200).json({ message: 'Méssage modifié !'});
+//           });
+//       } else {
+//           result.status(401).json({ error: new Error ('Requête invalide')});
+//       };
+//   });
+// };
+
+// exports.deleteTopic = (req, res, next) => {
+//   connection.query('SELECT topic, user_id FROM topic WHERE = ?', req.params.id, function(err, result, field) {
+//       if (err) throw err;
+//       if (req.body.decodedToken.userId === topic.user_id) {
+//           const filename = topic.image_url.split('/images/')[1];
+//           fs.unlink(`images/${filename}`, () => {
+//            ('DELETE FROM topic WHERE id = ?', req.params.id, function(err, result, field) {
+//                   if (err) throw err;
+//                   result.status(200).json({ message: 'Méssage supprimé !'});
+//               });
+//           });
+//       } else {
+//           result.status(401).json({ err: new Error ('Requête invalide')});
+//       };
+//   });
+// };
 
 
