@@ -12,6 +12,8 @@ const db = require('./db_conextion/db_conextion');
 
 const UserRouter = require('./routers/user');
 const PostsRouter = require('./routers/post');
+const CommentsRouter = require('./routers/comment');
+
 
 const app = express();
 
@@ -27,6 +29,8 @@ app.use(express.json());
 // Create table
 app.use('/api/users', UserRouter);
 app.use('/api/posts', PostsRouter);
+app.use('/api/comments', CommentsRouter);
+
 
 app.get('/getpost/:post_id', (req, res) => {
   let sql = `SELECT * FROM posts WHERE post_id = ${req.params.post_id}`;

@@ -77,7 +77,7 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.getUnUser = (req, res, next) => {
-  db.query('SELECT id FROM users', function (err, result, field) {
+  db.query('SELECT id FROM users',  (err, result, field) => {
     console.log(result[0].id);
     if (err) {
       throw err;

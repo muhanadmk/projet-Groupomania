@@ -21,7 +21,7 @@ exports.writePost = (req, res) => {
 
 exports.deletePost = (req, res, next) => {
   const idPost = req.params.id;
-  db.query('SELECT `user_id` FROM `posts` WHERE id = ?', idPost, function (err, result) {
+  db.query('SELECT `user_id` FROM `posts` WHERE id = ?', idPost, (err, result) => {
     if (err) throw err;
     const userid = result[0].user_id;
     userId = req.body.userId;
@@ -29,7 +29,7 @@ exports.deletePost = (req, res, next) => {
     // console.log(userId);
     if (userid == userId) {
       // console.log('good');
-      db.query('DELETE FROM `posts` WHERE id = ?', idPost, function (err, result) {
+      db.query('DELETE FROM `posts` WHERE id = ?', idPost, (err, result) => {
         if (err) {
           throw err;
         }
