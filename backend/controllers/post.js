@@ -5,11 +5,12 @@ const db = require('../db_conextion/db_conextion');
 const dotenv = require('dotenv').config();
 
 
+
 exports.writePost = (req, res, next) => {
   const post = {
     user_id: req.body.userId,
     title: req.body.username,
-    post: req.body.post
+    post: req.body.post,
   }
   db.query('INSERT INTO posts SET ?', post, (err, result) => {
     if (err) {
@@ -25,10 +26,7 @@ exports.deletePost = (req, res, next) => {
     if (err) throw err;
     const userid = result[0].user_id;
     userId = req.body.userId;
-    // console.log(userid);
-    // console.log(userId);
     if (userid == userId) {
-      // console.log('good');
       db.query('DELETE FROM `posts` WHERE id = ?', idPost, (err, result) => {
         if (err) {
           throw err;
@@ -37,7 +35,6 @@ exports.deletePost = (req, res, next) => {
       });
     }
     else {
-      // console.log('baaaaaad');
       res.status(401).json({ message: 'Invalid user ID !' });
     };
   });
@@ -67,7 +64,7 @@ exports.modifierPost = (req, res, next) => {
 }
 
 exports.getAllpsot = (req, res, next) => {
-  db.query('SELECT title, post FROM posts;', (err, result) => {
+  db.query('SELECT * FROM posts;', (err, result) => {
     if (err) {
       throw err;
     }
@@ -75,3 +72,12 @@ exports.getAllpsot = (req, res, next) => {
   });
 };
 
+exports.getOnePsot = (req, res, next) => {
+  const idPost = req.params.id;
+  db.query('SELECT * FROM posts INNER JOIN comment ON topic.id = comment.topic_id INNER JOIN user ON topic.user_id = user.id WHERE id = ?', req.params.id,  (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send(result)
+  });
+};
