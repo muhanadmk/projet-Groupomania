@@ -8,7 +8,7 @@ router.post('/writePost', multer, postCtlr.writePost);
 router.delete('/deletePost/:id', postCtlr.deletePost);
 router.put('/modifierPost/:id', postCtlr.modifierPost);
 router.get('/getAllpsot',multer , postCtlr.getAllpsot);
-router.get('/getOnePsot/:id', postCtlr.getOnePsot);
+// router.get('/getOnePsot/:id', postCtlr.getOnePsot);
 
 
 module.exports = router

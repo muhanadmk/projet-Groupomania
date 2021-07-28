@@ -48,7 +48,7 @@ exports.modifierPost = (req, res, next) => {
     }
     const userid = result[0].user_id;
     const userId = req.body.userId;
-    const postModifier = req.body.post;
+    const postModifier = req.body.imageUrlPost;
     if (userId == userid) {
       db.query(`UPDATE posts SET post='${postModifier}' WHERE id = ?`, idPost, (err, result) => {
         if (err) {
@@ -72,12 +72,12 @@ exports.getAllpsot = (req, res, next) => {
   });
 };
 
-exports.getOnePsot = (req, res, next) => {
-  const idPost = req.params.id;
-  db.query('SELECT * FROM posts INNER JOIN comment ON topic.id = comment.topic_id INNER JOIN user ON topic.user_id = user.id WHERE id = ?', req.params.id,  (err, result) => {
-    if (err) {
-      throw err;
-    }
-    res.send(result)
-  });
-};
+// exports.getOnePsot = (req, res, next) => {
+//   // const idPost = req.params.id;
+//   db.query('SELECT * FROM posts INNER JOIN comments ON posts.id = comments.post_id INNER JOIN users ON posts.user_id = ?', req.params.id,  (err, result) => {
+//     if (err) {
+//       throw err;
+//     }
+//     res.send(result)
+//   });
+// };

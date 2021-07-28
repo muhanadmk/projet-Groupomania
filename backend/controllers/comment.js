@@ -18,3 +18,29 @@ exports.writeComment = (req, res) => {
     res.status(201).json({ message: 'Comment créé !' });
   });
 }
+
+exports.modifierComment = (req, res, next) => {
+  const idComment = req.params.id;
+  db.query('SELECT `user_id` FROM `comments` WHERE id = ?',idComment , (err, result) => {
+    if (err) {
+      throw err;
+    }
+    const userId = req.body.userId;
+    const userid = result[0].user_id;
+    const commentModifier = req.body.comment;
+    if (userId == userid) {
+      db.query(`UPDATE comments SET comment ='${commentModifier}' WHERE id = ?`, idComment , (err, result) => {
+        if (err) {
+          throw err;
+        }
+        res.status(200).json({ message: 'comments modifié !' });
+      })
+    }
+    else {
+      res.status(401).json({ message: 'Invalid user ID !' });
+    };
+  });
+}
+
+
+

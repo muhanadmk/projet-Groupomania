@@ -78,19 +78,16 @@ exports.deleteUser = (req, res, next) => {
   });
 };
 
-exports.getUnUser = (req, res, next) => {
+exports.getUser = (req, res, next) => {
   // const userId = req.body.userId;
-  db.query("SELECT id FROM users", (err, result, field) => {
-    console.log(result);
+  db.query("SELECT id FROM users", (err, result) => {
     if (err) {
       throw err;
     }
-    // else if (req.params.userId === result[0].id)
-    // // console.log(req.params.userId);
-    // console.log(result[0].id);
-    // db.query('SELECT * FROM users WHERE id = ?', req.params.userId, function (err, result, field) {
-    //   if (err) throw err;
-    //   res.status(200).json({ message: 'Utilisateur trouve !' })
-    // });
+    else if (req.params.userId === result[0].id)
+    db.query('SELECT * FROM users WHERE id = ?', req.params.userId, function (err, result, field) {
+      if (err) throw err;
+      res.status(200).json({ message: 'Utilisateur trouve !' })
+    });
   });
 };
