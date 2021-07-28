@@ -43,4 +43,22 @@ exports.modifierComment = (req, res, next) => {
 }
 
 
-
+exports.deleteComment = (req, res, next) => {
+  const idComment = req.params.id;
+  db.query('SELECT `user_id` FROM `comments` WHERE id = ?', idComment, (err, result) => {
+    if (err) throw err;
+    const userid = result[0].user_id;
+    userId = req.body.userId;
+    if (userid == userId) {
+      db.query('DELETE FROM `comments` WHERE id = ?', idComment, (err, result) => {
+        if (err) {
+          throw err;
+        }
+        res.status(204).json({ message: 'Comment deleted !' });
+      });
+    }
+    else {
+      res.status(401).json({ message: 'Invalid user ID !' });
+    };
+  });
+}
