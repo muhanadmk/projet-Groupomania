@@ -4,11 +4,14 @@ const postCtlr = require('../controllers/post');
 const multer = require('../middleware/multer-config');
 
 
-router.post('/writePost', multer, postCtlr.writePost);
-router.delete('/deletePost/:id', postCtlr.deletePost);
-router.put('/modifierPost/:id', postCtlr.modifierPost);
-router.get('/getAllpsot',multer , postCtlr.getAllpsot);
-// router.get('/getOnePsot/:id', postCtlr.getOnePsot);
+router.post('/', multer, postCtlr.writePost);
+router.delete('/:id', postCtlr.deletePost);
+router.put('/:id', postCtlr.modifierPost);
+router.get('/:id', postCtlr.getOnePsotByUserId);
+router.get('/', postCtlr.getAllPsot);
+router.delete('/AdminDeletePost/:id' ,postCtlr.AdminDeletePost);
+
+
 
 
 module.exports = router

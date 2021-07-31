@@ -2,13 +2,14 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const cors = require('cors');
-
+const bodyParser = require('body-parser')
 // const limiter = require('./middleware/limit');
 const dotenv = require('dotenv').config();
 // ajouter le helmet pour protéger http header
 const helmet = require('helmet');
 const db = require('./db_conextion/db_conextion');
 
+var morgan = require('morgan')
 
 const UserRouter = require('./routers/user');
 const PostsRouter = require('./routers/post');
@@ -16,6 +17,8 @@ const CommentsRouter = require('./routers/comment');
 
 
 const app = express();
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,9 +29,11 @@ app.use((req, res, next) => {
 
 app.use(cors());
 app.use(express.json());
+
+
+
 app.use('/api/users', UserRouter);
 app.use('/api/posts', PostsRouter);
 app.use('/api/comments', CommentsRouter);
-
 
 module.exports = app;

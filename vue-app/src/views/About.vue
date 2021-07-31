@@ -2,6 +2,7 @@
   <div class="about">
     <h1>{{ pageName }}</h1>
     <p>{{ pageDes }}</p>
+    
   </div>
 </template>
 
