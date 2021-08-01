@@ -7,6 +7,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./scss/main.scss";
 import "normalize.css";
 
+import VueSimpleAlert from "vue-simple-alert";
+
+Vue.use(VueSimpleAlert);
+
 Vue.config.productionTip = false;
 
 new Vue({

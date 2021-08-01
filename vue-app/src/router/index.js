@@ -5,6 +5,7 @@ import Help from "../views/Help.vue";
 import Blog from "../views/Blog.vue";
 
 
+
 Vue.use(VueRouter);
 
 const routes = [

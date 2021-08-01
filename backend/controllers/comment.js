@@ -20,6 +20,8 @@ exports.writeComment = (req, res, next) => {
   });
 }
 
+
+
 exports.modifierComment = (req, res, next) => {
   const idComment = req.params.id;
   db.query('SELECT `user_id` FROM `comments` WHERE id = ?',idComment , (err, result) => {

@@ -10,6 +10,8 @@
         <router-link to="/about" tag="li"><a>About</a></router-link
         >|
         <router-link to="/Help" tag="li"><a>Help</a></router-link>
+        |
+         <router-link to="/singup" tag="li"><a>singup</a></router-link>
       </ul>
     </nav>
   </div>
