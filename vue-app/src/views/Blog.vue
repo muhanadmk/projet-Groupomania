@@ -1,7 +1,7 @@
 <template>
   <div class="our-Blog">
-    <h1>{{ pageName }}</h1>
-    <p>{{ pageDes }}</p>
+    <!-- <h1>{{ pageName }}</h1>
+    <p>{{ pageDes }}</p> -->
     <div class="container">
       <div class="row">
         <div class="col-md-8">
@@ -27,10 +27,8 @@
 </template>
 
 <script>
-
 import BlogPostes from "../components/BlogPostes.vue";
 import Json_posts from "../json/blog_posts.json";
-
 export default {
   data: function () {
     return {

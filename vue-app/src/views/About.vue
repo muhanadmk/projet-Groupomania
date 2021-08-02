@@ -1,20 +1,5 @@
 <template>
   <div class="about">
-    <h1>{{ pageName }}</h1>
-    <p>{{ pageDes }}</p>
-    
+    <h1>This is an about page</h1>
   </div>
 </template>
-
-<script>
-
-export default {
-  data: function (){
-    return{
-      pageName: "About Us",
-      pageDes: " this is About Us"
-    }
-  },
-  name: "About"
-};
-</script>
