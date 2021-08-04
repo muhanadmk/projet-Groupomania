@@ -8,7 +8,7 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
 
 exports.signup = (req, res, next) => {
-  console.log('hello &&&&&')
+
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;

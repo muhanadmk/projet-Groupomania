@@ -1,22 +1,29 @@
 <template>
+<div class="mt-20">
   <div class="post-box">
-    <h3 class="post-title">{{ title }} </h3>
-    <span class="post-date">{{ datePost }}</span>
-    <p class="post-content">{{ post }}</p>
+    <h3 class="post-title">{{post.title }} </h3>
+    <span class="post-date">{{ post.datePost }}</span>
+    <p class="post-content">{{ post.post }}</p>
     <img src="" alt="">
+    <div>
+      <div v-for="comment in post.comments" :key="comment.comment">{{comment.comment}}</div>
+      <textarea></textarea>
+    </div>
   </div>
+</div> 
   
 </template>
 
 <script>
 export default {
-  props:["title", "post", "imageUrl", "datePost"] ,
-  name: 'post',
+  props:["post"] ,
+  name: 'post-card',
 };
 </script>
 
 <style lang="scss" scoped>
   .post-box{
+    margin-top: 20px;
     margin-bottom: 20px;
     padding: 20px;
     background-color: #fff;

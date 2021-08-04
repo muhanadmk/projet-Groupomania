@@ -9,9 +9,9 @@ const dotenv = require('dotenv').config();
 exports.writePost = (req, res, next) => {
   const post = {
     user_id: req.body.userId,
-    title: req.body.username,
+    title: req.body.title,
     post: req.body.post,
-    datePost: new Date(),
+    
   }
   db.query('INSERT INTO posts SET ?', post, (err, result) => {
     if (err) {
@@ -84,10 +84,34 @@ exports.getOnePsotByUserId = (req, res, next) => {
   });
 };
 
+//SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id JOIN comments ON comments.post_id = posts.id
 exports.getAllPsot = (req, res, next) => {
-  db.query(`SELECT * FROM posts INNER JOIN comments`,  (err, result) => {
+  db.query(`SELECT * FROM posts left join comments on comments.post_id = posts.id;`,  (err, result) => {
+    
+    let posts = {};
+    
     if (err) {
       throw err;
+    }
+    for (let index = 0; index < result.length; index++) {
+      const id = result[index].id;
+      let post = posts[id];
+      if(!post) {
+       post = {
+          id,
+          user_id: result[index].user_id,
+          title: result[index].title,
+          post: result[index].post,
+          datePost: result[index].datePost,
+          comments:[],
+        };
+        
+      }
+      let comment = {
+        comment:  result[index].comment
+      };
+      post.comments.push(comment);
+      posts[id] = post;
     }
     res.status(200).json(result)
   });

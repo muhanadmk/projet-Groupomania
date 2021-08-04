@@ -1,35 +1,31 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <AppHeader />
-      <div>
-        <!-- <Singup /> -->
-      </div>
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> -->
-    </div>
+    <AppHeader />
     <router-view/>
+    <div>
+    <Footer />
+    </div>
   </div>
 </template>
 
 
 <script>
 import AppHeader from "./components/AppHeader.vue"
-// import Singup from "./views/Singup.vue"
+import Footer from "./components/Footer.vue"
 
 export default {
  name: "app",
  components: {
    AppHeader,
-  //  Singup
+   Footer
   }
 }
 </script>
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+// <style lang="scss">
+// #app {
+//   font-family: Avenir, Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
 
 </style>
