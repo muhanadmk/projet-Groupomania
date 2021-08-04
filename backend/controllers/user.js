@@ -44,7 +44,6 @@ exports.signup = (req, res, next) => {
       username: req.body.username,
       email: req.body.email,
       password: hashPassword,
-      // admin: req.body.admin,
     };
     db.query("INSERT INTO users SET ?", user, (err, result) => {
       if (err) {

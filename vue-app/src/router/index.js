@@ -28,11 +28,11 @@ const routes = [
     component: () => import('../views/Blog.vue')
   },
   
-  {
-    path: '/createPost',
-    name: 'createPost',
-    component: () => import('../views/createPost.vue')
-  },
+  // {
+  //   path: '/createPost',
+  //   name: 'createPost',
+  //   component: () => import('../views/createPost.vue')
+  // },
   {
     path: '/about',
     name: 'About',
