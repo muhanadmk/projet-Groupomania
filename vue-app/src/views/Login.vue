@@ -1,9 +1,10 @@
 <template>
 <div class="container">
     <div class="row">
+        <div class="col-lg-3"></div>
         <div class="col-md-6">
             <div class="card">
-                <form class="box">
+                <form class="box bg-dark">
                     <h1>Login</h1>
                     <p class="text-muted"> Please enter your email and password!</p>
                      <input type="text" email="" placeholder="email"  v-model="email">
@@ -66,17 +67,12 @@ export default {
 
 .card {
     margin-bottom: 20px;
-    border: none
+    border: none;
 }
 
 .box {
     width: 500px;
     padding: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #191919;
-    ;
     text-align: center;
     transition: 0.25s;
     margin-top: 100px

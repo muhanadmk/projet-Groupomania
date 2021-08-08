@@ -3,7 +3,8 @@
     <AppHeader />
     <router-view/>
     <div>
-    <Footer />
+      
+         <Footer />
     </div>
   </div>
 </template>
@@ -18,14 +19,13 @@ export default {
  components: {
    AppHeader,
    Footer
+   
   }
 }
 </script>
-// <style lang="scss">
-// #app {
-//   font-family: Avenir, Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-// }
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
 
 </style>

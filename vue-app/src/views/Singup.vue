@@ -1,16 +1,18 @@
 <template>
 <div class="container">
     <div class="row">
+         <div class="col-lg-3"></div>
         <div class="col-md-6">
             <div class="card">
-                <form class="box">
+                <form class="box bg-dark">
                     <h1>Singup</h1>
                     <p class="text-muted"> Please enter your email and password and username!</p>
                       <input type="text" username="" placeholder="username"  v-model="username">
                      <input type="text" email="" placeholder="email" v-model="email">
                       <input type="password" name="" placeholder="Password" v-model="password" >
-
-                         <router-link to="/Login"><a>  Already registered sign in?</a> </router-link>
+                        <label for="avatar">Choose a profile picture:</label>
+                        <input type="file" id="imageUserUrl" name="imageUserUrl" accept="image/png, image/jpeg, image/jpg">        
+                        <div> <router-link to="/Login"><a>  Already registered sign in?</a> </router-link></div>
                        <input type="submit" name="" value="Singup" @click="submitSingup">
                     <div class="col-md-12">
                         <ul class="social-network social-circle">
@@ -75,11 +77,6 @@ export default {
 .box {
     width: 500px;
     padding: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #191919;
-    ;
     text-align: center;
     transition: 0.25s;
     margin-top: 100px

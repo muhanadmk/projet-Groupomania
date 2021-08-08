@@ -1,47 +1,34 @@
 <template>
-<div class="mt-20">
-  <div class="post-box">
-    <h3 class="post-title">{{post.title }} </h3>
-    <span class="post-date">{{ post.datePost }}</span>
-    <p class="post-content">{{ post.post }}</p>
-    <img src="" alt="">
-    <div>
-      <div v-for="comment in post.comments" :key="comment.comment">{{comment.comment}}</div>
-      <textarea></textarea>
-    </div>
+<div class="card mt-5 mb-5">
+  <div class="card-header">
+  <h5 class="card-title">{{post.title }} </h5>
   </div>
-</div> 
+  <div class="card-body">
+    <p class="card-text">{{ post.post }}</p>
+    <img src="../assets/logo.png" class="card-img-top" alt="...">
+     <p class="card-text">{{ post.datePost }}</p>
+  </div>
+  <!-- <div class="form-floating">
+    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" 
+    ></textarea>
+    <label for="floatingTextarea2">Comments</label>
+    <button @click="submitComment">submit</button>
+  </div> -->
+  <DeletePost /> 
+</div>
+
   
 </template>
 
 <script>
+import DeletePost from "./DeletePost.vue"
+
 export default {
   props:["post"] ,
   name: 'post-card',
+  components: {
+    DeletePost
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-  .post-box{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px #DDD;
-    height: 250px;
-    .post-title{
-      font-weight: bold;
-      color: #777;
-    }
-    .post-date{
-      display: block;
-      padding: 0 0 5px;
-      color: #888;
-      font-size: 14px;
-    }
-    .post-conrent{
-      line-height: 1.8;
-      color: #666;
-    }
-  }
-</style>

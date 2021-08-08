@@ -1,74 +1,85 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn color="primary" icon="mail" label="On Left" />
-    <q-btn color="secondary" icon-right="mail" label="On Right" />
-    <q-btn color="red" icon="mail" icon-right="send" label="On Left and Right" />
-    <br>
-    <q-btn icon="phone" label="Stacked" stack glossy color="purple" />
+  <div id="container" class="bg-dark container-fluid">
+    <div id="contacts">
+      <div id="contacts--contact">
+        <p>mouhanadmk1@gmail.com</p>
+        <p>06 05 79 85 30</p>
+      </div>
+      <div id="contacts--social">
+        <ul class="social-network social-circle">
+          <li>
+            <a href="#" class="icoFacebook" title="Facebook"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#" class="icoTwitter" title="Twitter"
+              ><i class="fab fa-twitter"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#" class="icoGoogle" title="Google +"
+              ><i class="fab fa-google-plus"></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="mentions">
+      <h4>Groupomania</h4>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name:'Footer'
-}
+  name: "Footer",
+};
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 body {
-    background-color: #f3f6fd;
-    font-size: 11.5px;
-    font-weight: bold;
-    color: rgb(189, 196, 203)
+  display: flex;
+  background-color: #f0f8ff;
+  height: 95vh;
+  justify-content: center;
+  align-items: flex-end;
+  font-family: Open Sans;
 }
 
-.card {
-    padding: 2% 7%;
-    color: #646771;
-    background-color: #16151a
+#container {
+  padding-top: 20px;
+  margin-top: 20px;
+  width: 100vw;
+  color: white;
+  background-color: #292354;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0
+#contacts {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
 }
-
-ul>li {
-    padding: 4px
+#contacts--contact {
+  text-align: right;
 }
-
-ul>li:hover {
-    color: #957bda;
-    cursor: pointer
+#contacts--social {
+  width: 20%;
+  display: flex;
+  justify-content: space-between;
 }
-
-hr {
-    border-width: 3px
+#contacts--social div {
+  height: 30px;
+  width: 30px;
+  background-color: white;
+  border-radius: 50%;
 }
-
-.social>i {
-    padding: 1%;
-    font-size: 15px
-}
-
-.social>i:hover {
-    color: #957bda;
-    cursor: pointer
-}
-
-.policy>div {
-    padding: 4px
-}
-
-.heading {
-    font-family: 'Titillium Web', sans-serif;
-    color: white
-}
-
-.divider {
-    border-top: 2px solid rgba(189, 196, 203, 0.5);
+#mentions p {
+  font-size: 0.5em;
 }
 </style>

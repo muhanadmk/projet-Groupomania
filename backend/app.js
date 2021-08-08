@@ -9,11 +9,10 @@ const dotenv = require('dotenv').config();
 const helmet = require('helmet');
 const db = require('./db_conextion/db_conextion');
 
-var morgan = require('morgan')
 
 const UserRouter = require('./routers/user');
 const PostsRouter = require('./routers/post');
-const CommentsRouter = require('./routers/comment');
+// const CommentsRouter = require('./routers/comment');
 
 
 const app = express();
@@ -31,9 +30,39 @@ app.use(cors());
 app.use(express.json());
 
 
-
+// app.get('/api/Allposts',(req, res) => {
+//   db.query('SELECT * FROM `posts` INNER JOIN comments', (err, result )=> {
+   
+//     let posts = {};
+    
+//     if (err) {
+//       throw err;
+//     }
+//     for (let index = 0; index < result.length; index++) {
+//       const id = result[index].id;
+//       let post = posts[id];
+//       if(!post) {
+//        post = {
+//           id,
+//           user_id: result[index].user_id,
+//           title: result[index].title,
+//           post: result[index].post,
+//           datePost: result[index].datePost,
+//           comments:[],
+//         };
+        
+//       }
+//       let comment = {
+//         comment:  result[index].comment
+//       };
+//       post.comments.push(comment);
+//       posts[id] = post;
+//     }
+//     res.status(200).json(result)
+//   });
+// });
 app.use('/api/users', UserRouter);
 app.use('/api/posts', PostsRouter);
-app.use('/api/comments', CommentsRouter);
+// app.use('/api/comments', CommentsRouter);
 
 module.exports = app;

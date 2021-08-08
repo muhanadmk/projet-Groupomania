@@ -8,7 +8,7 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
 
 exports.signup = (req, res, next) => {
-
+  // const imageUser = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
@@ -56,7 +56,7 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   const ReqEmail = req.body.email;
-  console.log( "&&&", ReqEmail);
+  
   // const secret = process.env.HASHE_EMAIl;
   // const hashEmail = crypto
   //   .createHmac("sha256", secret)
@@ -70,8 +70,8 @@ exports.login = (req, res, next) => {
       res.status(401).json({ error: "Utilisateur non trouvé !" });
     } 
     const user = users[0];
-    bcrypt
-      .compare(password, user.password)
+    console.log(user);
+    bcrypt.compare(password, user.password)
       .then((valid) => {
         if (!valid) {
           return res.status(401).json({ error: "Mot de passe incorrect !" });
@@ -136,11 +136,9 @@ exports.getUser = (req, res, next) => {
   const userId = req.params.id;
   db.query("SELECT * FROM users WHERE id = ?", userId, (err, result) => {
     if (result == "") {
-      console.log("err");
       return res.status(401).json({ message: "user not found by id !" });
     }
     if (err) {
-      console.log(err.stack);
       return res.status(401).json({ message: "user not found by id !" });
     }
     return res.status(200).json(result[0]);
