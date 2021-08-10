@@ -8,12 +8,14 @@
                     <h1>Singup</h1>
                     <p class="text-muted"> Please enter your email and password and username!</p>
                       <input type="text" username="" placeholder="username"  v-model="username">
+                      <!-- <p class="text-white"> {{ vlaidUsername() }} </p> -->
                      <input type="text" email="" placeholder="email" v-model="email">
                       <input type="password" name="" placeholder="Password" v-model="password" >
                         <label for="avatar">Choose a profile picture:</label>
                         <input type="file" id="imageUserUrl" name="imageUserUrl" accept="image/png, image/jpeg, image/jpg">        
                         <div> <router-link to="/Login"><a>  Already registered sign in?</a> </router-link></div>
                        <input type="submit" name="" value="Singup" @click="submitSingup">
+                       <div></div>
                     <div class="col-md-12">
                         <ul class="social-network social-circle">
                             <li><a href="#" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
@@ -31,6 +33,7 @@
 import axios from "axios";
 
 export default {
+name: "Singup",
 
   data() {
     return {
@@ -55,10 +58,17 @@ export default {
           console.log(e);
         });
     },
+    
+    
   },
-  name: "Singup",
-  
-};
+  computed: {
+      vlaidUsername:  () => {
+          if (this.username){
+              return 'username ne peut pas etre vide';
+            }
+        },
+    }
+}
 </script>
 <style scoped>
 

@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const db = require("../db_conextion/db_conextion");
 const dotenv = require("dotenv").config();
+const fs = require('fs');
+
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
@@ -12,6 +14,7 @@ exports.signup = (req, res, next) => {
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
+  const imageUserUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   // if (email == null || username == null || password == null) {
   //   return res.status(400).json({ error: "missing parameters" });
   // }

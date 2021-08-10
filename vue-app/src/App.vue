@@ -3,8 +3,7 @@
     <AppHeader />
     <router-view/>
     <div>
-      
-         <Footer />
+     <Footer />
     </div>
   </div>
 </template>

@@ -5,6 +5,8 @@
         <createPost />
         <div class="postes-aera">
           <PostCard v-for="post in posts" v-bind:key="post.id" :post="post" />
+          <DeletePost />
+          <!-- <DeletePost v-for="post in posts" v-bind:key="post.id" :post="post" />  -->
         </div>
       </div>
     </div>
@@ -13,6 +15,7 @@
 
 <script>
 import PostCard from "../components/PostCard.vue";
+import DeletePost from "../components/DeletePost.vue";
 import createPost from "../components/createPost.vue";
 
 
@@ -56,7 +59,8 @@ export default {
   name: "Blog",
   components: {
     createPost,
-    PostCard
+    PostCard,
+    DeletePost
   },
 };
 </script>
