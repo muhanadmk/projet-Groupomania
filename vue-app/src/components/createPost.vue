@@ -1,5 +1,6 @@
 <template>
-  <form>
+<div>
+    <form>
     <div class="form-row">
       <label class="card__subtitle" for="file">Sélectionner une imageUrlPost:</label>
       <input
@@ -21,132 +22,44 @@
       <input id="post" type="text" v-model="post" />
     </div>
     <div>
-      <button @click="createPost">createPost</button>
+      <button @click="createPost">createPost22</button>
     </div>
   </form>
+</div>
 </template>
-
-
 
 <script>
 import axios from "axios";
 export default {
-  name: "createPost",
-  data() {
+  name: 'create-post',
+  data(){
     return {
-      title: "",
-      post: "",
-      userId: 25,
-     selectedFile: null
-    };
+      message: 'dfvjkbdvfvfdv',
+      title:'',
+      post:'',
+      image:null
+    }
   },
-  methods: {
-      onFileChanged (event) {
-        this.selectedFile = event.target.files[0]
-      },
-    createPost() {
-      const formData = new FormData()
-      formData.append('image', this.selectedFile, this.selectedFile.name)
-      formData.append('userId', 25)
-      formData.append('title', this.title)
-      formData.append('post', this.post)
-      axios.post("http://localhost:3000/api/posts", {
-          // title: this.title,
-          // post: this.post,
-          // imageUrlPost: this.selectedFile,
-          // userId: this.userId,
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+  mounted(){
+    console.log(this.message);
   },
-};
-</script>
+  methods:{
+    onFileChanged(event){
+      this.image = event.target.files[0];
 
-// <script>
-// export default {
-//     name: 'createPost',
-//     data: function() {
-//         return {
-//             title: '',
-//             post: '',
-//         }
-//     },
-//     // mounted: function () {
-//     //     if (this.$store.state.user.userId == -1) {
-//     //         this.$router.push('/login');
-//     //     return;
-//     //     }
-//     // },
-//     // computed:{
-//     //     validatedFields: function() {
-//     //         if (this.title != "" && this.post != "" && this.selectedFile != '') {
-//     //             return true;
-//     //         } else {
-//     //             return false;
-//     //         }
-//     //     }
-//     // },
-//     methods: {
-//         onFileSelected (event) {
-//             this.selectedFile = event.target.files[0]
-//         },
-//         createPost: async function() {
-//             const self = this
-//             const formData = new FormData()
-//             formData.append('image', this.selectedFile)
-//             formData.append('name', this.selectedFile.name)
-//             formData.append('title',this.title)
-//             formData.append('post',this.post)
-//             formData.append(25)
-//             await this.$store.dispatch('createPost', formData)
-//             .then(function() {
-//                 self.$router.push('/posts');
-//             })
-//             .catch(function(error) {
-//                 console.log(error);
-//                     });
-//                 }
-//             },
+    },
+    createPost(){
+      let formData = new FormData();
+      formData.append('title',this.title);
+      formData.append('post',this.post);
+      formData.append('userId', 25)
+      formData.append('image',this.image);
+      axios.post('http://localhost:3000/api/posts',formData).then((data) => {
+        console.log(data);
         
-// }
-// </script>
-// <script>
-// import axios from "axios";
-// export default {
-//   name: "createPost",
-//   data() {
-//     return {
-//       title: "",
-//       post: "",
-//       userId: 25,
-//      selectedFile: null
-//     };
-//   },
-//   methods: {
-//       onFileChanged (event) {
-//         this.selectedFile = event.target.files[0]
-//       },
-//     createPost() {
-//        const formData = new FormData()
-//       formData.append('myFile', this.selectedFile, this.selectedFile.name)
-//       axios.post("http://localhost:3000/api/posts", {
-//           title: this.title,
-//           post: this.post,
-//           imageUrlPost: this.selectedFile,
-//           userId: this.userId,
-//         })
-//         .then((data) => {
-//           console.log(data);
-//         })
-//         .catch((e) => {
-//           console.log(e);
-//         });
-//     },
-//   },
-// };
-// </script>
+      })
+
+    }
+  }
+}
+</script>

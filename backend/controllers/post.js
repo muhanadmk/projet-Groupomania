@@ -65,16 +65,15 @@ exports.modifierPost = (req, res, next) => {
       }
       const userid = result[0].user_id;
       const userId = req.body.userId;
-    //  const imagePost = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`; 
-    //  , imagePostUrl '${imagePost}
+      // const imagePostUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    //   imagePostUrl= '${imagePostUrl}' 
       
       if (userId == userid) {
         if (req.body.post == null ||req.body.post  == null ) {
-          return 'remplier bien la post'
+          return res.status(401).json({ message: "vous pouvez pas laisser la post vide !!" });
         }
-        const imagePostUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         db.query(
-          `UPDATE posts SET post=  '${req.body.post}' , title= '${req.body.title}', imagePostUrl= '${imagePostUrl}'  WHERE id = ?`,
+          `UPDATE posts SET post= '${req.body.post}', title='${req.body.title}', WHERE id = ?`,
           idPost,
           (err, result) => {
             if (err) {
@@ -105,23 +104,23 @@ exports.getProfileEtPosts = (req, res, next) => {
       if (err) {
         throw err;
       }
-      let potsOfUser = postsUser;
-      // console.log("posts",potsOfUser);
-        db.query('SELECT imageUserUrl, username , admin FROM users WHERE users.id = ?', user_id ,(err, result) => {
+      let Profile = {             
+        postOfUser: [],
+        userData: []
+      };
+      Profile.postOfUser.push(postsUser);   
+        db.query('SELECT username, admin FROM users WHERE users.id = ?', user_id ,(err, userresult) => {
           if (err) {
-            throw err;
+            throw err;   
           }
-          // console.log("user", result);
-          let profileUser = result;
-          // console.log(profileUser);
-          const last =  profileUser.push(potsOfUser);
-          // profileUser.push(profileUser);
-          // console.log("profile ",last);
-        })
-      res.status(200)
+          Profile.userData.push(userresult[0]);  
+          res.status(200).json(Profile);  
+        });
   });
 };
 
+
+// Array to be inserted
 
 
 exports.getAllPsot = (req, res, next) => {

@@ -4,7 +4,7 @@
         <div class="col-lg-3"></div>
         <div class="col-md-6">
             <div class="card">
-                <form class="box bg-dark">
+                <form  class="box bg-dark">
                     <h1>Login</h1>
                     <p class="text-muted"> Please enter your email and password!</p>
                      <input type="text" email="" placeholder="email"  v-model="email">
@@ -36,7 +36,8 @@ export default {
     };
   },
   methods: {
-    submitLogin() {
+    submitLogin(event) {
+        event.preventDefault();
       axios
         .post("http://localhost:3000/api/users/login", {
            email: this.email,
