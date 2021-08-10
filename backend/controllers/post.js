@@ -65,16 +65,13 @@ exports.modifierPost = (req, res, next) => {
       }
       const userid = result[0].user_id;
       const userId = req.body.userId;
-      // const imagePostUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    //   imagePostUrl= '${imagePostUrl}' 
-      
       if (userId == userid) {
-        if (req.body.post == null ||req.body.post  == null ) {
+        // const imagePostUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        if (req.body.post == null || req.body.post == null) {
           return res.status(401).json({ message: "vous pouvez pas laisser la post vide !!" });
         }
         db.query(
-          `UPDATE posts SET post= '${req.body.post}', title='${req.body.title}', WHERE id = ?`,
-          idPost,
+          `UPDATE posts SET post='${req.body.post}', title='${req.body.title}' WHERE id = ?`, idPost,
           (err, result) => {
             if (err) {
               throw err;
@@ -85,18 +82,10 @@ exports.modifierPost = (req, res, next) => {
       } else {
         res.status(401).json({ message: "Invalid user ID !" });
       }
-    });
-}
+    }
+  );
+};
 
-// exports.getpostofuser = (req, res, next) => {
-//   db.query(`SELECT * FROM posts INNER JOIN users ON posts.user_id = ${req.body.userId}`,  (err, result) => {
-//     console.log("§§§", result);
-//     if (err) {
-//       throw err;
-//     }
-//     res.send(200).json(result)
-//   });
-// };
 
 exports.getProfileEtPosts = (req, res, next) => {
   user_id = req.params.id;
@@ -118,9 +107,6 @@ exports.getProfileEtPosts = (req, res, next) => {
         });
   });
 };
-
-
-// Array to be inserted
 
 
 exports.getAllPsot = (req, res, next) => {
