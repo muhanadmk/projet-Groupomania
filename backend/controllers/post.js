@@ -36,7 +36,7 @@ exports.deletePost = (req, res, next) => {
       }
       const userid = result[0].user_id;
       // console.log(result[0].imagePostUrl);
-      userId = req.body.decodedToken.userId;
+      userId = req.body.userId;
       if (userid == userId) {
         const filename = result[0].imagePostUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`,()=>{
@@ -123,12 +123,11 @@ exports.getAllPsot = (req, res, next) => {
 
 
 exports.AdminDeletePost = (req, res, next) => {
-  const userIdAdmin = req.params.id;
-  const idPost = req.body.postId;
+  const  idPost = req.params.id;
+  const userIdAdmin = req.body.userId;
+  console.log("userIdAdmin", userIdAdmin);
   db.query(
-    "SELECT admin FROM users WHERE id = ?",
-    userIdAdmin,
-    (err, result) => {
+    "SELECT admin FROM users WHERE id = ?", userIdAdmin, (err, result) => {
       if (err) {
         res.status(401).json({ message: "Identifiant invalide !" });
       }
@@ -140,7 +139,6 @@ exports.AdminDeletePost = (req, res, next) => {
           res.status(200).json("post supprimé !");
         });
       }
-      res.status(403).json({ message: "vous etes pas admin !" });
     }
   );
 };

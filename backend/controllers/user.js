@@ -118,20 +118,19 @@ exports.deleteUser = (req, res, next) => {
 exports.AdminDeleteUser = (req, res, next) => {
   const userIdAdmin = req.body.userId;
   const userId = req.params.id;
-  db.query("SELECT admin FROM users WHERE id = ?", userIdAdmin,(err, result) => {
+  db.query("SELECT admin FROM users WHERE id = ?", userIdAdmin, (err, result) => {
+    console.log("result[0].admin", result[0].admin);
       if (err) {
-        res.status(401).json({ message: "Identifiant invalide !" });
+        res.status(500).json({ message: "err mysql!" });
       } 
       if (result[0].admin === 1) {
         db.query("DELETE FROM users WHERE id = ?", userId, (err, result) => {
           if (err){
                res.status(403).json({ message: "user not found!" });
           } 
-          res.status(200).json( "Utilisateur supprimé !" );
+          res.status(200).json( "Utilisateur supprimé  par le admin !" );
         });
-      } else {
-        res.status(403).json({ message: "vous etes pas admin !" });
-      }
+      } 
     }
   );
 };

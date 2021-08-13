@@ -9,7 +9,7 @@ router.delete('/:id',auth ,multer, postControllers.deletePost);
 router.put('/:id',auth, multer, postControllers.modifierPost);
 router.get('/:id', postControllers.getProfileEtPosts);
 router.get('/', postControllers.getAllPsot);
-router.delete('/AdminDeletePost/:id', auth,multer ,postControllers.AdminDeletePost);
+router.delete('/AdminDeletePost/:id',auth ,multer ,postControllers.AdminDeletePost);
 
 
 
