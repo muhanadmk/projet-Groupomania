@@ -5,15 +5,18 @@ const db = require("../db_conextion/db_conextion");
 const fs = require('fs');
 
 exports.writePost = (req, res, next) => {
- 
+  // if (req.file.filename = undefined) {
+  //   console.log("image undefined");
+  //   delete newPost.imagePostUrl; 
+  // }
   const newPost = {
     user_id: req.body.userId,
     title: req.body.title,
     imagePostUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-    post: req.body.post
+    post: req.body.post,
   };
   
-  if (newPost.title == null || newPost.imagePostUrl == null ||   newPost.post == null ) {
+  if (newPost.title == "" || newPost.post == "" ) {
     return res.status(400).json({ error: "missing parameters" });
   }
 
@@ -33,7 +36,7 @@ exports.deletePost = (req, res, next) => {
       }
       const userid = result[0].user_id;
       // console.log(result[0].imagePostUrl);
-      userId = req.body.userId;
+      userId = req.body.decodedToken.userId;
       if (userid == userId) {
         const filename = result[0].imagePostUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`,()=>{

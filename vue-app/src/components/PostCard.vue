@@ -1,6 +1,5 @@
 <template>
 <div class="card mt-5 mb-5">
-  <!-- <DeletePost /> -->
   <div class="card-header">
   <h5 class="card-title">{{post.title }} </h5>
   </div>
@@ -9,14 +8,9 @@
     <img class="card-img" v-bind:src="post.imagePostUrl" alt="...">
      <p class="card-text text-dark">{{ post.datePost }}</p>
   </div>
-  <!-- <modiferPost /> -->
-  <!-- <div class="form-floating">
-    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" 
-    ></textarea>
-    <label for="floatingTextarea2">Comments</label>
-    <button @click="submitComment">submit</button>
-  </div> -->
-  
+   <div>
+    <!-- <button class="btn btn-dark" @click="DeletePost" key="post.id" >DeletePost</button> -->
+  </div>
 </div>
 
   
@@ -25,15 +19,37 @@
 <script>
 // import modiferPost from './modiferPost.vue'
 // import DeletePost from "../components/DeletePost.vue";
+// import axios from "axios";
 
 
 export default {
   props:["post"] ,
   name: 'post-card',
-  components: {
-    // DeletePost,
-    // modiferPost
-  }
+  // components: {
+  //   // DeletePost,
+  //   // modiferPost
+  // },
+  data() {
+    return {
+      userId: 25,
+      postId: "",
+    };
+  },
+  // methods: {
+  //   DeletePost() {
+  //     axios
+  //       .delete(`http://localhost:3000/api/posts/85`, {
+  //         userId: 25
+  //       })
+  //       .then((data) => {
+  //         console.log("delet", data);
+  //         // console.log(this.postId);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //   },
+  // },
 };
 </script>
 

@@ -5,7 +5,7 @@
         <createPost />
         <div class="postes-aera">
           <PostCard v-for="post in posts" v-bind:key="post.id" :post="post" />
-          <DeletePost />
+          <!-- <DeletePost /> -->
           <!-- <DeletePost v-for="post in posts" v-bind:key="post.id" :post="post" />  -->
         </div>
       </div>
@@ -15,12 +15,17 @@
 
 <script>
 import PostCard from "../components/PostCard.vue";
-import DeletePost from "../components/DeletePost.vue";
+// import DeletePost from "../components/DeletePost.vue";
 import createPost from "../components/createPost.vue";
 
 
 import axios from "axios";
 export default {
+   name: "Home",
+  components: {
+    createPost,
+    PostCard,
+  },
   data() {
     return {
       posts: [],
@@ -32,7 +37,7 @@ export default {
   methods: {
     async getData() {
       try {
-        const response = await axios.get("http://localhost:3000/api/posts");
+        const response = await axios.get("posts");
         console.log(response);
         this.posts = response.data;
       } catch (error) {
@@ -50,17 +55,9 @@ export default {
   //         console.log(e);
   //       });
   //   },
-
+  
   created() {
     this.getData();
-  },
-
-
-  name: "Blog",
-  components: {
-    createPost,
-    PostCard,
-    DeletePost
   },
 };
 </script>

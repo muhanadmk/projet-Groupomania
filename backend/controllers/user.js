@@ -10,11 +10,11 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
 
 exports.signup = (req, res, next) => {
-  // const imageUser = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+ 
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
-  const imageUserUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+
   // if (email == null || username == null || password == null) {
   //   return res.status(400).json({ error: "missing parameters" });
   // }
@@ -59,7 +59,7 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   const ReqEmail = req.body.email;
-  
+
   // const secret = process.env.HASHE_EMAIl;
   // const hashEmail = crypto
   //   .createHmac("sha256", secret)
@@ -71,20 +71,21 @@ exports.login = (req, res, next) => {
   db.query(sql, ReqEmail, (err, users) => {
     if (err) {
       res.status(401).json({ error: "Utilisateur non trouvé !" });
-    } 
+    }
     const user = users[0];
-    console.log(user);
-    bcrypt.compare(password, user.password)
+    bcrypt
+      .compare(password, user.password)
       .then((valid) => {
         if (!valid) {
           return res.status(401).json({ error: "Mot de passe incorrect !" });
         }
         res.status(200).json({
           userId: user.id,
+          username: user.username,
+          admin: user.admin,
           token: jwt.sign(
             {
               userId: user.id,
-              admin: user.admin,
             },
             process.env.SECRET_KEY_JWT,
             {

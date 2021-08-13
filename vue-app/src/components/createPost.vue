@@ -38,10 +38,11 @@
 <script>
 import axios from "axios";
 export default {
-  name: "create-post",
+  name: "createPost",
   data() {
     return {
-      message: "dfvjkbdvfvfdv",
+      userId: 25,
+      message: "",
       title: "",
       post: "",
       image: null,
@@ -49,20 +50,27 @@ export default {
   },
   mounted() {
     console.log(this.message);
+      // if (this.$store.state.user.userId == -1) {
+      //       this.$router.push('/login');
   },
   methods: {
     onFileChanged(event) {
       this.image = event.target.files[0];
     },
-    createPost() {
+    async createPost() {
+    try {
+      // e.preventDefault(e);
       let formData = new FormData();
       formData.append("title", this.title);
       formData.append("post", this.post);
-      formData.append("userId", 25);
+      formData.append("userId", this.userId);
       formData.append("image", this.image);
-      axios.post("http://localhost:3000/api/posts", formData).then((data) => {
-        console.log(data);
-      });
+      const response = await axios.post("posts", formData)
+      console.log(response);
+    }
+    catch (error) {
+        console.log(error);
+      }
     },
   },
 };
