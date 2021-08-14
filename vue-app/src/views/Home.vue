@@ -4,14 +4,13 @@
       <div class="col-md-8">
         <createPost />
         <div class="postes-aera">
-          <PostCard v-for="post in posts" v-bind:key="post.id" :post="post" />
-          <!-- <DeletePost /> -->
-          <!-- <DeletePost v-for="post in posts" v-bind:key="post.id" :post="post" />  -->
+          <PostCard v-for="onepost in posts" v-bind:key="onepost.post_id" :onepost="onepost" />
         </div>
       </div>
     </div>
   </div>
 </template>
+        <!-- <DeletePost /> -->
 
 <script>
 import PostCard from "../components/PostCard.vue";
@@ -23,15 +22,16 @@ import axios from "axios";
 export default {
    name: "Home",
   components: {
-    createPost,
     PostCard,
+    createPost,
+    // DeletePost
   },
   data() {
     return {
       posts: [],
       // title: "",
       // post: "",
-      // userId: 17,
+      userId: 17,
     };
   },
   methods: {
@@ -45,17 +45,6 @@ export default {
       }
     },
   },
-  //  deletePost() {
-  //     axios
-  //       .delete(`http://localhost:3000/api/posts/41`)
-  //       .then((data) => {
-  //         console.log(data);
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //   },
-  
   created() {
     this.getData();
   },

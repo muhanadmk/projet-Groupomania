@@ -1,55 +1,53 @@
 <template>
 <div class="card mt-5 mb-5">
   <div class="card-header">
-  <h5 class="card-title">{{post.title }} </h5>
+  <h4>{{ onepost.username }}</h4>
+  </div>
+  <div class="card-title">
+    <h5 class="card-title">{{onepost.title }} </h5>
   </div>
   <div class="card-body">
-    <p class="card-text">{{ post.post }}</p>
-    <img class="card-img" v-bind:src="post.imagePostUrl" alt="...">
-     <p class="card-text text-dark">{{ post.datePost }}</p>
+    <p class="card-text">{{ onepost.post }}</p>
+    <img class="card-img" v-bind:src="onepost.imagePostUrl" alt="...">
+     <p class="card-text text-dark">{{ onepost.datePost }}</p>
   </div>
-   <div>
-    <!-- <button class="btn btn-dark" @click="DeletePost" key="post.id" >DeletePost</button> -->
-  </div>
+       <button class="btn btn-dark" @click="DeletePost" v-bind="onepost.post_id" > {{ onepost.post_id }}DeletePost</button>
 </div>
-
-  
 </template>
 
 <script>
 // import modiferPost from './modiferPost.vue'
 // import DeletePost from "../components/DeletePost.vue";
-// import axios from "axios";
+import axios from "axios";
 
 
 export default {
-  props:["post"] ,
+  props:["onepost"] ,
   name: 'post-card',
   // components: {
-  //   // DeletePost,
+    // DeletePost,
   //   // modiferPost
   // },
   data() {
     return {
-      userId: 25,
-      postId: "",
+      userId: this.onepost.id,
+      postId: this.onepost.post_id,
     };
   },
-  // methods: {
-  //   DeletePost() {
-  //     axios
-  //       .delete(`http://localhost:3000/api/posts/85`, {
-  //         userId: 25
-  //       })
-  //       .then((data) => {
-  //         console.log("delet", data);
-  //         // console.log(this.postId);
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //   },
-  // },
+   methods: {
+    async DeletePost(){
+      try {
+        const response = await axios.delete(`posts/${this.postId}`,{
+          data: { 
+            userId: this.userId 
+            }  
+        });
+        console.log(response);
+      }catch (error) {
+        console.log(error);
+      }
+    }
+  },
 };
 </script>
 

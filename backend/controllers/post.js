@@ -30,7 +30,7 @@ exports.writePost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
   const idPost = req.params.id;
-  db.query("SELECT `user_id` , `imagePostUrl` FROM `posts` WHERE id = ?", idPost, (err, result) => {
+  db.query("SELECT `user_id` , `imagePostUrl` FROM `posts` WHERE post_id = ?", idPost, (err, result) => {
       if (err) {
         throw err;
       }
@@ -40,7 +40,7 @@ exports.deletePost = (req, res, next) => {
       if (userid == userId) {
         const filename = result[0].imagePostUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`,()=>{
-          db.query("DELETE FROM `posts` WHERE id = ?", idPost, (err, result) => {
+          db.query("DELETE FROM `posts` WHERE post_id = ?", idPost, (err, result) => {
             if (err) {
               throw err;
             }
@@ -60,7 +60,7 @@ exports.deletePost = (req, res, next) => {
 exports.modifierPost = (req, res, next) => {
   const idPost = req.params.id;
   db.query(
-    "SELECT `user_id` FROM `posts` WHERE id = ?",
+    "SELECT `user_id` FROM `posts` WHERE post_id = ?",
     idPost,
     (err, result) => {
       if (err) {
@@ -74,7 +74,7 @@ exports.modifierPost = (req, res, next) => {
           return res.status(401).json({ message: "vous pouvez pas laisser la post vide !!" });
         }
         db.query(
-          `UPDATE posts SET post='${req.body.post}', title='${req.body.title}' WHERE id = ?`, idPost,
+          `UPDATE posts SET post='${req.body.post}', title='${req.body.title}' WHERE post_id = ?`, idPost,
           (err, result) => {
             if (err) {
               throw err;
@@ -113,7 +113,7 @@ exports.getProfileEtPosts = (req, res, next) => {
 
 
 exports.getAllPsot = (req, res, next) => {
-  db.query("SELECT * FROM `posts`", (err, result) => {
+  db.query("SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY datePost DESC", (err, result) => {
     if (err) {
       throw err;
     }
@@ -132,7 +132,7 @@ exports.AdminDeletePost = (req, res, next) => {
         res.status(401).json({ message: "Identifiant invalide !" });
       }
       if (result[0].admin === 1) {
-        db.query("DELETE FROM posts WHERE id = ?", idPost, (err, result) => {
+        db.query("DELETE FROM posts WHERE post_id = ?", idPost, (err, result) => {
           if (err) {
             res.status(403).json({ message: "user not found!" });
           }

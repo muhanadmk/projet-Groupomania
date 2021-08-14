@@ -27,5 +27,8 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   background-color: #eee;
 }
+a {
+  text-decoration: none;
+}
 
 </style>

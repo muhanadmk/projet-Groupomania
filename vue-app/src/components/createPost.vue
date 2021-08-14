@@ -59,7 +59,7 @@ export default {
     },
     async createPost() {
     try {
-      // e.preventDefault(e);
+      // e.preventDefault();
       let formData = new FormData();
       formData.append("title", this.title);
       formData.append("post", this.post);
