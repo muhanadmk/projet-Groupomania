@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 
 
@@ -11,20 +11,26 @@ const store = new Vuex.Store({
     username: null,
     token: null
   },
-  mutations: { 
-    setusername(state, username) {
-      state.username = username;
-    },
-    setToken(state, token) {
-      state.token = token;
-    },
+  getters: {
+    username: (state) =>{
+      return state.username;
+    }
   },
   actions: {
-    
+    username(context, username) {
+      context.commit('username');
+    }
   },
-  getters: {
-
+  mutations: { 
+    username(state, username) {
+      state.username = username;
+    },
+    // setToken(state, token) {
+    //   state.token = token;
+    // },
   },
+ 
+ 
 });
 
 export default store;

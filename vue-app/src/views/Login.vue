@@ -65,7 +65,8 @@ export default {
           password: this.password,
         });
         console.log(response.data.token);
-        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('token', response.data.token);
+        this.$store.dispatch('username', response.data.username)
         this.$router.push("/Home");
       } catch (error) {
         console.log(error);
