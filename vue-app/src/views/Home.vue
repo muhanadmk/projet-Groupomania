@@ -5,16 +5,20 @@
         <createPost />
         <div class="postes-aera">
           <PostCard v-for="onepost in posts" v-bind:key="onepost.post_id" :onepost="onepost" />
+          <modiferPost v-for="onepost in posts" v-bind:key="onepost.post_id" :onepost="onepost" />
         </div>
       </div>
     </div>
   </div>
+  
 </template>
-        <!-- <DeletePost /> -->
+    <!-- <profile/> -->
 
 <script>
-import PostCard from "../components/PostCard.vue";
-// import DeletePost from "../components/DeletePost.vue";
+import PostCard from "./PostCard.vue";
+import modiferPost from "../components/modiferPost.vue";
+// import profile from '../views/profile.vue'
+
 import createPost from "../components/createPost.vue";
 
 
@@ -24,14 +28,13 @@ export default {
   components: {
     PostCard,
     createPost,
-    // DeletePost
+    // profile
+    modiferPost
   },
   data() {
     return {
       posts: [],
-      // title: "",
-      // post: "",
-      userId: 17,
+      lotOfPost: []
     };
   },
   methods: {

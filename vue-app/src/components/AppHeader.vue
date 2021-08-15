@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark mb-10">
     <div class="container-fluid">
-       <router-link to="/Blog"><a class="navbar-brand text-light">Groupomania</a></router-link>
+       <router-link to="/Home"><a class="navbar-brand text-light">Groupomania</a></router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -16,23 +16,23 @@
 
         </ul>
         <form class="d-flex">
-          <button class="btn btn-outline-danger me-2" @click="LogOutUser">Logout</button>
+          <button class="btn btn-outline-danger me-2" type="submit" @click="LogOutUser">Logout</button>
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
       </div>
     </div>
 </nav>
-
 </template>
 
 
 <script>
 export default {
   name: "AppHeader",
-  methods: {
+ methods: {
     LogOutUser(){
       localStorage.removeItem('token');
+      localStorage.removeItem('userId_dansLocalStorge');
       this.$router.push("/");
     }
   }

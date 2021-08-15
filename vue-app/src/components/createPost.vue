@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bt">
     <form>
       <div class="card mt-5 mb-5">
         <div class="card-header">
@@ -29,7 +29,9 @@
             accept="image/png, image/jpg, image/jpeg, image/gif"
           />
         </div>
-        <button class="btn btn-dark" @click="createPost">createPost</button>
+        <button class="btn btn-dark" type="submit" @click="createPost">
+          createPost
+        </button>
       </div>
     </form>
   </div>
@@ -41,8 +43,8 @@ export default {
   name: "createPost",
   data() {
     return {
-      userId: 25,
-      message: "",
+      userId: this.userId,
+      message: "hello",
       title: "",
       post: "",
       image: null,
@@ -50,28 +52,34 @@ export default {
   },
   mounted() {
     console.log(this.message);
-      // if (this.$store.state.user.userId == -1) {
-      //       this.$router.push('/login');
+    // if (this.$store.state.user.userId == -1) {
+    //       this.$router.push('/login');
   },
   methods: {
     onFileChanged(event) {
       this.image = event.target.files[0];
     },
-    async createPost() {
-    try {
-      // e.preventDefault();
-      let formData = new FormData();
-      formData.append("title", this.title);
-      formData.append("post", this.post);
-      formData.append("userId", this.userId);
-      formData.append("image", this.image);
-      const response = await axios.post("posts", formData)
-      console.log(response);
-    }
-    catch (error) {
+    async createPost(e) {
+      const userId = localStorage.getItem("userId_dansLocalStorge");
+      try {
+        e.preventDefault();
+        let formData = new FormData();
+        formData.append("title", this.title);
+        formData.append("post", this.post);
+        formData.append("userId", userId);
+        formData.append("image", this.image);
+        const response = await axios.post("posts", formData);
+        console.log(response);
+      } catch (error) {
         console.log(error);
       }
     },
   },
 };
 </script>
+
+<style>
+.bt {
+  margin-top: 80px !important;
+}
+</style>

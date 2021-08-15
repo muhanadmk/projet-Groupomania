@@ -1,7 +1,7 @@
 <template>
 <div class="card mt-5 mb-5">
   <div class="card-header">
-  <h4>{{ onepost.username }}</h4>
+  <h4><router-link to="/profile"><a>{{ onepost.username }}</a></router-link></h4>
   </div>
   <div class="card-title">
     <h5 class="card-title">{{onepost.title }} </h5>
@@ -11,23 +11,20 @@
     <img class="card-img" v-bind:src="onepost.imagePostUrl" alt="...">
      <p class="card-text text-dark">{{ onepost.datePost }}</p>
   </div>
-       <button class="btn btn-dark" @click="DeletePost" v-bind="onepost.post_id" > {{ onepost.post_id }}DeletePost</button>
+       <button class="btn btn-outline-danger" @click="DeletePost">DeletePost</button>
 </div>
+
 </template>
 
 <script>
-// import modiferPost from './modiferPost.vue'
-// import DeletePost from "../components/DeletePost.vue";
 import axios from "axios";
 
 
 export default {
   props:["onepost"] ,
   name: 'post-card',
-  // components: {
-    // DeletePost,
-  //   // modiferPost
-  // },
+  components: {
+  },
   data() {
     return {
       userId: this.onepost.id,
