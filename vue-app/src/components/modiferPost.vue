@@ -1,7 +1,7 @@
 <template>
     <div>
     <div class="form-row">
-       <label class="card__subtitle" for="file">Sélectionner une image:</label>
+       <label class="card__subtitle" for="file">Sélectionner une image: </label>
         <input @change="onFileSelected" class="form-row__input" type="file" name="image" id="file" accept="image/png, image/jpg, image/jpeg, image/gif">
     </div>
     <div>
@@ -23,31 +23,29 @@
 <script>
 import axios from "axios";
 export default {
-   props:["onepost"] ,
+    lotOfPost: [] ,
   name: "modifer-Post",
   data() {
     return {
-      message: "hello",
+      message: "",
       title: "",
       post: "",
       image: null,
       userId :this.userId,
-      postId: this.onepost.post_id
+      postId: this.postOne.post_id
     };
   },
    mounted() {
     console.log(this.message);
-    // if (this.$store.state.user.userId == -1) {
-    //       this.$router.push('/login');
   },
   methods: {
     onFileChanged(event) {
       this.image = event.target.files[0];
     },
-    async modiferPost() {
+    async modiferPost(e) {
       const userId = localStorage.getItem("userId");
       try {
-        // e.preventDefault();
+        e.preventDefault();
         let formData = new FormData();
         formData.append("title", this.title);
         formData.append("post", this.post);

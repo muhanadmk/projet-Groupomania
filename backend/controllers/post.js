@@ -125,18 +125,21 @@ exports.getAllPsot = (req, res, next) => {
 exports.AdminDeletePost = (req, res, next) => {
   const  idPost = req.params.id;
   const userIdAdmin = req.body.userId;
-  console.log("userIdAdmin", userIdAdmin);
   db.query(
     "SELECT admin FROM users WHERE id = ?", userIdAdmin, (err, result) => {
       if (err) {
         res.status(401).json({ message: "Identifiant invalide !" });
       }
       if (result[0].admin === 1) {
-        db.query("DELETE FROM posts WHERE post_id = ?", idPost, (err, result) => {
-          if (err) {
-            res.status(403).json({ message: "user not found!" });
-          }
-          res.status(200).json("post supprimé !");
+        const filename = result[0].imagePostUrl.split('/images/')[1];
+        fs.unlink(`images/${filename}`,()=>{
+          db.query("DELETE FROM `posts` WHERE post_id = ?", idPost, (err, result) => {
+            if (err) {
+              throw err;
+            }
+            res.status(200).json({ message: "post deleted !" });
+          });
+        
         });
       }
     }

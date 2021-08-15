@@ -32,7 +32,8 @@ export default {
  methods: {
     LogOutUser(){
       localStorage.removeItem('token');
-      localStorage.removeItem('userId_dansLocalStorge');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('admin');
       this.$router.push("/");
     }
   }

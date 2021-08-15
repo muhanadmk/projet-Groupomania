@@ -5,7 +5,7 @@
         <createPost />
         <div class="postes-aera">
           <PostCard v-for="onepost in posts" v-bind:key="onepost.post_id" :onepost="onepost" />
-          <modiferPost v-for="onepost in posts" v-bind:key="onepost.post_id" :onepost="onepost" />
+          <!-- <modiferPost v-for="postOne in lotOfPost" v-bind:key="postOne.post_id" :postOne="postOne" /> -->
         </div>
       </div>
     </div>
@@ -16,7 +16,7 @@
 
 <script>
 import PostCard from "./PostCard.vue";
-import modiferPost from "../components/modiferPost.vue";
+// import modiferPost from "../components/modiferPost.vue";
 // import profile from '../views/profile.vue'
 
 import createPost from "../components/createPost.vue";
@@ -29,12 +29,11 @@ export default {
     PostCard,
     createPost,
     // profile
-    modiferPost
+    // modiferPost
   },
   data() {
     return {
       posts: [],
-      lotOfPost: []
     };
   },
   methods: {

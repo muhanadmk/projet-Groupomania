@@ -54,6 +54,7 @@ export default {
         });
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.userId);
+        localStorage.setItem('admin', response.data.admin);
         // this.$store.dispatch('username', response.data.username)
         this.$router.push("/Home");
       } catch (error) {

@@ -51,6 +51,12 @@ export default {
   methods: {
     async submitSingup(e) {
       try {
+        // const userId = localStorage.getItem("userId");
+        // const token = localStorage.getItem("token")
+        // if(userId & token){
+
+        // }
+        
         e.preventDefault();
         const response = await axios.post("users/signup", {
           email: this.email,
