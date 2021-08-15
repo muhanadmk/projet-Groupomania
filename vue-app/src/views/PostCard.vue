@@ -37,7 +37,10 @@ export default {
         const response = await axios.delete(`posts/${this.postId}`,{
           data: { 
             userId: this.userId 
-            }  
+            },
+            headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }  
         });
         console.log(response);
       }catch (error) {

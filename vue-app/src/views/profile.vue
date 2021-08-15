@@ -1,5 +1,5 @@
 <template>
-       <button class="btn btn-outline-danger" @click="DeletePost"></button>
+       <button class="btn btn-outline-danger">gooooolgoooool {{onepost.title}} </button>
 </template>
 
 

@@ -53,7 +53,7 @@ export default {
           password: this.password,
         });
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId_dansLocalStorge', response.data.userId);
+        localStorage.setItem('userId', response.data.userId);
         // this.$store.dispatch('username', response.data.username)
         this.$router.push("/Home");
       } catch (error) {

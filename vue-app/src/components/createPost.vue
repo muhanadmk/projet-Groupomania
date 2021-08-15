@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       userId: this.userId,
-      message: "hello",
+      message: "",
       title: "",
       post: "",
       image: null,
@@ -60,7 +60,7 @@ export default {
       this.image = event.target.files[0];
     },
     async createPost(e) {
-      const userId = localStorage.getItem("userId_dansLocalStorge");
+      const userId = localStorage.getItem("userId");
       try {
         e.preventDefault();
         let formData = new FormData();
@@ -68,7 +68,11 @@ export default {
         formData.append("post", this.post);
         formData.append("userId", userId);
         formData.append("image", this.image);
-        const response = await axios.post("posts", formData);
+        const response = await axios.post("posts", formData, {
+         headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+          });
         console.log(response);
       } catch (error) {
         console.log(error);
