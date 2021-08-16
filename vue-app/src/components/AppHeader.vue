@@ -34,6 +34,7 @@ export default {
       localStorage.removeItem('token');
       localStorage.removeItem('userId');
       localStorage.removeItem('admin');
+      localStorage.removeItem('ProfileUserId');
       this.$router.push("/");
     }
   }

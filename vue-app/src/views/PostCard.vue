@@ -1,7 +1,7 @@
 <template>
 <div class="card mt-5 mb-5">
   <div class="card-header">
-  <h4><router-link to="/profile"><a>{{ onepost.username }}</a></router-link></h4>
+  <a type="submit" @click="getPrfile" >{{ onepost.username }}</a>
   </div>
   <div class="card-title">
     <h5 class="card-title">{{onepost.title }} </h5>
@@ -13,7 +13,6 @@
   </div>
   <button v-if="admin > 0" type="submit" class="btn btn-outline-danger" @click="AdminDeletePost"> Admin Delete Post</button>
   <button v-else-if="admin <= 0" class="btn btn-outline-danger" @click="DeletePost">Delete Post</button>
-
   <div class="">
     <form>
       <div class="card mt-5 mb-5">
@@ -50,6 +49,7 @@
       </div>
     </form>
   </div>
+  
 </div>
 
 </template>
@@ -57,6 +57,7 @@
 
 <script>
 import axios from "axios";
+// import profile from "./profile.vue"
 // import modiferPost from "../components/modiferPost.vue";
 
 
@@ -64,17 +65,17 @@ export default {
   props:["onepost"],
   name: 'post-card',
   components: {
-    // modiferPost
+    
   },
   data() {
     return {
-      // lotOfPost: [],
       admin: this.admin,
       userId: this.onepost.id,
       postId: this.onepost.post_id,
-       title: "",
+      title: "",
       post: "",
       image: null,
+      message: "",
       // userIdlOclal :this.userId,
     };
 
@@ -82,6 +83,7 @@ export default {
    mounted() {
     console.log(this.message);
   },
+  
    methods: {
     getIsAdmin () {
      return this.admin = localStorage.getItem('admin');
@@ -140,8 +142,14 @@ export default {
         console.log(error);
       }
     },
+      getPrfile(e) {
+        e.preventDefault();
+        const ProfileUserId = localStorage.setItem("ProfileUserId", this.userId);
+        this.$router.push("/profile");
+        console.log(ProfileUserId);
+    },
   },
-   created() {
+  created() {
     this.getIsAdmin();
   },
 };

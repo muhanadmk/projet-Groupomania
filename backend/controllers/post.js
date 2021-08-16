@@ -91,8 +91,8 @@ exports.modifierPost = (req, res, next) => {
 
 
 exports.getProfileEtPosts = (req, res, next) => {
-  user_id = req.params.id;
-  db.query("SELECT * FROM `posts` WHERE posts.user_id = ?", user_id, (err, postsUser) => {
+  userId = req.params.id;
+  db.query("SELECT * FROM `posts` WHERE posts.user_id = ?", userId, (err, postsUser) => {
       if (err) {
         throw err;
       }
@@ -101,14 +101,14 @@ exports.getProfileEtPosts = (req, res, next) => {
         userData: []
       };
       Profile.postOfUser.push(postsUser);   
-        db.query('SELECT username, admin FROM users WHERE users.id = ?', user_id ,(err, userresult) => {
+        db.query('SELECT id, username, admin FROM users WHERE users.id = ?', userId ,(err, userresult) => {
           if (err) {
             throw err;   
           }
           Profile.userData.push(userresult[0]);  
           res.status(200).json(Profile);  
         });
-  });
+    });
 };
 
 

@@ -58,6 +58,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+  
   const ReqEmail = req.body.email;
 
   // const secret = process.env.HASHE_EMAIl;
@@ -67,6 +68,9 @@ exports.login = (req, res, next) => {
   //   .digest("hex");
   // const email = hashEmail;
   const password = req.body.password;
+  if (ReqEmail == null ||  password == null) {
+    return res.status(400).json({ error: "missing parameters" });
+  }
   let sql = `SELECT * FROM users WHERE email = ?`;
   db.query(sql, ReqEmail, (err, users) => {
     if (err) {

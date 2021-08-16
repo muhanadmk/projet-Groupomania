@@ -35,6 +35,7 @@
 <script>
 // import { mapMutations } from "vuex";
 import axios from "axios";
+// import userCtrl from "../../../backend/controllers/user";
 
 export default {
   name: "Login",
@@ -42,6 +43,7 @@ export default {
     return {
       email: "",
       password: "",
+      error : null
     };
   },
   methods: {
@@ -58,7 +60,7 @@ export default {
         // this.$store.dispatch('username', response.data.username)
         this.$router.push("/Home");
       } catch (error) {
-        console.log(error);
+        this.error = error.response.data.error
       }
     },
   },

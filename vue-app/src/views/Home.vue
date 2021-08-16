@@ -5,7 +5,7 @@
         <createPost />
         <div class="postes-aera">
           <PostCard v-for="onepost in posts" v-bind:key="onepost.post_id" :onepost="onepost" />
-          <!-- <modiferPost v-for="postOne in lotOfPost" v-bind:key="postOne.post_id" :postOne="postOne" /> -->
+          <!-- <profile v-for="postOne in lotOfPost" v-bind:key="postOne.id" :postOne="postOne" /> -->
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
 <script>
 import PostCard from "./PostCard.vue";
 // import modiferPost from "../components/modiferPost.vue";
-// import profile from '../views/profile.vue'
+// import profile from './profile.vue'
 
 import createPost from "../components/createPost.vue";
 
@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       posts: [],
+      // lotOfPost: [],
     };
   },
   methods: {
@@ -42,6 +43,7 @@ export default {
         const response = await axios.get("posts");
         console.log(response);
         this.posts = response.data;
+        // this.lotOfPost = response.data;
       } catch (error) {
         console.log(error);
       }
