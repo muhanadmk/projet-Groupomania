@@ -2,6 +2,10 @@
 <div class="card mt-5 mb-5">
   <div class="card-header">
       <a type="submit" @click="getPrfile" >getPrfile</a>
+      <br>
+      <a type="submit" @click="deleteUser" >deleteUser</a>
+      <br>
+      <a type="submit" @click="AdminDeleteUser" >AdminDeleteUser</a>
 
   <!-- <a type="submit"  >{{profile.postOfUser[0].datePost}}</a> -->
   <p>{{profile.postOfUser[0].post}}</p>
@@ -44,6 +48,36 @@ export default {
         console.log(error);
       }
     },
+    async deleteUser() {
+      try {
+        const ProfileUserId = localStorage.getItem("ProfileUserId");
+        const response = await axios.delete(`users/${ProfileUserId}`,{
+            headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async AdminDeleteUser() {
+      try {
+        const ProfileUserId = localStorage.getItem("ProfileUserId");
+        const response = await axios.delete(`users/${ProfileUserId}`,{
+          data: { 
+            userId: this.userId  
+            },
+            headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }  
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
   },
   created() {
     this.getPrfile();

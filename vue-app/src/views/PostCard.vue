@@ -92,7 +92,7 @@ export default {
       try {
         const response = await axios.delete(`posts/${this.postId}`,{
           data: { 
-            userId: this.userId  
+            userId: localStorage.getItem('userId')
             },
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
