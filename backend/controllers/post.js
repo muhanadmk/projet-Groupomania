@@ -24,7 +24,24 @@ exports.writePost = (req, res, next) => {
     if (err) {
       throw err;
     }
-    res.status(201).json({ message: "post créé !" });
+    return res.status(201).json({ message: "post créé !" });
+    // res.send(`
+    // <div class="card mt-5 mb-5">
+    // <div class="card-header">
+    // <a type="submit" @click="getPrfile" ></a>
+    // </div>
+    // <div class="card-title">
+    //   <h5 class="card-title">${req.body.title}</h5>
+    // </div>
+    // <div class="card-body">
+    //   <p class="card-text">>${req.body.post}</p>
+    //   <img class="card-img" v-bind:src="onepost.imagePostUrl" alt="...">
+    //    <p class="card-text text-dark">{{ onepost.datePost }}</p>
+    // </div>
+    // <button v-if="admin > 0" type="submit" class="btn btn-outline-danger" @click="AdminDeletePost"> Admin Delete Post</button>
+    // <button v-else-if="admin <= 0" class="btn btn-outline-danger" @click="DeletePost">Delete Post</button>
+    // </div>
+    // `);
   });
 };
 
@@ -44,7 +61,7 @@ exports.deletePost = (req, res, next) => {
             if (err) {
               throw err;
             }
-            res.status(200).json({ message: "post deleted !" });
+            return res.status(200).json({ message: "post deleted !" });
           });
         
         });
@@ -58,6 +75,15 @@ exports.deletePost = (req, res, next) => {
 
 
 exports.modifierPost = (req, res, next) => {
+  const objectPost = req.file ?
+  {
+      title: req.body.title,
+      post: req.body.post,
+      imagePostUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+  } : {
+      title: req.body.title,
+      post: req.body.post
+  };
   const idPost = req.params.id;
   db.query(
     "SELECT `user_id` FROM `posts` WHERE post_id = ?",
@@ -69,17 +95,17 @@ exports.modifierPost = (req, res, next) => {
       const userid = result[0].user_id;
       const userId = req.body.userId;
       if (userId == userid) {
-        // const imagePostUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+  
         if (req.body.post == null || req.body.post == null) {
           return res.status(401).json({ message: "vous pouvez pas laisser la post vide !!" });
         }
         db.query(
-          `UPDATE posts SET post='${req.body.post}', title='${req.body.title}' WHERE post_id = ?`, idPost,
+          'UPDATE posts SET ? WHERE posts.post_id = ?', [objectPost, idPost],
           (err, result) => {
             if (err) {
               throw err;
             }
-            res.status(200).json({ message: "post modifié !" });
+            return res.status(200).json({ message: "post modifié !" });
           }
         );
       } else {
@@ -90,24 +116,13 @@ exports.modifierPost = (req, res, next) => {
 };
 
 
-exports.getProfileEtPosts = (req, res, next) => {
+exports.getPostsProfile = (req, res, next) => {
   userId = req.params.id;
-  db.query("SELECT * FROM `posts` WHERE posts.user_id = ?", userId, (err, postsUser) => {
+  db.query("SELECT * FROM `posts` WHERE posts.user_id = ? ORDER BY datePost DESC", userId, (err, postsUser) => {
       if (err) {
         throw err;
       }
-      let Profile = {             
-        postOfUser: [],
-        userData: []
-      };
-      Profile.postOfUser.push(postsUser);   
-        db.query('SELECT id, username, admin FROM users WHERE users.id = ?', userId ,(err, userresult) => {
-          if (err) {
-            throw err;   
-          }
-          Profile.userData.push(userresult[0]);  
-          res.status(200).json(Profile);  
-        });
+      return res.status(200).json(postsUser);  
     });
 };
 
@@ -121,27 +136,31 @@ exports.getAllPsot = (req, res, next) => {
   });
 }
 
-
-exports.AdminDeletePost = (req, res, next) => {
+exports.AdminPostDelete = (req, res, next) => {
   const  idPost = req.params.id;
   const userIdAdmin = req.body.userId;
-  db.query(
-    "SELECT admin FROM users WHERE id = ?", userIdAdmin, (err, result) => {
+  console.log("idPost", idPost);
+  console.log("userIdAdmin" , userIdAdmin);
+  db.query("SELECT admin FROM users WHERE id = ?", userIdAdmin, (err, result) => {
       if (err) {
-        res.status(401).json({ message: "Identifiant invalide !" });
+         res.status(401).json({ message: "err sql request !!!" });
       }
-      if (result[0].admin === 1) {
-        const filename = result[0].imagePostUrl.split('/images/')[1];
-        fs.unlink(`images/${filename}`,()=>{
-          db.query("DELETE FROM `posts` WHERE post_id = ?", idPost, (err, result) => {
-            if (err) {
-              throw err;
-            }
-            res.status(200).json({ message: "post deleted !" });
+      const admin = result[0].admin; 
+       if (admin === 1) {
+        db.query("SELECT imagePostUrl FROM `posts` WHERE post_id = ?", idPost, (err, result) => {
+          if (err) {
+            res.status(401).json({ message: "Identifiant invalide !" });
+          } 
+          const filename = result[0].imagePostUrl.split('/images/')[1];
+          fs.unlink(`images/${filename}`,()=>{
+            db.query("DELETE FROM `posts` WHERE post_id = ?", idPost, (err, result) => {
+              if (err) {
+                throw err;
+              }
+             return res.status(200).json({ message: "post deleted !" });
+            });
           });
-        
         });
       }
-    }
-  );
+    });
 };

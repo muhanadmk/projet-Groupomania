@@ -2,8 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const cors = require('cors');
-const bodyParser = require('body-parser')
-
+const bodyParser = require('body-parser');
 // const limiter = require('./middleware/limit');
 const dotenv = require('dotenv').config();
 // ajouter le helmet pour protéger http header
@@ -13,6 +12,7 @@ const db = require('./db_conextion/db_conextion');
 
 const UserRouter = require('./routers/user');
 const PostsRouter = require('./routers/post');
+const auth = require('./middleware/auth');
 
 
 const app = express();
@@ -29,6 +29,9 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
+// app.post("/", (req, res) => {
+//   return res.status(200).send("Welcome 🙌 ");
+// });
 app.use('/api/users', UserRouter);
 app.use('/api/posts', PostsRouter);
 

@@ -107,7 +107,7 @@ export default {
       try {
         e.preventDefault();
         const userId = localStorage.getItem("userId");
-        const response = await axios.delete(`posts/AdminDeletePost/${this.postId}`,{
+        const response = await axios.delete(`posts/Admin/${this.postId}`,{
           data: { 
             userId: userId  
             },

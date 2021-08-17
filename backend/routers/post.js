@@ -7,11 +7,9 @@ const auth = require('../middleware/auth');
 router.post('/', auth, multer, postControllers.writePost);
 router.delete('/:id',auth ,multer, postControllers.deletePost);
 router.put('/:id',auth, multer, postControllers.modifierPost);
-router.get('/profile/:id', postControllers.getProfileEtPosts);
+router.get('/profile/:id', postControllers.getPostsProfile);
 router.get('/', postControllers.getAllPsot);
-router.delete('/AdminDeletePost/:id',auth ,multer ,postControllers.AdminDeletePost);
-
-
+router.delete('/Admin/:id',auth ,multer ,postControllers.AdminPostDelete)
 
 
 module.exports = router;

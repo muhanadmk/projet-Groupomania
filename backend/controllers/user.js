@@ -52,7 +52,7 @@ exports.signup = (req, res, next) => {
       if (err) {
         throw err;
       }
-      res.status(201).json({ message: "Utilisateur créé !" });
+      return res.status(201).json({ message: "Utilisateur créé !" });
     });
   });
 };
@@ -114,7 +114,7 @@ exports.deleteUser = (req, res, next) => {
         res.status(200).json({ message: "Utilisateur supprimé !" });
       });
     } else {
-      res.status(401).json({ message: "Identifiant invalide !" });
+      return res.status(401).json({ message: "Identifiant invalide !" });
     }
   });
 };
@@ -132,7 +132,7 @@ exports.AdminDeleteUser = (req, res, next) => {
           if (err){
                res.status(403).json({ message: "user not found!" });
           } 
-          res.status(200).json( "Utilisateur supprimé  par le admin !" );
+          return res.status(200).json( "Utilisateur supprimé  par le admin !" );
         });
       } 
     }
@@ -141,7 +141,7 @@ exports.AdminDeleteUser = (req, res, next) => {
 
 exports.getUser = (req, res, next) => {
   const userId = req.params.id;
-  db.query("SELECT * FROM users WHERE id = ?", userId, (err, result) => {
+  db.query("SELECT username, email, dateUser FROM users WHERE id = ?", userId, (err, result) => {
     if (result == "") {
       return res.status(401).json({ message: "user not found by id !" });
     }
@@ -150,4 +150,8 @@ exports.getUser = (req, res, next) => {
     }
     return res.status(200).json(result[0]);
   });
+};
+
+exports.autoLogin = (req, res) => { 
+  res.status(200).json("Welcome 🙌 ");
 };

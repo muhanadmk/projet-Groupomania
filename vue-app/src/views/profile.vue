@@ -1,39 +1,49 @@
 <template>
-<div class="card mt-5 mb-5">
-  <div class="card-header">
-      <a type="submit" @click="getPrfile" >getPrfile</a>
-      <br>
-      <a type="submit" @click="deleteUser" >deleteUser</a>
-      <br>
-      <a type="submit" @click="AdminDeleteUser" >AdminDeleteUser</a>
-
-  <!-- <a type="submit"  >{{profile.postOfUser[0].datePost}}</a> -->
-  <p>{{profile.postOfUser[0].post}}</p>
-    <a type="submit" >{{}}</a>
-
+<div class="container">
+    <div class="row">
+      <div class="col-md-4 mt-5">
+        <div class="card" style="width: 18rem;">
+          <img src="@/assets/icon-left-font.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">c'est un profile de M ou MMe </h5>
+            <h4 class="card-title font-weight-bold">{{usernameData.username}} </h4>
+            <p class="card-text"> il/ elle member chez Groupomania depuis <br> </p>
+            <h5 class="card-text font-weight-bold">{{usernameData.dateUser}}</h5>
+              <button v-show="admin > 0"  class="btn btn-outline-danger" type="submit" @click="deleteUser" >Admin delete User</button>
+              <button v-show="admin <= 0" class="btn btn-outline-danger" type="submit" @click="deleteUser" >deleteUser</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-8">
+        <createPost />
+        <div class="postes-aera">
+            <postsUser v-for="post in postOfUser" v-bind:key="post.post_id" :post="post" />
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="card-title">
-    <h5 class="card-title"> </h5>
-  </div>
-  <div class="card-body">
-    <p class="card-text"></p>
-    <!-- <img class="card-img" v-bind:src="onepost.imagePostUrl" alt="..."> -->
-     <p class="card-text text-dark">{{}}</p>
-  </div>
-  <button v-if="admin > 0" type="submit" class="btn btn-outline-danger" @click="AdminDeletePost"> Admin Delete Post</button>
-  <button v-else-if="admin <= 0" class="btn btn-outline-danger" @click="DeletePost">Delete Post</button>
-</div>
 </template>
 
 
 <script>
 import axios from "axios";
+import postsUser from "../components/postsUser.vue";
+import createPost  from "../components/createPost.vue";
+
+
 
 export default {
     name: 'profile',
+    components: {
+      postsUser,
+      createPost
+    },
     data() {
     return {
-      profile : [],
+      postOfUser : [],
+      usernameData: [],
+      admin: this.admin,
       message : "",
     };
   },
@@ -42,7 +52,17 @@ export default {
       try {
         const ProfileUserId = localStorage.getItem("ProfileUserId");
         const response = await axios.get(`posts/profile/${ProfileUserId}`);
-        this.profile = response.data;
+        this.postOfUser = response.data;
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getusername() {
+      try {
+        const ProfileUserId = localStorage.getItem("ProfileUserId");
+        const response = await axios.get(`users/profile/${ProfileUserId}`);
+        this.usernameData = response.data;
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -56,6 +76,11 @@ export default {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
+         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('admin');
+        localStorage.removeItem('ProfileUserId');
+        this.$router.push("/");
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -64,7 +89,7 @@ export default {
     async AdminDeleteUser() {
       try {
         const ProfileUserId = localStorage.getItem("ProfileUserId");
-        const response = await axios.delete(`users/${ProfileUserId}`,{
+        const response = await axios.delete(`users/Admin/${ProfileUserId}`,{
           data: { 
             userId: this.userId  
             },
@@ -72,15 +97,23 @@ export default {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }  
         });
+        localStorage.removeItem('ProfileUserId');
+        this.$router.push("/");
         console.log(response);
       } catch (error) {
         console.log(error);
       }
     },
-
+     getIsAdmin () {
+     return this.admin = localStorage.getItem('admin');
+    },
   },
   created() {
-    this.getPrfile();
+    this.getPrfile(),
+    this.getusername(),
+    this.getIsAdmin();
   },
 }
 </script>
+
+s

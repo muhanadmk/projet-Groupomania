@@ -7,6 +7,7 @@
       <li class="nav-item me-5"><a href="#" class="nav-link px-2 text-muted"><i class="fab fa-google-plus"></i></a></li>
     </ul>
     <p class="text-center text-muted">&copy; 2021 Groupomania, Inc</p>
+    <!-- <img src="@/assets/icon-left-font-monochrome-white.png" class="image-logo" alt=""> -->
   </footer>
 </div>
 </template>
@@ -16,3 +17,9 @@ export default {
   name: "Footer",
 };
 </script>
+
+<style lang="scss" scoped>
+.image-logo{
+  width: 200px;
+}
+</style>

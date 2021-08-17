@@ -16,7 +16,8 @@
 
         </ul>
         <form class="d-flex">
-          <button class="btn btn-outline-danger me-2" type="submit" @click="LogOutUser">Logout</button>
+          <button type="button" class="btn btn-outline-info me-2" @click="getPrfileUser">profile</button>
+          <button class="btn btn-outline-danger me-2" type="button" @click="LogOutUser">Logout</button>
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
@@ -27,6 +28,7 @@
 
 
 <script>
+
 export default {
   name: "AppHeader",
  methods: {
@@ -36,7 +38,15 @@ export default {
       localStorage.removeItem('admin');
       localStorage.removeItem('ProfileUserId');
       this.$router.push("/");
-    }
-  }
+    },
+     getPrfileUser(e) {
+        e.preventDefault();
+        const userId = localStorage.getItem("userId");
+        const ProfileUserId = localStorage.setItem("ProfileUserId", userId);
+        this.$router.push("/profile");
+        console.log(ProfileUserId);
+    },
+  },
+  
 }
 </script>
