@@ -1,21 +1,40 @@
 <template>
-    <div>
-    <div class="form-row">
-       <label class="card__subtitle" for="file">Sélectionner une image: </label>
-        <input @change="onFileSelected" class="form-row__input" type="file" name="image" id="file" accept="image/png, image/jpg, image/jpeg, image/gif">
-    </div>
-    <div>
-      <label for="title">title this is onepost.post_id</label>
-      <input type="text" v-model="title" />
-    </div>
-
-    <div>
-      <label for="post">post</label>
-      <input type="text" v-model="post" />
-    </div>
-    <div>
-      <button type="submit" @click="modiferPost">modiferPost</button>
-    </div>
+ <div>
+    <form>
+      <div class="card mt-5 mb-5">
+        <div class="card-header">
+          <input
+            class="card-title"
+            id="title"
+            type="text"
+            v-model="title"
+            placeholder="ecrir votre title de post"
+          />
+        </div>
+        <div class="card-body">
+          <textarea
+            class="form-control card-text"
+            placeholder="ecrir votre post ici"
+            id="post"
+            type="text"
+            v-model="post"
+            style="height: 100px"
+          ></textarea>
+          <input
+            @change="onFileChangedModifer"
+            class="form-row__input mt-5 btn btn-secondary"
+            type="file"
+            name="imageUrlPost"
+            id="file"
+            accept="image/png, image/jpg, image/jpeg, image/gif"
+          />
+        </div>
+        <button class="btn btn-dark" type="submit" @click="modiferPost" >
+          modiferPost 
+        </button>
+        <!-- <p v-if="userId == userIdSrorge" > test</p> -->
+      </div>
+    </form>
   </div>
 </template>
 
@@ -23,7 +42,7 @@
 <script>
 import axios from "axios";
 export default {
-    lotOfPost: [] ,
+  props:['postProfiles'],
   name: "modifer-Post",
   data() {
     return {
@@ -31,19 +50,20 @@ export default {
       title: "",
       post: "",
       image: null,
-      userId :this.userId,
-      postId: this.postOne.post_id
+      userIdSrorge: this.userIdSrorge,
+      userId: this.postProfiles.user_id,
+      postId: this.postProfiles.post_id
     };
   },
    mounted() {
     console.log(this.message);
   },
   methods: {
-    onFileChanged(event) {
-      this.image = event.target.files[0];
+   onFileChangedModifer(event) {
+    this.image = event.target.files[0];
     },
-    async modiferPost(e) {
-      const userId = localStorage.getItem("userId");
+  async modiferPost(e) {
+    const userId = localStorage.getItem("userId");
       try {
         e.preventDefault();
         let formData = new FormData();
@@ -52,7 +72,7 @@ export default {
         formData.append("userId", userId);
         formData.append("image", this.image);
         const response = await axios.put(`posts/${this.postId}`, formData, {
-         headers: {
+          headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
           });
@@ -61,6 +81,12 @@ export default {
         console.log(error);
       }
     },
+    getUserId () {
+     this.userIdSrorge = localStorage.getItem('userId')
+    }
+  },
+  created() {
+    this.getUserId();
   }, 
 };
 </script>

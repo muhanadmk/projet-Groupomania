@@ -4,13 +4,12 @@
       <div class="col-md-8">
         <createPost />
         <div class="postes-aera">
-          <PostCard v-for="onepost in posts" v-bind:key="onepost.post_id" :onepost="onepost" />
-          <!-- <profile v-for="postOne in lotOfPost" v-bind:key="postOne.id" :postOne="postOne" /> -->
+          <PostCard v-for="Onepost in posts" v-bind:key="Onepost.post_id" :Onepost="Onepost" />
+          <!-- <modiferPost v-show="true" :posts="posts" /> -->
         </div>
       </div>
     </div>
   </div>
-  
 </template>
     <!-- <profile/> -->
 
@@ -20,7 +19,6 @@ import PostCard from "./PostCard.vue";
 // import profile from './profile.vue'
 
 import createPost from "../components/createPost.vue";
-
 
 import axios from "axios";
 export default {
@@ -34,7 +32,6 @@ export default {
   data() {
     return {
       posts: [],
-      // lotOfPost: [],
     };
   },
   methods: {
@@ -43,7 +40,7 @@ export default {
         const response = await axios.get("posts");
         console.log(response);
         this.posts = response.data;
-        // this.lotOfPost = response.data;
+        this.lotOfPost = response.data;
       } catch (error) {
         console.log(error);
       }

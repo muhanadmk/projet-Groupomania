@@ -1,32 +1,36 @@
 <template>
   <div class="card mt-5 mb-5">
     <div class="card-header">
-    <a type="submit" @click="getPrfile" >{{ post.username }}</a>
+    <!-- <a type="submit" @click="getPrfile" >{{ postProfile.username }}</a> -->
     </div>
     <div class="card-title">
-      <h5 class="card-title">{{post.title }} </h5>
+      <h5 class="card-title">{{postProfile.title }} </h5>
     </div>
     <div class="card-body">
-      <p class="card-text">{{ post.post }}</p>
-      <img class="card-img" v-bind:src="post.imagePostUrl" alt="...">
-      <p class="card-text text-dark">{{ post.datePost }}</p>
+      <p class="card-text">{{ postProfile.post }}</p>
+      <img class="card-img" v-bind:src="postProfile.imagePostUrl" alt="...">
+      <p class="card-text text-dark">{{ postProfile.datePost }}</p>
+      <DeletePost :postProfiles="postProfiles"/>
+      <modiferPost :postProfiles="postProfiles" />
     </div>
-    <button v-if="admin > 0" type="submit" class="btn btn-outline-danger" @click="AdminDeletePost"> Admin Delete Post</button>
-    <button v-else-if="admin <= 0" class="btn btn-outline-danger" @click="DeletePost">Delete Post</button>
   </div>
 </template>
 
 <script>
-// import createPost from "./createPost.vue"
+import DeletePost  from "./DeletePost.vue";
+import modiferPost  from "./modiferPost.vue";
+
 export default {
-  props: ['post'],
+  props: ['postProfile'],
   name: 'postsUser',
   components: {
-      // createPost,
+    DeletePost,
+    modiferPost
     },
     data() {
     return {
-      admin: this.admin
+      admin: this.admin,
+      postProfiles: this.postProfile,
     }
   },
   methods: {

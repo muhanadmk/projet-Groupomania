@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <div class="row">
-      <div class="col-md-4 mt-5">
+      <div class="col-md-4 mt-5 ">
         <div class="card" style="width: 18rem;">
           <img src="@/assets/icon-left-font.png" class="card-img-top" alt="...">
           <div class="card-body">
@@ -9,16 +9,17 @@
             <h4 class="card-title font-weight-bold">{{usernameData.username}} </h4>
             <p class="card-text"> il/ elle member chez Groupomania depuis <br> </p>
             <h5 class="card-text font-weight-bold">{{usernameData.dateUser}}</h5>
-              <button v-show="admin > 0"  class="btn btn-outline-danger" type="submit" @click="deleteUser" >Admin delete User</button>
-              <button v-show="admin <= 0" class="btn btn-outline-danger" type="submit" @click="deleteUser" >deleteUser</button>
+              <!-- <button v-show="admin > 0"  class="btn btn-outline-danger" type="submit" @click="deleteUser" >Admin delete User</button>
+              <button v-show="admin <= 0" class="btn btn-outline-danger" type="submit" @click="deleteUser" >deleteUser</button> -->
           </div>
         </div>
       </div>
-      
       <div class="col-md-8">
         <createPost />
         <div class="postes-aera">
-            <postsUser v-for="post in postOfUser" v-bind:key="post.post_id" :post="post" />
+            <postsUser v-for="postProfile in postsOfUser" v-bind:key="postProfile.post_id" :postProfile="postProfile"/>
+            <!-- <DeletePost :postsOfUser="postsOfUser"/> -->
+            <!-- <modifer-Post :postsOfUser="postsOfUser"/> -->
         </div>
       </div>
     </div>
@@ -33,17 +34,20 @@ import createPost  from "../components/createPost.vue";
 
 
 
+
 export default {
+    props:['postProfile'],
     name: 'profile',
     components: {
       postsUser,
-      createPost
+      createPost,
     },
     data() {
     return {
-      postOfUser : [],
+      postsOfUser : [],
       usernameData: [],
       admin: this.admin,
+      userId: this.userId,
       message : "",
     };
   },
@@ -52,7 +56,7 @@ export default {
       try {
         const ProfileUserId = localStorage.getItem("ProfileUserId");
         const response = await axios.get(`posts/profile/${ProfileUserId}`);
-        this.postOfUser = response.data;
+        this.postsOfUser = response.data;
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -68,50 +72,14 @@ export default {
         console.log(error);
       }
     },
-    async deleteUser() {
-      try {
-        const ProfileUserId = localStorage.getItem("ProfileUserId");
-        const response = await axios.delete(`users/${ProfileUserId}`,{
-            headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        });
-         localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('admin');
-        localStorage.removeItem('ProfileUserId');
-        this.$router.push("/");
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async AdminDeleteUser() {
-      try {
-        const ProfileUserId = localStorage.getItem("ProfileUserId");
-        const response = await axios.delete(`users/Admin/${ProfileUserId}`,{
-          data: { 
-            userId: this.userId  
-            },
-            headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-          }  
-        });
-        localStorage.removeItem('ProfileUserId');
-        this.$router.push("/");
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    },
      getIsAdmin () {
-     return this.admin = localStorage.getItem('admin');
+      this.admin = localStorage.getItem('admin')
+      this.userId = localStorage.getItem('userId')
     },
   },
   created() {
-    this.getPrfile(),
-    this.getusername(),
-    this.getIsAdmin();
+    this.getPrfile();
+    this.getusername();
   },
 }
 </script>

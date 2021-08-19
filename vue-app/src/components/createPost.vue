@@ -29,7 +29,7 @@
             accept="image/png, image/jpg, image/jpeg, image/gif"
           />
         </div>
-        <button class="btn btn-dark" type="submit" @click="createPost">
+        <button class="btn btn-dark" type="submit" @click="createPost" >
           createPost
         </button>
       </div>
@@ -43,7 +43,8 @@ export default {
   name: "createPost",
   data() {
     return {
-      userId: this.userId,
+      newPost: [],
+      // userId: this.userId,
       message: "",
       title: "",
       post: "",
@@ -52,8 +53,6 @@ export default {
   },
   mounted() {
     console.log(this.message);
-    // if (this.$store.state.user.userId == -1) {
-    //       this.$router.push('/login');
   },
   methods: {
     onFileChanged(event) {
@@ -61,6 +60,7 @@ export default {
     },
     async createPost(e) {
       const userId = localStorage.getItem("userId");
+      console.log(this.title);
       try {
         e.preventDefault();
         let formData = new FormData();
@@ -68,17 +68,26 @@ export default {
         formData.append("post", this.post);
         formData.append("userId", userId);
         formData.append("image", this.image);
-        const response = await axios.post("posts", formData, {
+        console.log(formData);
+        const response = await axios.post("posts", formData,{
          headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
           });
-        console.log(response);
-      } catch (error) {
+        console.log(response.data);
+        this.$router.push("/Home");
+      } 
+      catch (error) {
         console.log(error);
       }
     },
   },
+  // addPost() {
+  //     this.newPost.push({ NewPost: this.post, NewTitle: this.title});
+  //     // this.post = "";
+  //     // this.title = "";
+  //     // this.image = null;
+  //   },
 };
 </script>
 
