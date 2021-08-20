@@ -10,6 +10,7 @@
     <p class="card-text">{{ Onepost.post }}</p>
     <img class="card-img" v-bind:src="Onepost.imagePostUrl" alt="...">
     <p class="card-text text-dark">{{ Onepost.datePost }}</p>
+    <createComment :postsforComment="postsforComment" />
   </div>
 </div>
 
@@ -17,17 +18,19 @@
 
 <script>
 
+import createComment from "../components/createComment.vue"
 
 export default {
   props:["Onepost"],
   name: 'post-card',
   components: {
+    createComment
     // DeletePost
     // modiferPost
   },
   data() {
     return {
-      OnepostDelete: this.Onepost,
+      postsforComment: this.Onepost,
       userId: this.Onepost.id,
       postId: this.Onepost.post_id,
       title: "",

@@ -1,5 +1,6 @@
 <template>
 <div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog">
+  <auth/>
   <div class="modal-dialog" role="document">
     <div class="modal-content rounded-5 shadow">
       <div class="modal-header p-5 pb-4 border-bottom-0">
@@ -19,7 +20,7 @@
           </div>
           <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit" @click="submitLogin">log in</button>
            <div>
-              <router-link to="/"
+              <router-link to="/Singup"
                 ><a> not registered you must sige up</a>
               </router-link>
             </div>
@@ -35,6 +36,8 @@
 <script>
 // import { mapMutations } from "vuex";
 import axios from "axios";
+import auth from "../components/auth.vue";
+
 // import userCtrl from "../../../backend/controllers/user";
 
 export default {
@@ -43,7 +46,8 @@ export default {
     return {
       email: "",
       password: "",
-      error : null
+      error : null,
+      auth
     };
   },
   methods: {
@@ -54,6 +58,7 @@ export default {
           email: this.email,
           password: this.password,
         });
+        // localStorage.setItem("token",JSON.stringify(response.data.token))
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.userId);
         localStorage.setItem('admin', response.data.admin);

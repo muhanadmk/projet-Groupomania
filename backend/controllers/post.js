@@ -3,12 +3,19 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const db = require("../db_conextion/db_conextion");
 const fs = require("fs");
+const { set } = require("../app");
 
 exports.writePost = (req, res, next) => {
-  // if (req.file.filename = undefined) {
-  //   console.log("image undefined");
-  //   delete newPost.imagePostUrl;
-  // }
+  db.query(
+    "SELECT username FROM users WHERE id = ?",
+    req.body.userId,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      const username = result[0].username;
   const newPost = {
     user_id: req.body.userId,
     title: req.body.title,
@@ -17,17 +24,19 @@ exports.writePost = (req, res, next) => {
   };
 
   if (newPost.title == "" || newPost.post == "") {
-    return res.status(400).json({ error: "missing parameters" });
+    return res.status(204).json({ error: "missing parameters" });
   }
-
   db.query("INSERT INTO posts SET ?", newPost, (err, result) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
       return;
     }
-    return res.status(201).json(newPost);
+    let NewPost = Object.assign(newPost, {5: { username: username } });
+    console.log(NewPost);
+    return res.status(201).json(NewPost);
   });
+});
 };
 
 exports.deletePost = (req, res, next) => {
@@ -66,11 +75,13 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.modifierPost = (req, res, next) => {
-  const objectPost = req.file ? 
-      {
+  const objectPost = req.file
+    ? {
         title: req.body.title,
         post: req.body.post,
-        imagePostUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+        imagePostUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
       }
     : {
         title: req.body.title,
@@ -116,7 +127,9 @@ exports.modifierPost = (req, res, next) => {
 exports.getPostsProfile = (req, res, next) => {
   userId = req.params.id;
   db.query(
-    "SELECT * FROM `posts` WHERE posts.user_id = ? ORDER BY datePost DESC", userId, (err, postsUser) => {
+    "SELECT * FROM `posts` WHERE posts.user_id = ? ORDER BY datePost DESC",
+    userId,
+    (err, postsUser) => {
       if (err) {
         console.log(err);
         res.sendStatus(500);
@@ -128,7 +141,8 @@ exports.getPostsProfile = (req, res, next) => {
 };
 
 exports.getAllPsot = (req, res, next) => {
-  db.query("SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY datePost DESC",
+  db.query(
+    "SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY datePost DESC",
     (err, result) => {
       if (err) {
         console.log(err);

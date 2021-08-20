@@ -1,25 +1,25 @@
 <template>
   <div id="app">
-    <AppHeader />
     <router-view/>
-    <div>
-     <Footer />
-    </div>
+    <auth/>
+    <Footer/>
   </div>
 </template>
 
 
 <script>
-import AppHeader from "./components/AppHeader.vue"
+// import AppHeader from "./components/AppHeader.vue"
 import Footer from "./components/Footer.vue"
+import auth from "./components/auth.vue"
+
 
 export default {
  name: "app",
  components: {
-   AppHeader,
-   Footer
-   
-  }
+  //  AppHeader,
+   Footer,
+   auth
+  },
 }
 </script>
 <style lang="scss">

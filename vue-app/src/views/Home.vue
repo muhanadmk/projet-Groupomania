@@ -1,33 +1,34 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <createPost />
-        <div class="postes-aera">
-          <PostCard v-for="Onepost in posts" v-bind:key="Onepost.post_id" :Onepost="Onepost" />
-          <!-- <modiferPost v-show="true" :posts="posts" /> -->
+  <div>
+  <AppHeader /> 
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <createPost @newPostAdded="addNewPost"  />
+          <div class="postes-aera">
+            <PostCard v-for="Onepost in posts" v-bind:key="Onepost.post_id" :Onepost="Onepost" />
+          </div>
         </div>
       </div>
     </div>
+    <!-- <Footer /> -->
   </div>
 </template>
-    <!-- <profile/> -->
 
 <script>
+import AppHeader from "../components/AppHeader.vue"
+// import Footer from "../components/Footer.vue"
 import PostCard from "./PostCard.vue";
-// import modiferPost from "../components/modiferPost.vue";
-// import profile from './profile.vue'
-
 import createPost from "../components/createPost.vue";
 
 import axios from "axios";
 export default {
    name: "Home",
   components: {
+    AppHeader,
     PostCard,
     createPost,
-    // profile
-    // modiferPost
+    //  Footer
   },
   data() {
     return {
@@ -35,6 +36,9 @@ export default {
     };
   },
   methods: {
+    addNewPost(post){
+      this.posts.unshift(post)
+    },
     async getData() {
       try {
         const response = await axios.get("posts");

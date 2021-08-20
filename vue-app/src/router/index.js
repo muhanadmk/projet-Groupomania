@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Singup from '../views/Singup.vue'
 import Login from '../views/Login.vue'
 import profile from '../views/profile.vue'
+// import auth from '../views/auth.vue'
+
 
 
 
@@ -12,18 +14,23 @@ Vue.use(VueRouter)
 
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'auth',
+  //   component: auth,
+  // },
   {
     path: '/Home',
     name: 'Home',
     component: Home,
   },
   {
-    path: '/',
+    path: '/Singup',
     name: 'Singup',
     component: Singup
   }, 
   {
-    path: '/Login',
+    path: '/',
     name: 'Login',
     component: Login
   },

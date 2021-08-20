@@ -1,7 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark mb-10">
     <div class="container-fluid">
-       <router-link to="/Home"><a class="navbar-brand text-light">Groupomania</a></router-link>
+       <router-link to="/Home"><a class="navbar-brand text-light"> Groupomania</a></router-link>
+        <!-- <router-link to="/Login"
+                ><a> Already registered sign in?</a>
+              </router-link> -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

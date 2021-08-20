@@ -1,36 +1,27 @@
 <template>
-  <div class="bt">
+     <div class="bt">
     <form>
       <div class="card mt-5 mb-5">
-        <div class="card-header">
-          <input
-            class="card-title"
-            id="title"
-            type="text"
-            v-model="title"
-            placeholder="ecrir votre title de post"
-          />
-        </div>
         <div class="card-body">
           <textarea
             class="form-control card-text"
-            placeholder="ecrir votre post ici"
-            id="post"
+            placeholder="ecrir votre Comment ici"
+            id="Comment"
             type="text"
-            v-model="post"
+            v-model="Comment"
             style="height: 100px"
           ></textarea>
           <input
-            @change="onFileChanged"
+            @change="onFileChangedComment"
             class="form-row__input mt-5 btn btn-secondary"
             type="file"
-            name="imageUrlPost"
+            name="imageCommentUrl"
             id="file"
             accept="image/png, image/jpg, image/jpeg, image/gif"
           />
         </div>
-        <button class="btn btn-dark" type="submit" @click="createPost">
-          createPost
+        <button class="btn btn-dark" type="submit" @click="createComment">
+          createComment
         </button>
       </div>
     </form>
@@ -39,14 +30,15 @@
 
 <script>
 import axios from "axios";
+
 export default {
-  name: "createPost",
-  data() {
+    props: ['postsforComment'],
+    name: "createComment",
+ data() {
     return {
-      // newPost: [],
       message: "",
-      title: "",
-      post: "",
+      Comment: this.postsforComment.Comment,
+      postId: this.postsforComment.post_id ,
       image: null,
     };
   },
@@ -54,30 +46,25 @@ export default {
     console.log(this.message);
   },
   methods: {
-    onFileChanged(event) {
+    onFileChangedComment(event) {
       this.image = event.target.files[0];
     },
-    async createPost(e) {
+    async createComment(e) {
       const userId = localStorage.getItem("userId");
       try {
         e.preventDefault();
         let formData = new FormData();
-        formData.append("title", this.title);
-        formData.append("post", this.post);
-        formData.append("userId", userId);
+        formData.append("Comment", this.Comment);
+        formData.append("post_id", this.postId);
+        formData.append("user_id", userId);
         formData.append("image", this.image);
-        const response = await axios.post("posts/newPost", formData, {
+        const response = await axios.post("comments/newComment", formData, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
         // this.newPost = response.data;
         console.log(response.data);
-        this.$emit('newPostAdded',response.data)
-        this.title = "";
-        this.post = "";
-        this.image = null;
-
       } catch (error) {
         console.log(error);
       }
@@ -85,9 +72,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.bt {
-  margin-top: 80px !important;
-}
-</style>

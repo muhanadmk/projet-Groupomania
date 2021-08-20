@@ -167,5 +167,5 @@ exports.getUser = (req, res, next) => {
 };
 
 exports.autoLogin = (req, res, next) => {
-  return res.status(200).json("Welcome 🙌 ");
+  return res.status(200).json("Welcome 🙌 Welcome 🙌 ");
 };

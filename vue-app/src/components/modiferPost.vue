@@ -77,6 +77,7 @@ export default {
           }
           });
         console.log(response);
+        // EventBus.$emit('postModified',post);
       } catch (error) {
         console.log(error);
       }
