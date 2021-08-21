@@ -8,7 +8,7 @@ const { set } = require("../app");
 exports.writePost = (req, res, next) => {
   db.query(
     "SELECT username FROM users WHERE id = ?",
-    req.body.userId,
+    req.body.decodedToken.userId,
     (err, result) => {
       if (err) {
         console.log(err);
@@ -17,7 +17,7 @@ exports.writePost = (req, res, next) => {
       }
       const username = result[0].username;
   const newPost = {
-    user_id: req.body.userId,
+    user_id: req.body.decodedToken.userId,
     title: req.body.title,
     imagePostUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
     post: req.body.post,
@@ -32,7 +32,7 @@ exports.writePost = (req, res, next) => {
       res.sendStatus(500);
       return;
     }
-    let NewPost = Object.assign(newPost, {5: { username: username } });
+    let NewPost = Object.assign(newPost, {username: { username: username } });
     console.log(NewPost);
     return res.status(201).json(NewPost);
   });
@@ -49,8 +49,7 @@ exports.deletePost = (req, res, next) => {
         throw err;
       }
       const userid = result[0].user_id;
-      // console.log(result[0].imagePostUrl);
-      userId = req.body.userId;
+      userId =  req.body.decodedToken.userId;
       if (userid == userId) {
         const filename = result[0].imagePostUrl.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
@@ -98,7 +97,7 @@ exports.modifierPost = (req, res, next) => {
         return;
       }
       const userid = result[0].user_id;
-      const userId = req.body.userId;
+      const userId = req.body.decodedToken.userId;
       if (userId == userid) {
         if (req.body.post == null || req.body.post == null) {
           return res
@@ -127,7 +126,7 @@ exports.modifierPost = (req, res, next) => {
 exports.getPostsProfile = (req, res, next) => {
   userId = req.params.id;
   db.query(
-    "SELECT * FROM `posts` WHERE posts.user_id = ? ORDER BY datePost DESC",
+    "SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id AND  users.id = ? ORDER BY datePost DESC",
     userId,
     (err, postsUser) => {
       if (err) {
@@ -135,7 +134,12 @@ exports.getPostsProfile = (req, res, next) => {
         res.sendStatus(500);
         return;
       }
-      return res.status(200).json(postsUser);
+      for (let i = 0; i < postsUser.length; i++) {
+        delete postsUser[i].password;
+        delete postsUser[i].email;
+        res.status(200).json(postsUser);
+        return;
+      }
     }
   );
 };
@@ -149,28 +153,19 @@ exports.getAllPsot = (req, res, next) => {
         res.sendStatus(500);
         return;
       }
-      res.status(200).json(result);
-      return;
+      for (let i = 0; i < result.length; i++) {
+        delete result[i].password;
+        delete result[i].email;
+        res.status(200).json(result);
+        return;
+      }
     }
   );
 };
 
-// exports.AdminPostDelete = (req, res, next) => {
-//   db.query("DELETE FROM `posts` WHERE post_id = 238", (err, result) => {
-//     if (err) {
-//       console.log(err);
-//       res.sendStatus(500);
-//       return;
-//     }
-//     res.status(200).json({ message: "post deleted !" });
-//     return;
-//   });
-// };
 exports.AdminPostDelete = (req, res, next) => {
   const idPost = req.params.id;
-  const userIdAdmin = req.body.userId;
-  console.log("idPost", idPost);
-  console.log("userIdAdmin", userIdAdmin);
+  const userIdAdmin = req.body.decodedToken.userId;
   db.query(
     "SELECT admin FROM users WHERE id = ?",
     userIdAdmin,

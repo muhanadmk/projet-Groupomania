@@ -37,6 +37,8 @@
 // import { mapMutations } from "vuex";
 import axios from "axios";
 import auth from "../components/auth.vue";
+// import AppHeader from "../components/AppHeader.vue"
+
 
 // import userCtrl from "../../../backend/controllers/user";
 
@@ -47,9 +49,11 @@ export default {
       email: "",
       password: "",
       error : null,
-      auth
-    };
+    }
   },
+  components: {
+      auth
+    },
   methods: {
     async submitLogin(e) {
       try {

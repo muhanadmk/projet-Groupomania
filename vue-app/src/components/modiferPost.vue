@@ -42,7 +42,7 @@
 <script>
 import axios from "axios";
 export default {
-  props:['postProfiles'],
+  props:['postProfiles', 'post_id_Mddifier'],
   name: "modifer-Post",
   data() {
     return {
@@ -52,7 +52,8 @@ export default {
       image: null,
       userIdSrorge: this.userIdSrorge,
       userId: this.postProfiles.user_id,
-      postId: this.postProfiles.post_id
+      postId: this.postProfiles.post_id,
+      postIdd: this.post_id_Mddifier
     };
   },
    mounted() {
@@ -63,20 +64,22 @@ export default {
     this.image = event.target.files[0];
     },
   async modiferPost(e) {
-    const userId = localStorage.getItem("userId");
       try {
         e.preventDefault();
         let formData = new FormData();
         formData.append("title", this.title);
         formData.append("post", this.post);
-        formData.append("userId", userId);
         formData.append("image", this.image);
         const response = await axios.put(`posts/${this.postId}`, formData, {
           headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
           });
-        console.log(response);
+          this.$root.$emit('modferPost')
+          this.title = "";
+          this.post = "";
+          this.image = null;
+          console.log(response);
         // EventBus.$emit('postModified',post);
       } catch (error) {
         console.log(error);

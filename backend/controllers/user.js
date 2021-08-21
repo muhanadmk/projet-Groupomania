@@ -122,13 +122,12 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.AdminDeleteUser = (req, res, next) => {
-  const userIdAdmin = req.body.userId;
+  const userIdAdmin = req.body.decodedToken.userId;
   const userId = req.params.id;
   db.query(
     "SELECT admin FROM users WHERE id = ?",
     userIdAdmin,
     (err, result) => {
-      console.log("result[0].admin", result[0].admin);
       if (err) {
         console.log(err);
         res.sendStatus(500);

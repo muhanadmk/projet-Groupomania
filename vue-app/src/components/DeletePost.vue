@@ -35,32 +35,29 @@ export default {
       return (this.admin = localStorage.getItem("admin"));
     },
     async AdminDeletePost(e) {
+       e.preventDefault();
       try {
-        e.preventDefault();
         // const userId = localStorage.getItem("userId");
         const response = await axios.delete(`posts/Admin/${this.postIdProfile}`, {
-          data: {
-            userId: localStorage.getItem("userId"),
-          },
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
+        this.$root.$emit('DeletePost',this.postIdProfile)
         console.log(response);
       } catch (error) {
         console.log(error);
       }
     },
-    async DeletePost() {
+    async DeletePost(e) {
+      e.preventDefault();
       try {
         const response = await axios.delete(`posts/${this.postIdProfile}`, {
-          data: {
-            userId: localStorage.getItem("userId"),
-          },
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
+        this.$root.$emit('DeletePost',this.postIdProfile)
         console.log(response);
       } catch (error) {
         console.log(error);

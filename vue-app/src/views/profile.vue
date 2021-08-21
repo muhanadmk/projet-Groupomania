@@ -1,8 +1,9 @@
 <template>
+<div>
 <div class="container">
     <div class="row">
-      <div class="col-md-4 mt-5 ">
-        <div class="card" style="width: 18rem;">
+      <div class="col-sm-3 col-md-8 mt-5 col-lg-4 ">
+        <div class="card profile">
           <img src="@/assets/icon-left-font.png" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">c'est un profile de M ou MMe </h5>
@@ -14,14 +15,16 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8">
-        <createPost @newPostAdded="addNewPost"  :newPost="newPost"/>
+      <div class="col-md-12 col-lg-8">
+        <createPost @newPostAdded="addNewPost" :newPost="newPost"/>
         <div class="postes-aera">
-            <postsUser v-for="postProfile in postsOfUser" v-bind:key="postProfile.post_id" :postProfile="postProfile"/>
+            <postsUser v-for="postProfile in postsOfUser" v-bind:key="postProfile.post_id" :postProfile="postProfile" :username="postProfile.username" />
         </div>
       </div>
     </div>
   </div>
+
+</div>
 </template>
 
 
@@ -29,7 +32,6 @@
 import axios from "axios";
 import postsUser from "../components/postsUser.vue";
 import createPost  from "../components/createPost.vue";
-
 
 export default {
     props:['postProfile','newPost'],
@@ -93,6 +95,23 @@ export default {
         console.log(error);
       }
     },
+     async autoLogin() {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const response = await axios.get("users/auth", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          });
+          console.log(response.data);
+        } else {
+          this.$router.push("/Singup");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getPrfile() {
       try {
         const ProfileUserId = localStorage.getItem("ProfileUserId");
@@ -120,6 +139,14 @@ export default {
     },
   },
   created() {
+    this.autoLogin();
+    this.$root.$on('DeletePost', (post_id)=>{
+      console.log(post_id)
+     this.getPrfile();
+    })
+    this.$root.$on('modferPost',()=>{
+       this.getPrfile();
+    })
     this.getIsAdmin();
     this.getPrfile();
     this.getusername();
@@ -127,4 +154,8 @@ export default {
 }
 </script>
 
-s
+<style scoped>
+.profile{
+  margin-top: 29px;
+}
+</style>

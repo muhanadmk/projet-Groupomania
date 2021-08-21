@@ -22,14 +22,14 @@
           ></textarea>
           <input
             @change="onFileChanged"
-            class="form-row__input mt-5 btn btn-secondary"
+            class="form-row__input mt-5 btn"
             type="file"
             name="imageUrlPost"
             id="file"
             accept="image/png, image/jpg, image/jpeg, image/gif"
           />
         </div>
-        <button class="btn btn-dark" type="submit" @click="createPost">
+        <button class="btn btn-dark" type="submit" @click.prevent="createPost">
           createPost
         </button>
       </div>
@@ -43,43 +43,40 @@ export default {
   name: "createPost",
   data() {
     return {
-      // newPost: [],
       message: "",
       title: "",
       post: "",
       image: null,
     };
   },
-  mounted() {
-    console.log(this.message);
-  },
+  // mounted() {
+  //   console.log(this.message);
+  // },
   methods: {
     onFileChanged(event) {
       this.image = event.target.files[0];
     },
-    async createPost(e) {
-      const userId = localStorage.getItem("userId");
+    async createPost() {
+      if(this.image != null){
       try {
-        e.preventDefault();
         let formData = new FormData();
         formData.append("title", this.title);
         formData.append("post", this.post);
-        formData.append("userId", userId);
         formData.append("image", this.image);
-        const response = await axios.post("posts/newPost", formData, {
+        const response = await axios.post("posts", formData, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
         // this.newPost = response.data;
         console.log(response.data);
-        this.$emit('newPostAdded',response.data)
+        this.$root.$emit('newPostAdded')
         this.title = "";
         this.post = "";
         this.image = null;
-
       } catch (error) {
         console.log(error);
+      }
       }
     },
   },

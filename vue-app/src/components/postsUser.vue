@@ -1,9 +1,11 @@
 <template>
   <div class="card mt-5 mb-5">
     <div class="card-header">
-    <!-- <a type="submit" @click="getPrfile" >{{ postProfile.username }}</a> -->
+      <a type="submit" v-if="postProfile.username">{{ postProfile.username }}</a>
+      <a type="submit" v-if="postProfile.username.username">{{ postProfile.username[0].username }}</a>
     </div>
     <div class="card-title">
+       <!-- <h4>{{postProfile.username}}</hh4> -->
       <h5 class="card-title">{{postProfile.title }} </h5>
     </div>
     <div class="card-body">
