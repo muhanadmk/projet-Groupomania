@@ -3,12 +3,11 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const db = require("../db_conextion/db_conextion");
 const fs = require("fs");
-const { set } = require("../app");
 
 exports.writePost = (req, res, next) => {
   db.query(
     "SELECT username FROM users WHERE id = ?",
-    req.body.decodedToken.userId,
+    req.params.userId,
     (err, result) => {
       if (err) {
         console.log(err);
@@ -16,13 +15,16 @@ exports.writePost = (req, res, next) => {
         return;
       }
       const username = result[0].username;
-  const newPost = {
-    user_id: req.body.decodedToken.userId,
-    title: req.body.title,
-    imagePostUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-    post: req.body.post,
-  };
-
+    const newPost = {
+      user_id: req.body.decodedToken.userId,
+      title: req.body.title,
+      imagePostUrl: null,
+      post: req.body.post,
+    };
+    if (req.file && req.file.filename) {
+      newPost.imagePostUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    }
+  
   if (newPost.title == "" || newPost.post == "") {
     return res.status(204).json({ error: "missing parameters" });
   }
@@ -33,7 +35,7 @@ exports.writePost = (req, res, next) => {
       return;
     }
     let NewPost = Object.assign(newPost, {username: { username: username } });
-    console.log(NewPost);
+
     return res.status(201).json(NewPost);
   });
 });
@@ -51,6 +53,8 @@ exports.deletePost = (req, res, next) => {
       const userid = result[0].user_id;
       userId =  req.body.decodedToken.userId;
       if (userid == userId) {
+        const imege = result[0].imagePostUrl
+        if (imege != null) {
         const filename = result[0].imagePostUrl.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           db.query(
@@ -66,6 +70,21 @@ exports.deletePost = (req, res, next) => {
             }
           );
         });
+      }else {
+        db.query(
+          "DELETE FROM `posts` WHERE post_id = ?",
+          idPost,
+          (err, result) => {
+            if (err) {
+              console.log(err);
+              res.sendStatus(500);
+              return;
+            }
+            return res.status(200).json({ message: "post deleted !" });
+          }
+        );
+      }
+
       } else {
         res.status(401).json({ message: "Invalid user ID !" });
       }
@@ -124,6 +143,8 @@ exports.modifierPost = (req, res, next) => {
 };
 
 exports.getPostsProfile = (req, res, next) => {
+  const page = req.query.page;
+  const limit = req.query.limit;
   userId = req.params.id;
   db.query(
     "SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id AND  users.id = ? ORDER BY datePost DESC",
@@ -145,6 +166,8 @@ exports.getPostsProfile = (req, res, next) => {
 };
 
 exports.getAllPsot = (req, res, next) => {
+  const page = req.query.page;
+  const limit = req.query.limit;
   db.query(
     "SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY datePost DESC",
     (err, result) => {
@@ -165,7 +188,7 @@ exports.getAllPsot = (req, res, next) => {
 
 exports.AdminPostDelete = (req, res, next) => {
   const idPost = req.params.id;
-  const userIdAdmin = req.body.decodedToken.userId;
+  const userIdAdmin = req.params.adminId;
   db.query(
     "SELECT admin FROM users WHERE id = ?",
     userIdAdmin,

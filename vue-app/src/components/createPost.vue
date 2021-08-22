@@ -5,7 +5,7 @@
         <div class="card-header">
           <input
             class="card-title"
-            id="title"
+            id="titlePost"
             type="text"
             v-model="title"
             placeholder="ecrir votre title de post"
@@ -15,7 +15,7 @@
           <textarea
             class="form-control card-text"
             placeholder="ecrir votre post ici"
-            id="post"
+            id="postCreate"
             type="text"
             v-model="post"
             style="height: 100px"
@@ -25,7 +25,7 @@
             class="form-row__input mt-5 btn"
             type="file"
             name="imageUrlPost"
-            id="file"
+            id="fileCreate"
             accept="image/png, image/jpg, image/jpeg, image/gif"
           />
         </div>
@@ -57,19 +57,22 @@ export default {
       this.image = event.target.files[0];
     },
     async createPost() {
-      if(this.image != null){
+      // if(this.image != null){
       try {
+        const userId = localStorage.getItem("userId");
         let formData = new FormData();
+        // formData.append("userId", userId);
         formData.append("title", this.title);
         formData.append("post", this.post);
         formData.append("image", this.image);
-        const response = await axios.post("posts", formData, {
+        const response = await axios.post(`posts/crerte/${userId}`, formData, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
         // this.newPost = response.data;
         console.log(response.data);
+      
         this.$root.$emit('newPostAdded')
         this.title = "";
         this.post = "";
@@ -77,7 +80,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      }
+      // }
     },
   },
 };

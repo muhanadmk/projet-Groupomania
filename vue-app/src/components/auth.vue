@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center">  </h1>
+  <p class="container-fluid bg-dark" v-if="message"></p>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ export default {
   name: "auth",
   data() {
     return {
-      message: this.message,
+      message: "",
     };
   },
   methods: {
@@ -22,10 +22,11 @@ export default {
               Authorization: "Bearer " + token,
             },
           });
-          console.log(response.data);
+         this.response = response;
           this.$router.push("/Home");
         } else {
-          this.message = "to dpit sin in";
+          this.message = "you must log in";
+          this.$router.push("/");
         }
       } catch (error) {
         console.log(error);
@@ -37,3 +38,7 @@ export default {
   },
 };
 </script>
+
+<style>
+
+</style>

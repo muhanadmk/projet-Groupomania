@@ -8,7 +8,7 @@ router.get('/auth',auth , userCtlr.autoLogin);
 router.post('/signup', userCtlr.signup);
 router.post('/login' ,userCtlr.login);
 router.delete('/:id',auth ,userCtlr.deleteUser);
-router.delete('/Admin/:id',auth ,userCtlr.AdminDeleteUser);
+router.delete('/:AdminID/:id',auth ,userCtlr.AdminDeleteUser);
 router.get('/profile/:id',userCtlr.getUser);
 
 

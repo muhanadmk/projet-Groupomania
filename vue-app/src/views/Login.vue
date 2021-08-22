@@ -34,13 +34,8 @@
 </template>
 
 <script>
-// import { mapMutations } from "vuex";
 import axios from "axios";
 import auth from "../components/auth.vue";
-// import AppHeader from "../components/AppHeader.vue"
-
-
-// import userCtrl from "../../../backend/controllers/user";
 
 export default {
   name: "Login",
@@ -62,11 +57,11 @@ export default {
           email: this.email,
           password: this.password,
         });
-        // localStorage.setItem("token",JSON.stringify(response.data.token))
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.userId);
         localStorage.setItem('admin', response.data.admin);
-        // this.$store.dispatch('username', response.data.username)
+         this.email = "",
+         this.password= "",
         this.$router.push("/Home");
       } catch (error) {
         this.error = error.response.data.error

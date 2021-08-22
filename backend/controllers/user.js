@@ -110,7 +110,8 @@ exports.deleteUser = (req, res, next) => {
       res.sendStatus(500);
       return;
     }
-    if (result[0] && userId == result[0].id) {
+    console.log(result[0].id);
+    if (result[0].id && userId == result[0].id) {
       db.query("DELETE FROM users WHERE id = ?", userId, (err, result) => {
         if (err) throw err;
         res.status(200).json({ message: "Utilisateur supprimé !" });
@@ -122,7 +123,7 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.AdminDeleteUser = (req, res, next) => {
-  const userIdAdmin = req.body.decodedToken.userId;
+  const userIdAdmin = req.params.AdminID;
   const userId = req.params.id;
   db.query(
     "SELECT admin FROM users WHERE id = ?",

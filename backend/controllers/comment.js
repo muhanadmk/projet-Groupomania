@@ -1,6 +1,3 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 const db = require('../db_conextion/db_conextion');
 const dotenv = require('dotenv').config();
 
@@ -22,9 +19,10 @@ exports.writeComment = (req, res, next) => {
   });
 };
 
-exports.getAllComments = (req, res, next) => {
+
+exports.getCommentsProfle = (req, res, next) => {
   const idPost = req.params.id;
-  let sql ='SELECT * FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.post_id = ? ORDER BY dateComment DESC'
+  let sql ='SELECT * FROM comments INNER JOIN users ON comments.user_id = users.id AND  users.id = ?';
   db.query(sql, idPost, (err, result)=>{
     if (err) {
       return res.status(500).json({ message: " err sql !" });
@@ -37,18 +35,13 @@ exports.getAllComments = (req, res, next) => {
   });
 };
 
-
-
-
-
-
 exports.deleteComment = (req, res, next) => {
    const idComment = req.params.id;
   db.query('SELECT * FROM comments WHERE Comment_id = ?', idComment, (err, result, field)=>{
     if (err) {
       return res.status(500).json({ message: " err sql !" });
     }
-    if (req.body.user_id == result[0].user_id) {
+    if (req.params.User == result[0].user_id) {
       db.query('DELETE FROM comments WHERE Comment_id = ?', idComment, (err, result, field) =>{
           if (err) {
             res.status(500).json({ message: " err sql !" });
@@ -63,7 +56,7 @@ exports.deleteComment = (req, res, next) => {
 };
 
 exports.AdminDeleteComment = (req, res, next) => {
-  const userIdAdmin = req.body.decodedToken.userId;
+  const userIdAdmin = req.params.idAdmin;
   const idComment = req.params.id;
   db.query("SELECT admin FROM users WHERE id = ?", userIdAdmin,(err, result, field) => {
       if (err) {
@@ -85,3 +78,4 @@ exports.AdminDeleteComment = (req, res, next) => {
       }
     });
 };
+

@@ -1,11 +1,10 @@
 <template>
- <div>
+ <div class="text-start">
     <form>
-      <div class="card mt-5 mb-5">
+      <div class="card mt-5 mb-5"  v-show="modifer">
         <div class="card-header">
           <input
             class="card-title"
-            id="title"
             type="text"
             v-model="title"
             placeholder="ecrir votre title de post"
@@ -15,7 +14,6 @@
           <textarea
             class="form-control card-text"
             placeholder="ecrir votre post ici"
-            id="post"
             type="text"
             v-model="post"
             style="height: 100px"
@@ -25,16 +23,15 @@
             class="form-row__input mt-5 btn btn-secondary"
             type="file"
             name="imageUrlPost"
-            id="file"
             accept="image/png, image/jpg, image/jpeg, image/gif"
           />
         </div>
-        <button class="btn btn-dark" type="submit" @click="modiferPost" >
+        <button class="mt-2 btn btn-dark" type="submit" @click="modiferPost" >
           modiferPost 
         </button>
-        <!-- <p v-if="userId == userIdSrorge" > test</p> -->
       </div>
     </form>
+    <button class="btn btn-dark mt-2" @click="afichageModifier">modifer</button>
   </div>
 </template>
 
@@ -42,18 +39,18 @@
 <script>
 import axios from "axios";
 export default {
-  props:['postProfiles', 'post_id_Mddifier'],
+  props:['post_Modifier'],
   name: "modifer-Post",
   data() {
     return {
       message: "",
-      title: "",
-      post: "",
-      image: null,
-      userIdSrorge: this.userIdSrorge,
-      userId: this.postProfiles.user_id,
-      postId: this.postProfiles.post_id,
-      postIdd: this.post_id_Mddifier
+      title: this.post_Modifier.title,
+      post: this.post_Modifier.post,
+      image: this.post_Modifier.image,
+      userId: this.post_Modifier.user_id,
+      postId: this.post_Modifier.post_id,
+      modifer: false,
+      // btnPourModifer: true,
     };
   },
    mounted() {
@@ -63,11 +60,16 @@ export default {
    onFileChangedModifer(event) {
     this.image = event.target.files[0];
     },
+    afichageModifier(){
+      this.modifer =true; 
+    },
   async modiferPost(e) {
       try {
         e.preventDefault();
         let formData = new FormData();
+        const userId = localStorage.getItem("userId");
         formData.append("title", this.title);
+        formData.append("userId",userId);
         formData.append("post", this.post);
         formData.append("image", this.image);
         const response = await axios.put(`posts/${this.postId}`, formData, {
@@ -76,21 +78,12 @@ export default {
           }
           });
           this.$root.$emit('modferPost')
-          this.title = "";
-          this.post = "";
-          this.image = null;
+          this.modifer =false;
           console.log(response);
-        // EventBus.$emit('postModified',post);
       } catch (error) {
         console.log(error);
       }
     },
-    getUserId () {
-     this.userIdSrorge = localStorage.getItem('userId')
-    }
-  },
-  created() {
-    this.getUserId();
-  }, 
+  }
 };
 </script>

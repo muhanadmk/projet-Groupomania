@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-end">
     <button
       v-if="admin > 0"
       class="btn btn-outline-danger"
@@ -21,12 +21,10 @@
 import axios from "axios";
 
 export default {
-  props: ["postProfiles","OnepostDelete" ],
+  props: ["post_ID" ],
   name: "DeletePost",
   data() {
     return {
-      postIdProfile: this.postProfiles.post_id,
-    //   postIdHome: this.OnepostDelete.post_id,
       admin: this.admin,
     };
   },
@@ -37,13 +35,14 @@ export default {
     async AdminDeletePost(e) {
        e.preventDefault();
       try {
-        // const userId = localStorage.getItem("userId");
-        const response = await axios.delete(`posts/Admin/${this.postIdProfile}`, {
+        const userId= localStorage.getItem("userId");
+        const response = await axios.delete(`posts/Admin/${this.post_ID}/${userId}`, {
+         
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        this.$root.$emit('DeletePost',this.postIdProfile)
+        this.$root.$emit('DeletePost',this.post_ID)
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -52,12 +51,12 @@ export default {
     async DeletePost(e) {
       e.preventDefault();
       try {
-        const response = await axios.delete(`posts/${this.postIdProfile}`, {
+        const response = await axios.delete(`posts/${this.post_ID}`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        this.$root.$emit('DeletePost',this.postIdProfile)
+        this.$root.$emit('DeletePost',this.post_ID)
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -67,5 +66,8 @@ export default {
   created() {
     this.getIsAdmin();
   },
+  beforeCreate() {
+    
+  }
 };
 </script>

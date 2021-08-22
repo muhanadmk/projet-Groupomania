@@ -1,48 +1,40 @@
 <template>
-  <div class="card mt-5 mb-5">
+  <article class="card mt-5 mb-5" v-if="postProfile" >
     <div class="card-header">
-      <a type="submit" v-if="postProfile.username">{{ postProfile.username }}</a>
-      <a type="submit" v-if="postProfile.username.username">{{ postProfile.username[0].username }}</a>
+      <p class="fs-4" type="submit"  >{{postProfile.username}}</p>
     </div>
-    <div class="card-title">
-       <!-- <h4>{{postProfile.username}}</hh4> -->
-      <h5 class="card-title">{{postProfile.title }} </h5>
-    </div>
+    <p class="card-title fs-4">{{ postProfile.title }}</p>
     <div class="card-body">
       <p class="card-text">{{ postProfile.post }}</p>
-      <img class="card-img" v-bind:src="postProfile.imagePostUrl" alt="...">
+      <img class="card-img" v-if="postProfile.imagePostUrl" v-bind:src="postProfile.imagePostUrl" alt="..." />
       <p class="card-text text-dark">{{ postProfile.datePost }}</p>
-      <DeletePost :postProfiles="postProfiles"/>
-      <modiferPost :postProfiles="postProfiles" />
     </div>
-  </div>
+    <CommentCard postProfileID:="postProfile.post_id" CommentIdProfile:="postProfile.post_id"/>
+  </article>
 </template>
 
 <script>
-import DeletePost  from "./DeletePost.vue";
-import modiferPost  from "./modiferPost.vue";
+import CommentCard from "./CommentCard.vue"
 
 export default {
-  props: ['postProfile'],
-  name: 'postsUser',
+  props: ["postProfile"],
+  name: "postsUser",
   components: {
-    DeletePost,
-    modiferPost
-    },
-    data() {
+  CommentCard
+  },
+  data() {
     return {
       admin: this.admin,
       postProfiles: this.postProfile,
-    }
+    };
   },
   methods: {
-    getIsAdmin () {
-     return this.admin = localStorage.getItem('admin');
+    getIsAdmin() {
+      return (this.admin = localStorage.getItem("admin"));
     },
   },
   created() {
     this.getIsAdmin();
   },
-}
+};
 </script>
-

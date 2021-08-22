@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const db = require("../db_conextion/db_conextion");
 const dotenv = require("dotenv");
-const { json } = require("body-parser");
 dotenv.config();
 
 
@@ -16,12 +15,12 @@ module.exports = (req, res, next) => {
         res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
       const user = users[0]
-      if (user) {
-        req.body.decodedToken = decodedToken;
-      } else {
+      if (!user) {
         res.status(401).json({ message: "user not authorization !" });
         return;
       }
+        req.body.decodedToken = decodedToken;
+        // return next();
     });
   }
   catch (err) {

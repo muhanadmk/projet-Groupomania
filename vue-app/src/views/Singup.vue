@@ -1,63 +1,68 @@
 <template>
-  <div
-    class="modal modal-signin position-static d-block bg-secondary py-5"
-    tabindex="-1"
-    role="dialog"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content rounded-5 shadow">
-        <div class="modal-header p-5 pb-4 border-bottom-0">
-          <!-- <h5 class="modal-title">Modal title</h5> -->
-          <h2 class="fw-bold mb-0">Sign up</h2>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="">
+          <div class="">
+            <div class="rounded-5 shadow">
+              <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h2 class="fw-bold mb-0">Sign up</h2>
+              </div>
+              <div class="modal-body">
+                <form class="">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="name@example.com"
+                      v-model="username"
+                    />
+                    <label for="floatingInput">username</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      type="email"
+                      class="form-control rounded-4"
+                      placeholder="name@example.com"
+                      v-model="email"
+                    />
+                    <label>Email address</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      type="password"
+                      class="form-control rounded-4"
+                      placeholder="Password"
+                      v-model="password"
+                    />
+                    <label>Password</label>
+                  </div>
+                  <button
+                    class="w-100 mb-2 btn btn-lg rounded-4 btn-primary"
+                    type="submit"
+                    @click="submitSingup"
+                  >
+                    Sign up
+                  </button>
+                  <div>
+                    <router-link to="/"
+                      ><a> Already registered sign in?</a>
+                    </router-link>
+                  </div>
+                  <small class="fs-5"
+                    >bienvenue chez Groupomania société.</small
+                  >
+                  <hr class="my-4" />
+                </form>
+              </div>
+            </div>
+          </div>
+          <div>
+            <!-- <div class="errListe">
+        <div class="oneErr" v-for="oneErr in fromError" :oneErr="oneErr">{{ oneErr }}</div>
+      </div> -->
+          </div>
         </div>
-        <div class="modal-body p-5 pt-0">
-          <form class="">
-            <div class="form-floating mb-3">
-              <input
-                type="username"
-                class="form-control rounded-4"
-                placeholder="name@example.com"
-                v-model="username"
-              />
-              <label for="floatingInput">username</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input
-                type="email"
-                class="form-control rounded-4"
-                placeholder="name@example.com"
-                v-model="email"
-              />
-              <label for="floatingInput">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input
-                type="password"
-                class="form-control rounded-4"
-                placeholder="Password"
-                v-model="password"
-              />
-              <label for="floatingPassword">Password</label>
-            </div>
-            <button
-              class="w-100 mb-2 btn btn-lg rounded-4 btn-primary"
-              type="submit"
-              @click="submitSingup"
-            >
-              Sign up
-            </button>
-            <div>
-              <router-link to="/"
-                ><a> Already registered sign in?</a>
-              </router-link>
-            </div>
-            <small class="text-muted"
-              >bienvenue chez Groupomania société.</small
-            >
-            <hr class="my-4" />
-          </form>
-        </div>
-        <!-- <button @click="autoLogin" class="btn">loooooo</button> -->
       </div>
     </div>
   </div>
@@ -73,6 +78,7 @@ export default {
       email: "",
       password: "",
       username: "",
+      fromError: [],
     };
   },
   methods: {
@@ -85,33 +91,18 @@ export default {
           username: this.username,
         });
         console.log(response);
-        this.$router.push("/Login");
+        this.$router.push("/");
       } catch (error) {
         console.log(error);
       }
     },
   },
-  async autoLogin() {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-       console.log("to doit sinup");
-      } 
-      else {
-        const response = await axios.get("users/auth", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        });
-        console.log(response.data);
-        this.$router.push("/Home");
-      }
-    } catch (error) {
-      console.log(error);
+  validateForm(e) {
+    this.fromError = [];
+    if (!this.username) {
+      this.fromError.push("username ne peut pas etre vide !");
     }
+    e.preventDefault();
   },
-  // created() {
-  //   this.autoLogin();
-  // },
 };
 </script>
