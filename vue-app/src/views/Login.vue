@@ -1,5 +1,6 @@
 <template>
 <div class="container mt-5 ">
+  <auth/>
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6">
@@ -55,8 +56,12 @@
 
 <script>
 import axios from "axios";
+import auth from '../components/auth.vue';
 
 export default {
+  components: { 
+    auth 
+  },
   name: "Login",
   data() {
     return {

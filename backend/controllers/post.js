@@ -26,7 +26,6 @@ exports.writePost = (req, res, next) => {
           req.file.filename
         }`;
       }
-
       if (newPost.title == "" || newPost.post == "") {
         return res.status(204).json({ error: "missing parameters" });
       }
@@ -121,7 +120,7 @@ exports.modifierPost = (req, res, next) => {
       const userid = result[0].user_id;
       const userId = req.body.decodedToken.userId;
       if (userId == userid) {
-        if (req.body.post == null || req.body.post == null) {
+        if (req.body.post == "" || req.body.title == "") {
           return res
             .status(401)
             .json({ message: "vous pouvez pas laisser la post vide !!" });
