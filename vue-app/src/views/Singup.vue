@@ -31,7 +31,6 @@
                 />
                 <label>Email address</label>
                 <p v-if="!emailIsValide" class="text-warning">email ne peut pas etre vide !</p>
-                 <!-- <span class="text-warning" :errEmail="errEmail"> {{errEmail}}</span> -->
               </div>
               <div class="form-floating mb-3">
                 <input
@@ -42,8 +41,9 @@
                   v-model="password"
                 />
                 <label>Password</label>
-                <p v-if="!passwordIsValide" class="text-warning" >ecrir password puls de 4 caracteres</p>
+                <p v-if="!passwordIsValide" class="text-warning" >ecrir password puls de 8 caracteres</p>
               </div>
+               <p v-if="msgErrorSingup" class="text-warning fs-5" > email deja utilier</p>
               <button
                 class="w-100 mb-2 btn btn-lg rounded-4 btn-primary"
                 @click="submitSingup"
@@ -52,7 +52,7 @@
               </button>
               <div>
                 <router-link to="/"
-                  ><a class="text-white"> Already registered sign in?</a>
+                  ><a class="text-primary fs-4"> Already registered sign in Alors</a>
                 </router-link>
               </div>
               <small class="fs-5 text-white"
@@ -76,6 +76,7 @@ export default {
       email: null,
       password: null,
       username: null,
+      msgErrorSingup: false
     };
   },
   computed: {
@@ -102,6 +103,7 @@ export default {
         this.$router.push("/");
       } catch (error) {
         console.log(error);
+        this.msgErrorSingup = true;
       }
     },
     submitForm(){

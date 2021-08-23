@@ -6,7 +6,7 @@
       <h1>bienvenue {{userId}} chez Groupomania société</h1>
       <div class="row">
         <div class="col-md-8">
-          <createPost @newPostAdded="addNewPost"/>
+          <createPost />
           <div class="postes-aera">
             <PostCard v-for="Onepost in posts" v-bind:key="Onepost.post_id" :Onepost="Onepost" />
           </div>
@@ -38,9 +38,6 @@ export default {
     };
   },
   methods: {
-    addNewPost(post){
-      this.posts.unshift(post)
-    },
     async getData() {
       try {
         const response = await axios.get("posts");

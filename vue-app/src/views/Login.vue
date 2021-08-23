@@ -29,6 +29,7 @@
                 <label>Password</label>
                 <p v-if="!passwordIsValide" class="text-warning" >ecrir password puls de 4 caracteres</p>
               </div>
+               <p v-if="msgErrorLogin" class="text-warning" >password or email est faute</p>
               <button
                 class="w-100 mb-2 btn btn-lg rounded-4 btn-primary mt-5"
                 type="submit"
@@ -62,6 +63,7 @@ export default {
       email: null,
       password: null,
       error : null,
+      msgErrorLogin: false
     }
   },
    computed: { 
@@ -89,6 +91,7 @@ export default {
         this.$router.push("/Home");
       } catch (error) {
         console.log(error);
+        this.msgErrorLogin = true;
       }
     },
   },

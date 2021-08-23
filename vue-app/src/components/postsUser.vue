@@ -1,5 +1,5 @@
 <template>
-  <article class="card mt-5 mb-5" v-if="postProfile" >
+  <article class="card mt-5 mb-5"  v-if="postProfile">
     <div class="card-header">
       <p class="fs-4" type="submit">{{postProfile.username}}</p>
     </div>

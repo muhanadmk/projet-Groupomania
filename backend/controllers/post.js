@@ -208,6 +208,8 @@ exports.AdminPostDelete = (req, res, next) => {
               res.sendStatus(500);
               return;
             }
+            const imege = result[0].imagePostUrl;
+            if (imege != null) {
             const filename = result[0].imagePostUrl.split("/images/")[1];
             fs.unlink(`images/${filename}`, () => {
               db.query(
@@ -224,8 +226,23 @@ exports.AdminPostDelete = (req, res, next) => {
                 }
               );
             });
+          }else{
+            db.query(
+              "DELETE FROM `posts` WHERE post_id = ?",
+              idPost,
+              (err, result) => {
+                if (err) {
+                  console.log(err);
+                  res.sendStatus(500);
+                  return;
+                }
+                res.status(200).json({ message: "post deleted !" });
+                return;
+              }
+            );
           }
-        );
+        });
+        
       }
     }
   );

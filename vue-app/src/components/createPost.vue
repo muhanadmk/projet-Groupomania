@@ -32,7 +32,7 @@
           />
         </div>
         <p v-show="msgError" class="fs-5 text-center text-dark font-weight-bold">vous douvez bien remplier les title et le post</p>
-        <button class="btn btn-dark" type="submit" @click="newPostAdded" @click.prevent="createPost">
+        <button class="btn btn-dark" type="submit" @click="createPost">
           createPost
         </button>
       </div>
@@ -57,7 +57,8 @@ export default {
     onFileChanged(event) {
       this.image = event.target.files[0];
     },
-    async createPost() {
+    async createPost(e) {
+      e.preventDefault();
       if(this.title == "" || this.post == ""){
       return this.msgError = true;
     }

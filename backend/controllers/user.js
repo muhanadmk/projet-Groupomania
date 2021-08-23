@@ -32,7 +32,7 @@ exports.signup = (req, res, next) => {
           "password invalid (must length 4 - 8 and include 1 number at least)",
       });
   }
-  bcrypt.hash(req.body.password, 10).then((hashPassword) => {
+    bcrypt.hash(req.body.password, 10).then((hashPassword) => {
     const user = {
       username: req.body.username,
       email: req.body.email,
