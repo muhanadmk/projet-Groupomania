@@ -20,9 +20,9 @@ exports.writeComment = (req, res, next) => {
 };
 
 
-exports.getCommentsProfle = (req, res, next) => {
+exports.getAllComments = (req, res, next) => {
   const idPost = req.params.id;
-  let sql ='SELECT * FROM comments INNER JOIN users ON comments.user_id = users.id AND  users.id = ?';
+  let sql ='SELECT * FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.post_id = ? ORDER BY dateComment DESC';
   db.query(sql, idPost, (err, result)=>{
     if (err) {
       return res.status(500).json({ message: " err sql !" });

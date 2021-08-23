@@ -1,7 +1,9 @@
 <template>
   <main>
     <AppHeader/>
+    <auth />
     <div class="container">
+      <h1>bienvenue {{userId}} chez Groupomania société</h1>
       <div class="row">
         <div class="col-md-8">
           <createPost @newPostAdded="addNewPost"/>
@@ -18,9 +20,7 @@
 import PostCard from "./PostCard.vue";
 import createPost from "../components/createPost.vue";
 import AppHeader from "../components/AppHeader.vue"
-
-
-
+import auth from "../components/auth.vue"
 import axios from "axios";
 export default {
    name: "Home",
@@ -28,11 +28,13 @@ export default {
     AppHeader,
     PostCard,
     createPost,
+    auth,
   },
   data() {
     return {
       Comments: [],
       posts: [],
+      userId: localStorage.getItem("username")
     };
   },
   methods: {
@@ -42,7 +44,6 @@ export default {
     async getData() {
       try {
         const response = await axios.get("posts");
-        console.log(response.data);
         this.posts = response.data;
       } catch (error) {
         console.log(error);
@@ -60,7 +61,6 @@ export default {
      this.$root.$on('modferPost',()=>{
        this.getData();
     }) 
-    // this.autoLogin();
     this.getData();
   },
 };

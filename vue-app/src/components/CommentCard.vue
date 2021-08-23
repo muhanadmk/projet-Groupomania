@@ -20,7 +20,7 @@ export default {
   name: "CommentCard",
   created(){
      this.$root.$on('AdmindeleteCommentBus', (Comment_id)=>{
-      console.log(Comment_id)
+      console.log(Comment_id);
       this.getAllCommente(this.post_id);
     })
      this.$root.$on('deleteCommentBus', (post_id)=>{

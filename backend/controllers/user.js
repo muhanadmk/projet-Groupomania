@@ -5,42 +5,33 @@ const db = require("../db_conextion/db_conextion");
 const dotenv = require("dotenv").config();
 const fs = require("fs");
 
-const EMAIL_REGEX =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
-
 exports.signup = (req, res, next) => {
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
 
-  // if (email == null || username == null || password == null) {
-  //   return res.status(400).json({ error: "missing parameters" });
-  // }
+  if (email == null || username == null || password == null) {
+    return res.status(400).json({ error: "missing parameters" });
+  }
 
-  // if (username.length >= 13 || username.length <= 4) {
-  //   return res
-  //     .status(400)
-  //     .json({ error: "wrong username (must be length 5 - 12)" });
-  // }
+  if (username.length >= 25 || username.length <= 4) {
+    return res
+      .status(400)
+      .json({ error: "wrong username (doit etre entre de 5 - 12)" });
+  }
 
-  // if (!EMAIL_REGEX.test(email)) {
-  //   return res.status(400).json({ error: "email is not valid" });
-  // }
+  if (email.length >= 50 || email.length <= 4 ) {
+    return res.status(400).json({ error: "email is not valid" });
+  }
 
-  // if (!PASSWORD_REGEX.test(password)) {
-  //   return res
-  //     .status(400)
-  //     .json({
-  //       error:
-  //         "password invalid (must length 4 - 8 and include 1 number at least)",
-  //     });
-  // }
-  // const secret = process.env.HASHE_EMAIl;
-  // const hashEmail = crypto
-  //   .createHmac("sha256", secret)
-  //   .update(req.body.email)
-  //   .digest("hex");
+  if (password.length >= 100 || password.length <= 4 ) {
+    return res
+      .status(400)
+      .json({
+        error:
+          "password invalid (must length 4 - 8 and include 1 number at least)",
+      });
+  }
   bcrypt.hash(req.body.password, 10).then((hashPassword) => {
     const user = {
       username: req.body.username,
@@ -60,13 +51,6 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   const ReqEmail = req.body.email;
-
-  // const secret = process.env.HASHE_EMAIl;
-  // const hashEmail = crypto
-  //   .createHmac("sha256", secret)
-  //   .update(req.body.email)
-  //   .digest("hex");
-  // const email = hashEmail;
   const password = req.body.password;
   if (ReqEmail == null || password == null) {
     return res.status(400).json({ error: "missing parameters" });

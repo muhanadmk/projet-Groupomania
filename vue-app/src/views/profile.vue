@@ -63,7 +63,7 @@ export default {
         localStorage.removeItem('userId');
         localStorage.removeItem('admin');
         localStorage.removeItem('ProfileUserId');
-        console.log(response);
+        this.response = response;
         this.$router.push("/");
       } catch (error) {
         console.log(error);
@@ -83,7 +83,7 @@ export default {
         });
         localStorage.removeItem('ProfileUserId');
         this.$router.push("/");
-        console.log(response);
+        this.response = response;
       } catch (error) {
         console.log(error);
       }
@@ -93,7 +93,6 @@ export default {
         const ProfileUserId = localStorage.getItem("ProfileUserId");
         const response = await axios.get(`posts/profile/${ProfileUserId}`);
         this.postsOfUser = response.data;
-        // console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -103,7 +102,7 @@ export default {
         const ProfileUserId = localStorage.getItem("ProfileUserId");
         const response = await axios.get(`users/profile/${ProfileUserId}`);
         this.usernameData = response.data;
-        // console.log(response);
+       
       } catch (error) {
         console.log(error);
       }
@@ -113,11 +112,32 @@ export default {
       this.userId = localStorage.getItem('userId')
       this.ProfileUserId = localStorage.getItem('ProfileUserId')
     },
+    async autoLogin() {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const response = await axios.get("users/auth", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          });
+         this.response = response;
+          this.$router.push("/profile");
+        } else {
+          this.message = "you must log in";
+          this.hide = false;
+          this.$router.push("/");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   created() {   
     this.getIsAdmin();
     this.getPrfile();
-    this.getusername()
+    this.getusername();
+    this.autoLogin();
   },
 }
 </script>

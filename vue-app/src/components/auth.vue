@@ -1,5 +1,5 @@
 <template>
-  <p class="container-fluid bg-dark" v-if="message"></p>
+  <p class="eee" v-if="hide"></p>
 </template>
 
 <script>
@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       message: "",
+      hide: true,
     };
   },
   methods: {
@@ -26,6 +27,7 @@ export default {
           this.$router.push("/Home");
         } else {
           this.message = "you must log in";
+          this.hide = false;
           this.$router.push("/");
         }
       } catch (error) {
@@ -38,7 +40,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-</style>

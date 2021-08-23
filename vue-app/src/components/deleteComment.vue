@@ -3,7 +3,7 @@
     <button v-if="admin > 0" class="btn btn-outline-danger" @click="AdminDeleteComment">
       Admin  delete Comment
     </button>
-    <button  v-else-if="admin <= 0" class="btn btn-outline-danger" @click="deleteComment">
+    <button  v-if="admin <= 0 && userIdComment == userId" class="btn btn-outline-danger" @click="deleteComment">
       delete Comment
     </button>
   </div>
@@ -13,18 +13,19 @@
 import axios from "axios";
 
 export default {
-  props: ["Comment_id", "userIdComment","post_id"],
+  props: ["Comment_id", "userIdComment","post_id", "userId_post"],
   name: "deleteComment",
   data() {
     return {   
       useridComment: this.userIdComment,
       admin: this.admin,
-      userId: this.userId
+      userId: localStorage.getItem("userId")
+      // userid: localStorage.getItem("userId")
     };
   },
   methods: {
     getIsAdmin() {
-      return (this.admin = localStorage.getItem("admin"),(this.userId = localStorage.getItem("userId")) );
+      return (this.admin = localStorage.getItem("admin"));
     },
     async AdminDeleteComment(e) {
       e.preventDefault();
@@ -36,7 +37,7 @@ export default {
             },
           });
         this.$root.$emit("AdmindeleteCommentBus", this.post_id);
-        console.log(response);
+        this.response = response;
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +52,7 @@ export default {
           },
         });
         this.$root.$emit("deleteCommentBus", this.post_id);
-        console.log(response);
+        this.response = response;
       } catch (error) {
         console.log(error);
       }

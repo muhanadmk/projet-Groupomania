@@ -3,12 +3,14 @@
     <form>
       <div class="card mt-5 mb-5">
         <div class="card-header">
+          
           <input
             class="card-title"
             id="titlePost"
             type="text"
             v-model="title"
             placeholder="ecrir votre title de post"
+            label= "Post"
           />
         </div>
         <div class="card-body">
@@ -29,7 +31,8 @@
             accept="image/png, image/jpg, image/jpeg, image/gif"
           />
         </div>
-        <button class="btn btn-dark" type="submit" @click.prevent="createPost">
+        <p v-show="msgError" class="fs-5 text-center text-dark font-weight-bold">vous douvez bien remplier les title et le post</p>
+        <button class="btn btn-dark" type="submit" @click="newPostAdded" @click.prevent="createPost">
           createPost
         </button>
       </div>
@@ -47,21 +50,21 @@ export default {
       title: "",
       post: "",
       image: null,
+      msgError: false,
     };
   },
-  // mounted() {
-  //   console.log(this.message);
-  // },
   methods: {
     onFileChanged(event) {
       this.image = event.target.files[0];
     },
     async createPost() {
-      // if(this.image != null){
+      if(this.title == "" || this.post == ""){
+      return this.msgError = true;
+    }
+    else{
       try {
         const userId = localStorage.getItem("userId");
         let formData = new FormData();
-        // formData.append("userId", userId);
         formData.append("title", this.title);
         formData.append("post", this.post);
         formData.append("image", this.image);
@@ -70,17 +73,16 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        // this.newPost = response.data;
-        console.log(response.data);
-      
+        this.newPost = response.data;
         this.$root.$emit('newPostAdded')
         this.title = "";
         this.post = "";
         this.image = null;
+        this.msgError = false;
       } catch (error) {
         console.log(error);
       }
-      // }
+    }
     },
   },
 };

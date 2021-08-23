@@ -24,14 +24,14 @@
           class="card-img"
           v-if="Onepost.imagePostUrl"
           v-bind:src="Onepost.imagePostUrl"
-          alt="..."
+          alt="ceci l'image de la post"
         />
         <p class="card-text text-dark">{{ Onepost.datePost }}</p>
         <modiferPost :post_Modifier="post_Modifier" />
-        <DeletePost :post_ID="Onepost.post_id" />
+        <DeletePost :post_ID="Onepost.post_id" :post_user_id="Onepost.id" />
       </div>
       <createComment :postsforComment="postsforComment" />
-      <CommentCard :post_id="Onepost.post_id" title="Onepost.tile" />
+      <CommentCard :post_id="Onepost.post_id"  />
     </article>
     <postsUser :userid="Onepost.id" />
   </section>

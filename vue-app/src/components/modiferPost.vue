@@ -31,7 +31,8 @@
         </button>
       </div>
     </form>
-    <button class="btn btn-dark mt-2" @click="afichageModifier">modifer</button>
+     <p v-show="msgErrorModifier" class="fs-5 text-center text-dark font-weight-bold">vous douvez bien remplier les title et le post</p>
+    <button class="btn btn-dark mt-2" v-if="userid == userId" @click="afichageModifier">modifer</button>
   </div>
 </template>
 
@@ -50,11 +51,9 @@ export default {
       userId: this.post_Modifier.user_id,
       postId: this.post_Modifier.post_id,
       modifer: false,
-      // btnPourModifer: true,
+      userid: localStorage.getItem('userId'),
+      msgErrorModifier: false,
     };
-  },
-   mounted() {
-    console.log(this.message);
   },
   methods: {
    onFileChangedModifer(event) {
@@ -64,8 +63,11 @@ export default {
       this.modifer =true; 
     },
   async modiferPost(e) {
+     e.preventDefault();
+    if(this.title == "" || this.post == ""){
+      this.msgErrorModifier = true;
+    }else{
       try {
-        e.preventDefault();
         let formData = new FormData();
         const userId = localStorage.getItem("userId");
         formData.append("title", this.title);
@@ -79,10 +81,12 @@ export default {
           });
           this.$root.$emit('modferPost')
           this.modifer =false;
-          console.log(response);
+          this.msgErrorModifier = false;
+          this.response = response;
       } catch (error) {
         console.log(error);
       }
+    }
     },
   }
 };

@@ -1,5 +1,6 @@
 <template>
   <div class="">
+        <p v-if="megErrorsComment" class="fs-5 text-center text-dark font-weight-bold">vous pouvez pas laiiser vied</p>
           <textarea
             class="form-control card-text"
             placeholder="ecrir votre Comment ici"
@@ -23,38 +24,39 @@ export default {
   data() {
     return {
       Comment: "",
-      // comments: [],
       message: "",
       postId: this.postsforComment.post_id,
+      megErrorsComment: false,
     };
-  },
-  mounted() {
-    console.log(this.message);
   },
   methods: {
     async createCommente(e) {
-      try {
-        e.preventDefault();
-
-        const response = await axios.post(
-          "comments",
-          {
-            user_id: localStorage.getItem('userId'),
-            Comment: this.Comment,
-            post_id: this.postId,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
+      if(this.Comment == "" || this.Comment == "") {
+        this.megErrorsComment = true;
+      }else {
+        try {
+          e.preventDefault();
+          const response = await axios.post(
+            "comments",
+            {
+              user_id: localStorage.getItem('userId'),
+              Comment: this.Comment,
+              post_id: this.postId,
             },
-          }
-        );
-        // this.comments = response.data;
-        this.Comment = "";
-        this.$root.$emit('createPostEvetn', this.postId)
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+          // this.comments = response.data;
+          this.Comment = "";
+          this.megErrorsComment = false;
+          this.$root.$emit('createPostEvetn', this.postId)
+          this.response.data = response.data;
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
   },

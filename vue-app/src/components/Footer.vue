@@ -6,8 +6,7 @@
       <li class="nav-item "><a href="#" class="nav-link px-2 text-muted"><i class="fab fa-facebook-f"></i></a></li>
       <li class="nav-item me-5"><a href="#" class="nav-link px-2 text-muted"><i class="fab fa-google-plus"></i></a></li>
     </ul>
-    <p class="text-center text-muted">&copy; 2021 Groupomania, Inc</p>
-    <!-- <img src="@/assets/icon-left-font-monochrome-white.png" class="image-logo" alt=""> -->
+    <p class="text-center text-muted fs-4">&copy; 2021 Groupomania, Inc</p>
   </div>
 </footer>
 </template>

@@ -1,54 +1,77 @@
 <template>
-<div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog">
-  <auth/>
-  <div class="modal-dialog" role="document">
-    <div class="modal-content rounded-5 shadow">
-      <div class="modal-header p-5 pb-4 border-bottom-0">
-        <!-- <h5 class="modal-title">Modal title</h5> -->
-        <h2 class="fw-bold mb-0">log in</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body p-5 pt-0">
-        <form class="">
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control rounded-4" placeholder="name@example.com" v-model="email">
-            <label for="floatingInput">Email address</label>
+<div class="container mt-5 ">
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-md-6">
+        <div class="shadow-lg p-3 mb-5 bg-dark rounded">
+          <div class="modal-header p-5 pb-4 border-bottom-0">
+            <h2 class="fw-bold mb-0 text-white">login</h2>
           </div>
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control rounded-4" placeholder="Password"  v-model="password">
-            <label for="floatingPassword">Password</label>
+          <div class="modal-body">
+            <form class="">
+              <div class="form-floating mb-3 mb-5">
+                <input
+                  type="email"
+                  class="form-control rounded-4"
+                  placeholder="name@example.com"
+                  v-model="email"
+                />
+                <label>Email address</label>
+                <p v-if="!emailIsValide" class="text-warning">email ne peut pas etre vide !</p>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  type="password"
+                  class="form-control rounded-4"
+                  placeholder="Password"
+                  v-model="password"
+                />
+                <label>Password</label>
+                <p v-if="!passwordIsValide" class="text-warning" >ecrir password puls de 4 caracteres</p>
+              </div>
+              <button
+                class="w-100 mb-2 btn btn-lg rounded-4 btn-primary mt-5"
+                type="submit"
+                @click="submitLogin"
+              >
+                Login
+              </button>
+              <div>
+                <router-link to="/Singup"
+                  ><a class="text-primary fs-4"> vous n'etes pas registez alors sign up</a>
+                </router-link>
+              </div>
+              <small class="fs-5 text-white"
+                >bienvenue chez Groupomania société.</small
+              >
+            </form>
           </div>
-          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit" @click="submitLogin">log in</button>
-           <div>
-              <router-link to="/Singup"
-                ><a> not registered you must sige up</a>
-              </router-link>
-            </div>
-          <small class="text-muted">bienvenue chez Groupomania société.</small>
-          <hr class="my-4">
-        </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import axios from "axios";
-import auth from "../components/auth.vue";
 
 export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      password: "",
+      email: null,
+      password: null,
       error : null,
     }
   },
-  components: {
-      auth
+   computed: { 
+    passwordIsValide(){
+      return !!this.password && this.password.length >= 8;
     },
+    emailIsValide(){
+      return !!this.email && this.email.length >= 5;
+    }
+  },
   methods: {
     async submitLogin(e) {
       try {
@@ -60,13 +83,23 @@ export default {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.userId);
         localStorage.setItem('admin', response.data.admin);
+        localStorage.setItem('username', response.data.username);
          this.email = "",
          this.password= "",
         this.$router.push("/Home");
       } catch (error) {
-        this.error = error.response.data.error
+        console.log(error);
       }
     },
   },
+   submitForm(){
+      const fromIsVlaide = this.usernameIsValide && this.passwordIsValide && this. emailIsValide;
+      if(fromIsVlaide){
+        return true
+      }
+      else{
+        return false
+      }
+    },
 };
 </script>

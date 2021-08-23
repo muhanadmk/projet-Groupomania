@@ -8,7 +8,7 @@
       Admin Delete Post
     </button>
     <button
-      v-else-if="admin <= 0"
+      v-else-if="admin <= 0 && user_id == post_user_id "
       class="btn btn-outline-danger"
       @click="DeletePost"
     >
@@ -21,11 +21,12 @@
 import axios from "axios";
 
 export default {
-  props: ["post_ID" ],
+  props: ["post_ID","post_user_id" ],
   name: "DeletePost",
   data() {
     return {
       admin: this.admin,
+      user_id: localStorage.getItem("userId"),
     };
   },
   methods: {
@@ -43,7 +44,7 @@ export default {
           },
         });
         this.$root.$emit('DeletePost',this.post_ID)
-        console.log(response);
+        this.response = response;
       } catch (error) {
         console.log(error);
       }
@@ -51,23 +52,22 @@ export default {
     async DeletePost(e) {
       e.preventDefault();
       try {
-        const response = await axios.delete(`posts/${this.post_ID}`, {
+        const userId = localStorage.getItem("userId");
+        const response = await axios.delete(`posts/${this.post_ID}/${userId}`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
         this.$root.$emit('DeletePost',this.post_ID)
-        console.log(response);
+        this.response = response;
       } catch (error) {
         console.log(error);
       }
     },
   },
   created() {
+  
     this.getIsAdmin();
   },
-  beforeCreate() {
-    
-  }
 };
 </script>

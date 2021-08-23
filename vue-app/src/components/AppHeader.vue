@@ -27,7 +27,7 @@
               profile
             </button>
             <button
-              class="btn btn-outline-danger me-2"
+              class="btn btn-outline-warning me-2"
               type="button"
               @click="LogOutUser"
             >
@@ -49,6 +49,7 @@ export default {
       localStorage.removeItem("userId");
       localStorage.removeItem("admin");
       localStorage.removeItem("ProfileUserId");
+      localStorage.removeItem("username");
       this.$router.push("/");
     },
     getPrfileUser(e) {

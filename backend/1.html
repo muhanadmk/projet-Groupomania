@@ -1,0 +1,767 @@
+<img class="image-Bg" src="https://up4net.com/uploads4/up4net.com162965680628521.jpg" alt="">
+
+// mounted() {
+  //    EventBus.$on('postModified',function(post){
+  //      let currentPost = this.postsOfUser.findIndex(el => el.id = post.id );
+  //      this.postsOfUser[currentPost] = post;
+  //    });
+  // },
+
+// exports.modifierComment = (req, res, next) => {
+ 
+  //   const idComment = req.params.id;
+  //   db.query('SELECT * FROM comments WHERE user_id = ? AND comment_id = ?', [req.body.user_id, req.body.Comment], (err, result) => {
+  //     if (err) {
+  //       res.status(500).json({ message: " err sql !" })
+  //     }
+  //     const userId = req.body.userId;
+  //     const userid = result[0].user_id;
+  //     if (userId == userid) {
+  //       db.query('UPDATE comments SET ? WHERE comment_id = ?', [commentObject, result[0].comment_id] , (err, result) => {
+  //         if (err) {
+  //           res.status(500).json({ message: " err sql !" })
+  //         }
+  //         res.status(200).json({ message: 'comments modifié !' });
+  //       })
+  //     }
+  //     else {
+  //       res.status(401).json({ message: 'Invalid user ID !' });
+  //     };
+  //   });
+  // };
+  
+`INSERT INTO comments (post_id, user_id, Comment, imageCommentUrl) VALUES ('${req.body.post_id}', '${req.body.user_id}', '${req.body.Comment}, NULL,)
+
+// 'methods': 'POST', 
+// 'Content-Type': 'multipart/form-data',
+
+SELECT * FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.post_id = 277  ORDER BY dateComment DESC 
+
+// const express = require('express');
+// const route = express.Router();
+// const postControllers = require('../controllers/post');
+// const multer = require('../middleware/multer-config');
+// const {auth} = require('../middleware/auth');
+
+// route.route("/").post( auth, multer, postControllers.writePost);
+// route.route("/:id").delete(auth ,multer, postControllers.deletePost);
+// route.route('/:id').put(auth , multer, postControllers.modifierPost);
+// route.route('/profile/:id').get(postControllers.getPostsProfile);
+// route.route('/').get(postControllers.getAllPsot);
+// route.route('/Admin/:id').delete(auth, multer, postControllers.AdminPostDelete);
+
+// module.exports = route;
+
+// const jwt = require("jsonwebtoken");
+
+// const db = require("../db_conextion/db_conextion");
+
+// exports.auth = async (req, res, next) => {
+//   try{
+//     const Authorization = req.headers.authorization;
+//     const token = Authorization.split(" ")[1];
+//     const decodedToken = jwt.verify(token, process.env.SECRET_KEY_JWT);
+//     const userId = decodedToken.userId;
+//     const reqUserId = req.body.userId;
+//     console.log(userId);
+//     console.log("reqUserId", reqUserId);
+//     let sql = `SELECT id FROM users WHERE id = ?`;
+//     db.query(sql, userId, (err, users) => {
+//       if (err) {
+//         res.status(401).json({ error: "Utilisateur non trouvé !" });
+//       }
+//       const user = users[0];
+//       if (user) {
+//         next();
+//         return;
+//       } else {
+//         res.status(401).json({ message: "user not authorization !" });
+//         return;
+//       }
+//     });
+//   }
+//   catch {
+//     res.status(401).json({
+//       error: new Error('Invalid request!')
+//     })
+//   }
+// };
+
+
+// res.send(`
+// <div class="card mt-5 mb-5">
+// <div class="card-header">
+// <a type="submit" @click="getPrfile" ></a>
+// </div>
+// <div class="card-title">
+//   <h5 class="card-title">${req.body.title}</h5>
+// </div>
+// <div class="card-body">
+//   <p class="card-text">>${req.body.post}</p>
+//   <img class="card-img" v-bind:src="onepost.imagePostUrl" alt="...">
+//    <p class="card-text text-dark">{{ onepost.datePost }}</p>
+// </div>
+// <button v-if="admin > 0" type="submit" class="btn btn-outline-danger" @click="AdminDeletePost"> Admin Delete Post</button>
+// <button v-else-if="admin <= 0" class="btn btn-outline-danger" @click="DeletePost">Delete Post</button>
+// </div>
+// `);
+
+// const deleteDataStorge =  () => {
+  // localStorage.removeItem('token');
+  // localStorage.removeItem('userId');
+  // localStorage.removeItem('admin');
+  // localStorage.removeItem('ProfileUserId');
+  // }
+  // deleteDataStorge();
+
+<div class="modal-dialog" role="document">
+  <div class="modal-content rounded-4 shadow">
+    <div class="modal-body p-4 text-center">
+      <h5 class="mb-0">Enable this setting?</h5>
+      <p class="mb-0">You can always change your mind in your account settings.</p>
+    </div>
+    <div class="modal-footer flex-nowrap p-0">
+      <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right"><strong>Yes, enable</strong></button>
+      <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">No thanks</button>
+    </div>
+  </div>
+</div>
+exports.getProfileEtPosts = (req, res, next) => {
+  userId = req.params.id;
+  db.query("SELECT * FROM `posts` WHERE posts.user_id = ?", userId, (err, postsUser) => {
+      if (err) {
+        throw err;
+      }
+      let Profile = {             
+        postOfUser: [],
+        userData: []
+      };
+      Profile.postOfUser.push(postsUser);   
+        db.query('SELECT id, username, admin FROM users WHERE users.id = ?', userId ,(err, userresult) => {
+          if (err) {
+            throw err;   
+          }
+          Profile.userData.push(userresult[0]);  
+          res.status(200).json(Profile);  
+        });
+    });
+};
+
+
+  <div class="card mt-5 mb-5">
+    <div class="card-header">
+    <a type="submit" @click="getPrfile" >{{ onepost.username }}</a>
+    </div>
+    <div class="card-title">
+      <h5 class="card-title">{{onepost.title }} </h5>
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{ onepost.post }}</p>
+      <img class="card-img" v-bind:src="onepost.imagePostUrl" alt="...">
+       <p class="card-text text-dark">{{ onepost.datePost }}</p>
+    </div>
+    <button v-if="admin > 0" type="submit" class="btn btn-outline-danger" @click="AdminDeletePost"> Admin Delete Post</button>
+    <button v-else-if="admin <= 0" class="btn btn-outline-danger" @click="DeletePost">Delete Post</button>
+  </div>  
+// SELECT * FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY datePost DESC
+
+// import { createStore } from 'vuex'
+
+// const axios = require('axios');
+
+// const instance = axios.create({
+//   baseURL: 'http://localhost:3000/api/users/signup'
+// });
+
+// let user = localStorage.getItem('user');
+// if (!user) {
+//   user = {
+//     userId: -1,
+//     isadmin: 0,
+//     token: '',
+//   };
+// } else {
+//   try {
+//     user = JSON.parse(user);
+//     instance.defaults.headers.common['Authorization'] ='Bearer '+user.token;
+//   } catch (ex) {
+//     user = {
+//       userId: -1,
+//       isadmin: 0,
+//       token: '',
+//     };
+//   }
+// }
+// export default createStore({
+//   state: {
+//     status: '',
+//     user: user,
+//     userInfos: {
+//       lastname: '',
+//       firsname: '',
+//       email: '',
+//       password:'',
+//     },
+//     usersInfos:{
+//       id: '',
+//       lastname: '',
+//       firsname: '',
+//       email: '',
+//       isadmin:'',
+//     },
+//     topic:{
+//       topic_id: '',
+//       title: '',
+//       topic: '',
+//       image_url: '',
+//     },
+//     topicInfos:{
+//       topic_id: '',
+//       title: '',
+//       topic: '',
+//       image_url: '',
+//       lastname: '',
+//       firsname: '',
+//     },
+//     comments:{
+//       topic_id: '',
+//       comment: '',
+//       image_url: '',
+//       user_id: '',
+//     },
+//     spamsComment:{
+//       spamcomment_id: '',
+//       comment_id: '',
+//     },
+//     oneSpamComment:{
+//       spamcomment_id: '',
+//       comment_id: '',
+//       user_id: '',
+//     },
+//     spamsTopic:{
+//       spamtopic_id: '',
+//       topic_id: '',
+//     },
+//     oneSpamTopic:{
+//       spamtopic_id: '',
+//       topic_id: '',
+//       user_id: '',
+//     },
+//     like:{
+//       user_id: '',
+//       topic_id: '',
+//       like_topic: '',
+//     },
+//     countLike: '',
+//     liked:{
+//       like_topic: '',
+//     },
+//   },
+//   mutations: {
+//     setStatus: function (state, status) {
+//       state.status = status;
+//     },
+//     logUser: function (state, user) {
+//       state.user = user;
+//       localStorage.setItem('user', JSON.stringify(user));
+//       instance.defaults.headers.common['Authorization'] ='Bearer '+user.token;
+//     },
+//     userInfos: function (state, userInfos) {
+//       state.userInfos = userInfos;
+//     },
+//     setUsersInfos: function (state, usersInfos) {
+//       state.usersInfos = usersInfos;
+//     },
+//     logout: function (state) {
+//       state.user = {
+//         userId: -1,
+//         token: '',
+//         isadmin: 0,
+//       },
+//       localStorage.removeItem('user');
+//     },
+//     topicStatus: function(state, topic) {
+//       state.topic = topic;
+//     },
+//     topicInfosStatus: function(state, topicInfos) {
+//       state.topicInfos = topicInfos;
+//     },
+//     commentsStatus: function(state,comments) {
+//       state.comments = comments;
+//     },
+//     spamCommentStatus: function(state, spamsComment) {
+//       state.spamsComment = spamsComment;
+//     },
+//     oneSpamCommentStatus: function(state, oneSpamComment) {
+//       state.oneSpamComment = oneSpamComment;
+//     },
+//     spamTopicStatus: function(state, spamsTopic) {
+//       state.spamsTopic = spamsTopic;
+//     },
+//     oneSpamTopicStatus: function(state, oneSpamTopic) {
+//       state.oneSpamTopic = oneSpamTopic;
+//     },
+//     addLikeTopicStatus: function(state, addLike) {
+//       state.addLike = addLike;
+//     },
+//     countLikeStatus: function(state, countLike) {
+//       state.countLike = countLike;
+//     },
+//     likedStatus: function(state, liked) {
+//       state.liked = liked;
+//     }
+
+//   },
+//   actions: {
+//     // User logic
+
+//     // Login
+//     login: ({commit}, userInfos) => {
+//       commit('setStatus', 'loading');
+//       return new Promise((resolve, reject) => {
+//         instance.post('/auth/login', userInfos)
+//         .then((response) => {
+//           commit('setStatus', '');
+//           commit('logUser', response.data);
+//           resolve(response);
+//         })
+//         .catch((error) => {
+//           commit('setStatus', 'error_login');
+//           reject(error);
+//         });
+//       });
+//     },
+
+//     // Create account
+//     createAccount: ({commit}, userInfos) => {
+//       commit('setStatus', 'loading');
+//       return new Promise((resolve, reject) => {
+//         instance.post('/auth/signup', userInfos)
+//         .then((response) => {
+//           commit('setStatus', 'created');
+//           resolve(response);
+//         })
+//         .catch((error) => {
+//           commit('setStatus', 'error_create');
+//           reject(error);
+//         });
+//       });
+//     },
+
+//     // User informations
+//     getUserInfos: ({commit, state}) => {
+//       instance.get('/auth/profile/'+state.user.userId)
+//       .then((response) => {
+//         commit('userInfos', response.data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//     },
+
+//     // Delete user account
+//     deleteAccount: ({commit, state} ) => {
+//       return new Promise((resolve, reject) => {
+//         instance.delete('/auth/profile/'+state.user.userId)
+//         .then((response) => {
+//           commit('setStatus', '');
+//           resolve(response);
+//         })
+//         .catch((error) => {
+//           commit('setStatus', 'error_delete');
+//           reject(error);
+//         });
+//       });
+//     },
+
+//     // logical admin
+
+//     // Get all users
+//     getAllUsers: ({commit}) => {
+//       instance.get('/auth/admin/profile')
+//       .then((response) => {
+//         commit('setUsersInfos', response.data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       })
+//     },
+
+    
+//     // Delete user
+//     deleteUser: ({commit}, id) => {
+//       return new Promise((resolve, reject) => {
+//         instance.post('/auth/admin/delete', id= {id} )
+//         .then((response) => {
+//           commit('setStatus', '')
+//           resolve(response);
+//         })
+//         .catch((error) => {
+//           commit('setStatus','error_delete')
+//           reject(error);
+//         });
+//       });
+//     },
+
+//     // Add an admin
+//     addAdmin: ({commit}, id) => {
+//       return new Promise((resolve, reject) => {
+//         instance.post('/auth/admin/updateadmin', id= {id})
+//         .then((response) => {
+//           commit('setStatus', '')
+//           resolve(response);
+//         })
+//         .catch((error) => {
+//           commit('setStatus', 'error_addAdmin')
+//           reject(error);
+//         })
+//       })
+//     }
+//   },
+
+//   modules: {
+//   }
+// })
+
+
+
+// <script>
+// import axios from "axios";
+// export default {
+//   name: "create-post",
+//   data() {
+//     return {
+//       title: "",
+//       post: "",
+//       userId: 25,
+//      selectedFile: null
+//     };
+//   },
+//   mounted(){
+// alert('dkl;svndfshv')
+//   },
+//   methods: {
+//       onFileChanged (event) {
+//         alert('sfdklvdv')
+//         let reader = new FileReader();
+//         reader.onload = (event) => {
+//           this.selectedFile = event.target.result;
+//                 // هي مش عم تطبيع 
+//           console.log(event.target.result)
+//         }
+//         reader.readAsDataURL(event.target.files[0])
+//       },
+//     createPost() {
+//       // هي مش عم تطبيع 
+//       console.log('clicked')
+//       const formData = new FormData()
+//       formData.append('image', this.selectedFile, this.selectedFile.name)
+//       formData.append('userId', 25)
+//       formData.append('title', this.title)
+//       formData.append('post', this.post)
+//       axios.post("http://localhost:3000/api/posts", formData)
+//         .then((data) => {
+//           console.log(data);
+//         })
+//         .catch((e) => {
+//           console.log(e);
+//         });
+//     },
+//   },
+// };
+// </script>
+
+/// <script>
+// export default {
+//     name: 'createPost',
+//     data: function() {
+//         return {
+//             title: '',
+//             post: '',
+//         }
+//     },
+//     // mounted: function () {
+//     //     if (this.$store.state.user.userId == -1) {
+//     //         this.$router.push('/login');
+//     //     return;
+//     //     }
+//     // },
+//     // computed:{
+//     //     validatedFields: function() {
+//     //         if (this.title != "" && this.post != "" && this.selectedFile != '') {
+//     //             return true;
+//     //         } else {
+//     //             return false;
+//     //         }
+//     //     }
+//     // },
+//     methods: {
+//         onFileSelected (event) {
+//             this.selectedFile = event.target.files[0]
+//         },
+//         createPost: async function() {
+//             const self = this
+//             const formData = new FormData()
+//             formData.append('image', this.selectedFile)
+//             formData.append('name', this.selectedFile.name)
+//             formData.append('title',this.title)
+//             formData.append('post',this.post)
+//             formData.append(25)
+//             await this.$store.dispatch('createPost', formData)
+//             .then(function() {
+//                 self.$router.push('/posts');
+//             })
+//             .catch(function(error) {
+//                 console.log(error);
+//                     });
+//                 }
+//             },
+        
+// }
+// </script>
+// <script>
+// import axios from "axios";
+// export default {
+//   name: "createPost",
+//   data() {
+//     return {
+//       title: "",
+//       post: "",
+//       userId: 25,
+//      selectedFile: null
+//     };
+//   },
+//   methods: {
+//       onFileChanged (event) {
+//         this.selectedFile = event.target.files[0]
+//       },
+//     createPost() {
+//        const formData = new FormData()
+//       formData.append('myFile', this.selectedFile, this.selectedFile.name)
+//       axios.post("http://localhost:3000/api/posts", {
+//           title: this.title,
+//           post: this.post,
+//           imageUrlPost: this.selectedFile,
+//           userId: this.userId,
+//         })
+//         .then((data) => {
+//           console.log(data);
+//         })
+//         .catch((e) => {
+//           console.log(e);
+//         });
+//     },
+//   },
+// };
+// </script>
+
+
+// <!-- <input type="submit" name="dlelte" value="Login"  v-model="post.id" @click="DeletePost"> -->
+
+exports.getAllPsot = (req, res, next) => {
+  db.query(`SELECT * FROM posts left join comments on comments.post_id = posts.id;`,  (err, result) => {
+    
+    let posts = {};
+    
+    if (err) {
+      throw err;
+    }
+    for (let index = 0; index < result.length; index++) {
+      const id = result[index].id;
+      let post = posts[id];
+      if(!post) {
+       post = {
+          id,
+          user_id: result[index].user_id,
+          title: result[index].title,
+          post: result[index].post,
+          datePost: result[index].datePost,
+          comments:[],
+        };
+        
+      }
+      let comment = {
+        comment:  result[index].comment
+      };
+      post.comments.push(comment);
+      posts[id] = post;
+    }
+    res.status(200).json(result)
+  });
+};
+
+
+let posts = {};
+      
+      if (err) {
+        throw err;
+      }
+      for (let index = 0; index < result.length; index++) {
+        const id = result[index].id;
+        let post = posts[id];
+        if(!post) {
+         post = {
+            id,
+            user_id: result[index].user_id,
+            title: result[index].title,
+            post: result[index].post,
+            datePost: result[index].datePost,
+            comments:[],
+          };
+          
+        }
+        let comment = {
+          comment:  result[index].comment
+        };
+        post.comments.push(comment);
+        posts[id] = post;
+      }
+      res.status(200).json(result)
+
+// <input id="title" type="text" v-model="email" />
+// <input id="post" type="text" v-model="password" />
+// <button @click="submitLogin">submit</button>
+ 
+// for (let index = 0; index < result.length; index++) {
+//     const results = delete result[index].username,;
+//     console.log(result);
+//     res.status(200).json(results)
+//   }
+// CREATE TABLE `groupomania`.`users` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `user_name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `password` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`), UNIQUE (`user_name`), UNIQUE (`email`)) ENGINE = InnoDB;
+
+// CREATE TABLE `groupomania`.`comments` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `user_id` INT(11) NOT NULL , `post_id` INT(11) NOT NULL , `Comment` VARCHAR(255) NULL , PRIMARY KEY (`id`),  KEY `userId` (`userId`),
+// KEY `postId` (`postId`),
+
+// CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
+// CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE) ENGINE = InnoDB
+
+// CREATE TABLE `groupomania`.`posts` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `user_id` INT(11) NOT NULL , `title` VARCHAR(255) NOT NULL , `content` VARCHAR(255) NOT NULL , `comment-post` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+// SELECT * FROM users JOIN posts ON users.id = posts.user_id WHERE users.id = 1;
+
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYyNzE0NzY2NCwiZXhwIjoxNjI3MjM0MDY0fQ.OKsr_56qfh1fCBUav2YdoTjRJoXuoPJgoK7FuYNE2ks
+
+// const express = require('express');
+// const mysql = require('mysql');
+
+//powershell
+ ///Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+
+
+// // Create connection
+// const db = mysql.createConnection({
+//     host     : 'localhost',
+//     user     : 'muhanad',
+//     password : 'T9Nm2ffX6F2QvV',
+//     database : 'groupomania'
+//   });
+  
+//   // Connect
+//   db.connect((err) => {
+//     if(err){
+//         throw err;
+//     }
+//     console.log('MySql Connected...');
+//   });
+  
+//     app.get('/create', (req, res) => {
+//       let sql = 'CREATE TABLE users (id int AUTO_INCREMENT NOT NULL PRIMARY KEY ,LastName varchar(255),FirstName varchar(255), email varchar(255) NOT NULL UNIQUE,password varchar(255) NOT NULL );';
+//       let query = db.query(sql, (err, result) => {
+//           if(err) throw err;
+//           console.log(result);
+//           res.send('Post deleted...');
+//       });
+//   });
+
+// const app = express();
+
+// // Create DB
+// app.get('/createdb', (req, res) => {
+//     let sql = 'CREATE DATABASE nodemysql';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Database created...');
+//     });
+// });
+
+// // Create table
+// app.get('/createpoststable', (req, res) => {
+//     let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY(id))';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Posts table created...');
+//     });
+// });
+
+// // Insert post 1
+// app.get('/addpost1', (req, res) => {
+//     let post = {title:'Post One', body:'This is post number one'};
+//     let sql = 'INSERT INTO posts SET ?';
+//     let query = db.query(sql, post, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Post 1 added...');
+//     });
+// });
+
+// // Insert post 2
+// app.get('/adduser', (req, res) => {
+//     let post = {email:'mouhandada@gmai.com', password:'156488489'};
+//     let sql = 'INSERT INTO user SET ?';
+//     let query = db.query(sql, post, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Post 2 added...');
+//     });
+// });
+
+// // Select posts
+// app.get('/getposts', (req, res) => {
+//     let sql = 'SELECT * FROM posts';
+//     let query = db.query(sql, (err, results) => {
+//         if(err) throw err;
+//         console.log(results);
+//         res.send('Posts fetched...');
+//     });
+// });
+
+// // Select single post
+// app.get('/getpost/:id', (req, res) => {
+//     let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
+//     let query = db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Post fetched...');
+//     });
+// });
+
+// // Update post
+// app.get('/updatepost/:id', (req, res) => {
+//     let newTitle = 'Updated Title';
+//     let sql = `UPDATE posts SET title = '${newTitle}' WHERE id = ${req.params.id}`;
+//     let query = db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Post updated...');
+//     });
+// });
+
+// // Delete post
+// app.get('/deletepost/:id', (req, res) => {
+//     let newTitle = 'Updated Title';
+//     let sql = `DELETE FROM posts WHERE id = ${req.params.id}`;
+//     let query = db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Post deleted...');
+//     });
+// });
+
+// app.listen('3000', () => {
+//     console.log('Server started on port 3000');
+// });
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTYyNzM3ODcwNiwiZXhwIjoxNjI3NDY1MTA2fQ.5r_umh7u6w8JpLloP4ysI6f_2Y4bezLmqEC7crfxCUQ
