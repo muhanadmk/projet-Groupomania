@@ -33,7 +33,7 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        console.log(response);
+        this.response = response;
         this.userId = response.data[0].id
         this.admin = response.data[0].admin
     }catch(error){

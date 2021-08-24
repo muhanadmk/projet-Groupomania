@@ -53,7 +53,6 @@ export default {
   },
   created() {
     this.checkUser();
-    // this.$router.reload();
   },
   methods: {
     LogOutUser() {
@@ -61,19 +60,9 @@ export default {
       this.$router.push("/");
     },
     getPrfileUser() {
-      // alert(this.userId)
-      // alert(this.$route.params.id)
       this.$root.$emit('load')
       this.$router.push("/profile/"+ this.userId);
-      // this.$router.go(this.$router.push("/profile/"+ this.userId))
     },
-    
-      // this.$router.push(this.$router.push("/profile/"+ this.userId););
-      // this.$router.reload();
-      // if(this.userId == this.$route.params.id){
-      //   this.$router.push("/profile/"+ this.$route.params.id);
-      // }
-      //  this.$router.push("/profile/"+ this.userId);
     async checkUser() {
       try {
         const response = await axios.get(`users/user`, {

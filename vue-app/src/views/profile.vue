@@ -12,7 +12,7 @@
             <p class="card-text font-weight-bold">{{convitrDate(usernameData.dateUser)}}</p>
              <img src="@/assets/icon-left-font.png" class="card-img-top" alt="...">
               <button v-if="admin > 0"  class="btn btn-outline-danger" type="submit" @click="AdminDeleteUser" >Admin delete User</button>
-              <button v-if="userSIngin == $route.params.id && admin < 0" class="btn btn-outline-danger" type="submit" @click="deleteUser" >deleteUser</button>
+              <button v-if="userSIngin == $route.params.id && admin == 0" class="btn btn-outline-danger" type="submit" @click="deleteUser" >deleteUser</button>
           </div>
         </div>
       </aside>
@@ -39,7 +39,6 @@ export default {
       AppHeader,
       postsUser,
     },
-    // props: ['userId'],
     data() {
     return {
       postsOfUser : [],
@@ -82,7 +81,6 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        console.log(response);
         this.userSIngin = response.data[0].id
         this.admin = response.data[0].admin;
         this.usernameData = response.data;
@@ -108,9 +106,7 @@ export default {
     },
     async AdminDeleteUser() {
       try {
-        const userId = localStorage.getItem("userId");
-        const ProfileUserId = localStorage.getItem("ProfileUserId");
-        const response = await axios.delete(`users/${userId}/${ProfileUserId}`,{
+        const response = await axios.delete(`users/${this.userSIngin}/${this.$route.params.id}`,{
           data: { 
             userId: this.userId  
             },
@@ -136,7 +132,6 @@ export default {
       try {
         const response = await axios.get(`users/profile/${e}`);
         this.usernameData = response.data;
-        console.log(this.usernameData)
       } catch (error) {
         console.log(error);
       }

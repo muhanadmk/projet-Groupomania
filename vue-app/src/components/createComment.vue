@@ -41,7 +41,7 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        console.log(response);
+       this.response = response;
        this.userId = response.data[0].id
     }catch(error){
       console.log(error);
