@@ -1,11 +1,19 @@
-# PROJET - GROUPOMANIA
+# PROJET - GROUPOMANIA  :Créez un réseau social d’entreprise
 
+#Backend
 
-voici une première version d'applications Web de Groupomania.
+Technos utilisées : Node.js / Express.js / MySQL (service de base de données)
+
 Pour bien démarrer l'application vous devez d'abord importer le fichier MYSQL dans phpmyadmin par exemple.
 Ensuite vous devez cloner le répertoire, et partir de dossier Back-End vous pouvez demander le server node js,
-en utilisant Premièrement npm installe et après nodemon seever.
-pour le front end partir de dossier vue-app vous pouvez le démarrer en taper npm run serve.et vous pouvez consulter le lien ceci
+en Exécutant la commande npm install afin d'installer les dépendances de l'API Premièrement, Ensuite Exécutant la commande  "nodemon server".
+
+
+Frontend
+Technos utilisées : Vue.js
+
+pour le front end partir de dossier vue-app vous pouvez le démarrer Exécutant la commande npm run serve.
+et vous pouvez consulter le lien ceci
 
 http://localhost:8080/
 
