@@ -10,28 +10,28 @@ exports.signup = (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  if (email == null || username == null || password == null) {
-    return res.status(400).json({ error: "missing parameters" });
-  }
+  // if (email == null || username == null || password == null) {
+  //   return res.status(400).json({ error: "missing parameters" });
+  // }
 
-  if (username.length >= 25 || username.length <= 4) {
-    return res
-      .status(400)
-      .json({ error: "wrong username (doit etre entre de 5 - 12)" });
-  }
+  // if (username.length >= 25 || username.length <= 4) {
+  //   return res
+  //     .status(400)
+  //     .json({ error: "wrong username (doit etre entre de 5 - 12)" });
+  // }
 
-  if (email.length >= 50 || email.length <= 4 ) {
-    return res.status(400).json({ error: "email is not valid" });
-  }
+  // if (email.length >= 50 || email.length <= 4 ) {
+  //   return res.status(400).json({ error: "email is not valid" });
+  // }
 
-  if (password.length >= 100 || password.length <= 4 ) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "password invalid (must length 4 - 8 and include 1 number at least)",
-      });
-  }
+  // if (password.length >= 100 || password.length <= 4 ) {
+  //   return res
+  //     .status(400)
+  //     .json({
+  //       error:
+  //         "password invalid (must length 4 - 8 and include 1 number at least)",
+  //     });
+  // }
     bcrypt.hash(req.body.password, 10).then((hashPassword) => {
     const user = {
       username: req.body.username,
@@ -74,6 +74,9 @@ exports.login = (req, res, next) => {
           token: jwt.sign(
             {
               userId: user.id,
+              username: user.username,
+              admin: user.admin,
+              dateUser: user.dateUser
             },
             process.env.SECRET_KEY_JWT,
             {
@@ -146,6 +149,22 @@ exports.getUser = (req, res, next) => {
         return;
       }
       return res.status(200).json(result[0]);
+    }
+  );
+};
+
+exports.getUserToken = (req, res, next) => {
+  const userId = req.body.decodedToken.userId;
+  db.query(
+    "SELECT username, admin, id FROM users WHERE id = ?",
+    userId,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      return res.status(200).json(result);
     }
   );
 };

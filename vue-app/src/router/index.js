@@ -25,9 +25,12 @@ const routes = [
     component: Login
   },
   {
-    path: '/profile',
+    path: '/profile/:id',
     name: 'profile',
-    component: profile
+    component: profile,
+    // meta: {
+    //   reload: true,
+    // },
   },
 ]
 

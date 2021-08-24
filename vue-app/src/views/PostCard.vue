@@ -26,12 +26,12 @@
           v-bind:src="Onepost.imagePostUrl"
           alt="ceci l'image de la post"
         />
-        <p class="card-text text-dark">{{ Onepost.datePost }}</p>
+        <p class="card-text text-dark">{{ convitrDate(Onepost.datePost) }}</p>
         <modiferPost :post_Modifier="post_Modifier" />
         <DeletePost :post_ID="Onepost.post_id" :post_user_id="Onepost.id" />
       </div>
-      <createComment :postsforComment="postsforComment" />
-      <CommentCard :post_id="Onepost.post_id"  />
+      <createComment :postsforComment="postsforComment"  />
+      <CommentCard :post_id="Onepost.post_id" :ProfileUserId="Onepost.id"/>
     </article>
     <postsUser :userid="Onepost.id" />
   </section>
@@ -66,12 +66,26 @@ export default {
       image: null,
       message: "",
       show: false,
+      // ProfileUserId: this.Onepost.id
     };
   },
   methods: {
+    convitrDate(timestamp) {
+      var date = new Date(timestamp);
+      return (
+        date.getDate() +
+        "/" +
+        (date.getMonth() + 1) +
+        "/" +
+        date.getFullYear() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
+    },
     getPrfile() {
-      localStorage.setItem("ProfileUserId", this.userId);
-      this.$router.push("/profile");
+      this.$router.push("/profile/" + this.userId);
     },
   },
   created() {

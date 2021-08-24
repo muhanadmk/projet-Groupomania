@@ -6,7 +6,7 @@ exports.writeComment = (req, res, next) => {
   const objectComment = {
       Comment: req.body.Comment,
       post_id: req.body.post_id,
-      user_id: req.body.user_id,
+      user_id: req.body.user_id
     };
   db.query('INSERT INTO comments SET ?', [objectComment],
    (err, result) => {

@@ -25,19 +25,29 @@ export default {
   name: "DeletePost",
   data() {
     return {
-      admin: this.admin,
-      user_id: localStorage.getItem("userId"),
+      admin: "",
+      user_id: "",
     };
   },
   methods: {
-    getIsAdmin() {
-      return (this.admin = localStorage.getItem("admin"));
+    async checkUser() {
+      try {
+        const response = await axios.get(`users/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+      
+        this.admin = response.data[0].admin;
+        this.user_id = response.data[0].id;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async AdminDeletePost(e) {
        e.preventDefault();
       try {
-        const userId= localStorage.getItem("userId");
-        const response = await axios.delete(`posts/Admin/${this.post_ID}/${userId}`, {
+        const response = await axios.delete(`posts/Admin/${this.post_ID}/${this.user_id}`, {
          
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -52,8 +62,7 @@ export default {
     async DeletePost(e) {
       e.preventDefault();
       try {
-        const userId = localStorage.getItem("userId");
-        const response = await axios.delete(`posts/${this.post_ID}/${userId}`, {
+        const response = await axios.delete(`posts/${this.post_ID}/${this.user_id}`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -65,9 +74,8 @@ export default {
       }
     },
   },
-  created() {
-  
-    this.getIsAdmin();
+  created() { 
+ this.checkUser()();
   },
 };
 </script>

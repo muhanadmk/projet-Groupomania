@@ -21,15 +21,33 @@ import axios from "axios";
 export default {
   props: ["postsforComment"],
   name: "createComment",
+  created(){
+    this.checkUser();
+  },
   data() {
     return {
       Comment: "",
       message: "",
       postId: this.postsforComment.post_id,
       megErrorsComment: false,
+      userId:'',
     };
   },
   methods: {
+  async  checkUser(){
+    try {
+         const response = await axios.get(`users/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        console.log(response);
+       this.userId = response.data[0].id
+    }catch(error){
+      console.log(error);
+    }
+            
+    },
     async createCommente(e) {
       if(this.Comment == "" || this.Comment == "") {
         this.megErrorsComment = true;
@@ -39,7 +57,7 @@ export default {
           const response = await axios.post(
             "comments",
             {
-              user_id: localStorage.getItem('userId'),
+              user_id: this.userId,
               Comment: this.Comment,
               post_id: this.postId,
             },

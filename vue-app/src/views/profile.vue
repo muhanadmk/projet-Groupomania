@@ -9,10 +9,10 @@
             <p class="card-title fs-5">c'est un profile de M ou MMe </p>
             <p class="card-title fs-4 font-weight-bold">{{usernameData.username}} </p>
             <p class="card-text fs-5"> il/ elle member chez Groupomania depuis <br> </p>
-            <p class="card-text font-weight-bold">{{usernameData.dateUser}}</p>
+            <p class="card-text font-weight-bold">{{convitrDate(usernameData.dateUser)}}</p>
              <img src="@/assets/icon-left-font.png" class="card-img-top" alt="...">
               <button v-if="admin > 0"  class="btn btn-outline-danger" type="submit" @click="AdminDeleteUser" >Admin delete User</button>
-              <button v-else-if="admin <= 0" class="btn btn-outline-danger" type="submit" @click="deleteUser" >deleteUser</button>
+              <button v-if="userSIngin == $route.params.id && admin < 0" class="btn btn-outline-danger" type="submit" @click="deleteUser" >deleteUser</button>
           </div>
         </div>
       </aside>
@@ -39,30 +39,67 @@ export default {
       AppHeader,
       postsUser,
     },
+    // props: ['userId'],
     data() {
     return {
       postsOfUser : [],
       usernameData: [],
-      admin: this.admin,
-      userId: this.userId,
+      admin: "",
+     
       message : "",
       ProfileUserId: this.ProfileUserId,
+      userSIngin: ""
     };
   },
- 
+  created() {    
+    this.checkUser()
+     this.autoLogin();
+     this.$root.$on('load',()=>{
+       this.postsOfUser = []
+        this.checkUser()
+     })
+  },
   methods: {
+
+      convitrDate(timestamp) {
+      var date = new Date(timestamp);
+      return (
+        date.getDate() +
+        "/" +
+        (date.getMonth() + 1) +
+        "/" +
+        date.getFullYear() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
+    },
+     async  checkUser(){
+    try {
+         const response = await axios.get(`users/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        console.log(response);
+        this.userSIngin = response.data[0].id
+        this.admin = response.data[0].admin;
+        this.usernameData = response.data;
+        this.getPrfile(this.$route.params.id)
+        this.getusername(this.$route.params.id)
+      }catch(error){
+      console.log(error);
+      }       
+    },
     async deleteUser() {
       try {
-        const userId = localStorage.getItem("userId");
-        const response = await axios.delete(`users/${userId}`,{
+        const response = await axios.delete(`users/${this.userSIngin}`,{
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }  
         });
         localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('admin');
-        localStorage.removeItem('ProfileUserId');
         this.response = response;
         this.$router.push("/");
       } catch (error) {
@@ -81,36 +118,28 @@ export default {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }  
         });
-        localStorage.removeItem('ProfileUserId');
         this.$router.push("/");
         this.response = response;
       } catch (error) {
         console.log(error);
       }
     },
-    async getPrfile() {
+    async getPrfile(e) {
       try {
-        const ProfileUserId = localStorage.getItem("ProfileUserId");
-        const response = await axios.get(`posts/profile/${ProfileUserId}`);
+        const response = await axios.get(`posts/profile/${e}`);
         this.postsOfUser = response.data;
       } catch (error) {
         console.log(error);
       }
     },
-    async getusername() {
+    async getusername(e) {
       try {
-        const ProfileUserId = localStorage.getItem("ProfileUserId");
-        const response = await axios.get(`users/profile/${ProfileUserId}`);
+        const response = await axios.get(`users/profile/${e}`);
         this.usernameData = response.data;
-       
+        console.log(this.usernameData)
       } catch (error) {
         console.log(error);
       }
-    },
-     getIsAdmin () {
-      this.admin = localStorage.getItem('admin')
-      this.userId = localStorage.getItem('userId')
-      this.ProfileUserId = localStorage.getItem('ProfileUserId')
     },
     async autoLogin() {
       try {
@@ -122,7 +151,7 @@ export default {
             },
           });
          this.response = response;
-          this.$router.push("/profile");
+          this.$router.push("/profile/" + this.$route.params.id);
         } else {
           this.message = "you must log in";
           this.hide = false;
@@ -132,12 +161,6 @@ export default {
         console.log(error);
       }
     },
-  },
-  created() {   
-    this.getIsAdmin();
-    this.getPrfile();
-    this.getusername();
-    this.autoLogin();
   },
 }
 </script>

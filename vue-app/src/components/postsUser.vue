@@ -7,8 +7,8 @@
     <div class="card-body">
       <p class="card-text">{{ postProfile.post }}</p>
       <img class="card-img" v-if="postProfile.imagePostUrl" v-bind:src="postProfile.imagePostUrl" alt="..." />
-      <p class="card-text text-dark">{{ postProfile.datePost }}</p>
-      <CommentCard :post_id="postProfile.post_id" />
+      <p class="card-text text-dark">{{convitrDate( postProfile.datePost) }}</p>
+      <CommentCard :post_id="postProfile.post_id" :ProfileUserIdd="postProfile.id"/>
     </div>
   </article>
 </template>
@@ -30,6 +30,20 @@ export default {
   methods: {
     getIsAdmin() {
       return (this.admin = localStorage.getItem("admin"));
+    },
+     convitrDate(timestamp) {
+      var date = new Date(timestamp);
+      return (
+        date.getDate() +
+        "/" +
+        (date.getMonth() + 1) +
+        "/" +
+        date.getFullYear() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
     },
   },
   created() {

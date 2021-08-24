@@ -42,6 +42,9 @@ import axios from "axios";
 export default {
   props:['post_Modifier'],
   name: "modifer-Post",
+  created() {
+    this.checkUser();
+  },
   data() {
     return {
       message: "",
@@ -51,11 +54,25 @@ export default {
       userId: this.post_Modifier.user_id,
       postId: this.post_Modifier.post_id,
       modifer: false,
-      userid: localStorage.getItem('userId'),
+      userid: "",
       msgErrorModifier: false,
     };
   },
   methods: {
+      async  checkUser(){
+    try {
+         const response = await axios.get(`users/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        console.log(response);
+       this.userid = response.data[0].id
+    }catch(error){
+      console.log(error);
+    }
+            
+    },
    onFileChangedModifer(event) {
     this.image = event.target.files[0];
     },
@@ -69,9 +86,9 @@ export default {
     }else{
       try {
         let formData = new FormData();
-        const userId = localStorage.getItem("userId");
+       
         formData.append("title", this.title);
-        formData.append("userId",userId);
+        formData.append("userId",this.userid);
         formData.append("post", this.post);
         formData.append("image", this.image);
         const response = await axios.put(`posts/${this.postId}`, formData, {

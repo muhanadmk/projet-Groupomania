@@ -118,7 +118,7 @@ exports.modifierPost = (req, res, next) => {
         return;
       }
       const userid = result[0].user_id;
-      const userId = req.body.decodedToken.userId;
+      const userId = req.body.userId;
       if (userId == userid) {
         if (req.body.post == "" || req.body.title == "") {
           return res

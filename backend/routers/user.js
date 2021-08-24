@@ -1,14 +1,15 @@
 const express = require('express');
-const auth = require('../middleware/auth');
-const router = express.Router();
+const route = express.Router();
+const {auth} = require('../middleware/auth');
 const userCtlr = require('../controllers/user');
 
-router.get('/auth',auth , userCtlr.autoLogin);
-router.post('/signup', userCtlr.signup);
-router.post('/login' ,userCtlr.login);
-router.delete('/:id',auth ,userCtlr.deleteUser);
-router.delete('/:AdminID/:id',auth ,userCtlr.AdminDeleteUser);
-router.get('/profile/:id',userCtlr.getUser);
+route.route('/auth').get(auth , userCtlr.autoLogin);
+route.route('/signup').post(userCtlr.signup);
+route.route('/login').post(userCtlr.login);
+route.route('/:id').delete(auth ,userCtlr.deleteUser);
+route.route('/:AdminID/:id').delete(auth ,userCtlr.AdminDeleteUser);
+route.route('/profile/:id').get(userCtlr.getUser);
+route.route('/user').get(auth ,userCtlr.getUserToken);
 
 
-module.exports = router;
+module.exports = route;

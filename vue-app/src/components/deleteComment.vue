@@ -18,26 +18,40 @@ export default {
   data() {
     return {   
       useridComment: this.userIdComment,
-      admin: this.admin,
-      userId: localStorage.getItem("userId")
-      // userid: localStorage.getItem("userId")
+      userId: "",
+      admin: "",
     };
   },
+   created() {
+     this.checkUser();
+   },
   methods: {
-    getIsAdmin() {
-      return (this.admin = localStorage.getItem("admin"));
+    async  checkUser(){
+    try {
+         const response = await axios.get(`users/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        console.log(response);
+        this.userId = response.data[0].id
+        this.admin = response.data[0].admin
+    }catch(error){
+      console.log(error);
+    }
+            
     },
     async AdminDeleteComment(e) {
       e.preventDefault();
       try {
         const response = await axios.delete(`comments/AdminDeleteComment/${this.Comment_id}/${this.userId}`,{
-            // userId: localStorage.getItem("userId"),
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           });
         this.$root.$emit("AdmindeleteCommentBus", this.post_id);
         this.response = response;
+      
       } catch (error) {
         console.log(error);
       }
@@ -45,8 +59,7 @@ export default {
     async deleteComment(e) {
       try {
         e.preventDefault();
-         const userid = localStorage.getItem("userId")
-        const response = await axios.delete(`comments/deleteComment/${this.Comment_id}/${userid}`, {
+        const response = await axios.delete(`comments/deleteComment/${this.Comment_id}/${this.userId}`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -58,8 +71,6 @@ export default {
       }
     },
   },
-  created() {
-    this.getIsAdmin();
-  },
+ 
 };
 </script>

@@ -43,6 +43,9 @@
 <script>
 import axios from "axios";
 export default {
+  created(){
+    this.checkUser();
+  },
   name: "createPost",
   data() {
     return {
@@ -50,26 +53,45 @@ export default {
       title: "",
       post: "",
       image: null,
+      userId: "",
       msgError: false,
     };
   },
   methods: {
+  async  checkUser(){
+    try {
+         const response = await axios.get(`users/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        console.log(response);
+       this.userId = response.data[0].id
+    }catch(error){
+      console.log(error);
+    }
+            
+    },
     onFileChanged(event) {
       this.image = event.target.files[0];
     },
     async createPost(e) {
+      
       e.preventDefault();
+
+     
       if(this.title == "" || this.post == ""){
       return this.msgError = true;
     }
     else{
       try {
-        const userId = localStorage.getItem("userId");
+       
+        
         let formData = new FormData();
         formData.append("title", this.title);
         formData.append("post", this.post);
         formData.append("image", this.image);
-        const response = await axios.post(`posts/crerte/${userId}`, formData, {
+        const response = await axios.post(`posts/crerte/${this.userId}`, formData, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },

@@ -88,9 +88,6 @@ export default {
           password: this.password,
         });
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.userId);
-        localStorage.setItem('admin', response.data.admin);
-        localStorage.setItem('username', response.data.username);
          this.email = "",
          this.password= "",
         this.$router.push("/Home");
